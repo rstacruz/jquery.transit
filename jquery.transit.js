@@ -14,10 +14,11 @@
   // ## $.cssEase
   // List of easing aliases that you can use with `$.fn.transition`.
   $.cssEase = {
-    'in':     'ease-in',
-    'out':    'ease-out',
-    'in-out': 'ease-in-out',
-    'snap':   'cubic-bezier(0,1,.5,1)'
+    '_default': 'ease',
+    'in':       'ease-in',
+    'out':      'ease-out',
+    'in-out':   'ease-in-out',
+    'snap':     'cubic-bezier(0,1,.5,1)'
   };
 
   // ## 'transform' CSS hook
@@ -153,8 +154,8 @@
 
       // ### scale
       //
-      //    .css({ scale: 9 })      //=> "scale(9,9)"
-      //    .css({ scale: '3,2' })  //=> "scale(3,2)"
+      //     .css({ scale: 9 })      //=> "scale(9,9)"
+      //     .css({ scale: '3,2' })  //=> "scale(3,2)"
       //
       scale: function(x, y) {
         if (y === undefined) y = x;
@@ -308,12 +309,12 @@
       delete properties.complete;
     }
 
-    // Account for aliases (`in` => `ease-in`).
-    if ($.cssEase[easing]) easing = $.cssEase[easing];
-
     // Set defaults. (`400` duration, `ease` easing)
     if (duration == null) duration = $.fx.speeds._default;
-    if (easing == null) easing = 'ease';
+    if (easing == null) easing = $.cssEase._default;
+
+    // Account for aliases (`in` => `ease-in`).
+    if ($.cssEase[easing]) easing = $.cssEase[easing];
 
     duration = toMS(duration);
 
