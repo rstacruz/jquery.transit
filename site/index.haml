@@ -35,34 +35,36 @@ title: Your new Proton site
           %small 1kb gzipped
 
       -# ============================================================================
-      %h2 Transitions - Translate
+      %h2 Translate (move)
+      .info
+        Hover on a demo box to see it in action.
 
       %article
+        .hover
         .code
           %h3 Translate X
           %pre
             != "$('.box').transition({ <b>x: '90px'</b> });"
-          %button Run
 
         .field
           .box{style: 'left: 10px; top: 10px;'}
 
       %article
+        .hover
         .code
           %h3 Translate Y
           %pre
             != "$('.box').transition({ <b>y: '30px'</b> });"
-          %button Run
 
         .field
           .box{style: 'left: 10px; top: 10px;'}
 
       %article
+        .hover
         .code
           %h3 Translate X and Y
           %pre
             != "$('.box').transition({ <b>x: '200px', y: '20px'</b> });"
-          %button Run
 
         .field
           .box{style: 'left: 10px; top: 10px;'}
@@ -71,12 +73,11 @@ title: Your new Proton site
       %h2 Rotation
 
       %article
+        .hover
         .code
           %h3 Rotate
           %pre
             != "$('.box').transition({ <b>rotate: '30deg'</b> });"
-            
-          %button Run
 
         .field
           .box{style: 'left: 180px; top: 20px;'}
@@ -85,29 +86,28 @@ title: Your new Proton site
       %h2 Skew
 
       %article
+        .hover
         .code
           %h3 Skew X
           %pre
             != "$('.box').transition({ <b>skewX: '30deg'</b> });"
             
-          %button Run
-
         .field
           .box{style: 'left: 180px; top: 20px;'}
 
       %article
+        .hover
         .code
           %h3 Skew Y
           %pre
             != "$('.box').transition({ <b>skewY: '30deg'</b> });"
             
-          %button Run
-
         .field
           .box{style: 'left: 180px; top: 20px;'}
 
 
       %article
+        .hover
         .code
           %h3 Skew X and Y
           %pre
@@ -119,8 +119,6 @@ title: Your new Proton site
             %br<>
             != "});"
             
-          %button Run
-
         .field{style: 'height: 150px'}
           .box{style: 'left: 180px; top: 45px;'}
 
@@ -129,6 +127,7 @@ title: Your new Proton site
       .info You can animate any available CSS property.
 
       %article
+        .hover
         .code
           %h3 $.fn.transition for any CSS property
           %pre
@@ -140,12 +139,11 @@ title: Your new Proton site
             %br<>
             != "});"
             
-          %button Run
-
         .field{style: 'height: 150px'}
           .box{style: 'left: 180px; top: 45px;'}
 
       %article
+        .hover
         .code
           %pre
             != "$('.box').transition({"
@@ -156,8 +154,6 @@ title: Your new Proton site
             %br<>
             != "});"
             
-          %button Run
-
         .field{style: 'height: 130px'}
           .box{style: 'left: 180px; top: 35px;'}
 
@@ -170,6 +166,7 @@ title: Your new Proton site
           $.fn.transition works just like $.fn.animate. You can pass a *duration*, *easing*, and *callback*.
 
       %article
+        .hover
         .code
           %h3 Providing callbacks
           %pre
@@ -179,8 +176,6 @@ title: Your new Proton site
             %br<>
             != "<b>}</b>);"
             
-          %button Run
-
         .field{style: 'height: 150px'}
           .box{style: 'left: 180px; top: 45px;'}
 
@@ -188,21 +183,21 @@ title: Your new Proton site
       %h2 Custom duration
 
       %article
+        .hover
         .code
           %h3 Custom duration (jQuery style)
           %pre
             != "$('.box').transition({ opacity: 0 }, <b>'fast'</b>);"
-          %button Run
 
         .field{style: 'height: 150px'}
           .box{style: 'left: 180px; top: 45px;'}
 
       %article
+        .hover
         .code
           %h3 Custom duration (in milliseconds)
           %pre
             != "$('.box').transition({ opacity: 0 }, <b>2000</b>);"
-          %button Run
 
         .field{style: 'height: 150px'}
           .box{style: 'left: 180px; top: 45px;'}
@@ -214,6 +209,7 @@ title: Your new Proton site
           Simply provide a third parameter to *$.fn.transition*.
 
       %article
+        .hover
         .code
           %h3 Custom easing
           %pre
@@ -226,7 +222,6 @@ title: Your new Proton site
             != "$('.box4').transition({ x: 300 }, 500, <b>'snap'</b>);"
             %br<>
             != "$('.box5').transition({ x: 300 }, 500, <b>'linear'</b>);"
-          %button Run
 
         .field{style: 'height: 230px'}
           .box.box1{style: 'left: 10px; top: 15px; height: 30px;'}
@@ -239,11 +234,11 @@ title: Your new Proton site
       %h2 Delay
 
       %article
+        .hover
         .code
           %h3 Delay by 400ms
           %pre
             != "$('.box').transition({ x: -100, <b>delay: 400</b> });"
-          %button Run
 
         .field{style: 'height: 150px'}
           .box{style: 'left: 180px; top: 45px;'}
@@ -257,6 +252,7 @@ title: Your new Proton site
           Great for CoffeeScript.
 
       %article
+        .hover
         .code
           %pre
             != "$('.box').transition({"
@@ -269,8 +265,6 @@ title: Your new Proton site
             %br<>
             != "});"
 
-          %button Run
-
         .field{style: 'height: 150px'}
           .box{style: 'left: 180px; top: 45px;'}
 
@@ -282,6 +276,7 @@ title: Your new Proton site
           All units (*px*, *deg*, *ms*, etc) are optional.
 
       %article
+        .hover
         .code
           %pre
             != "$('.box').transition({"
@@ -296,8 +291,6 @@ title: Your new Proton site
             %br<>
             != "});"
 
-          %button Run
-
         .field{style: 'height: 150px'}
           .box{style: 'left: 180px; top: 45px;'}
 
@@ -309,6 +302,7 @@ title: Your new Proton site
           jQuery-style relative units are supported. Start your values with either *+=* or *-=*.
 
       %article
+        .hover
         .code
           %pre
             != "$('.box').transition({"
@@ -318,8 +312,6 @@ title: Your new Proton site
             != "    x: <b>'+=30'</b>"
             %br<>
             != "});"
-
-          %button Run
 
         .field{style: 'height: 150px'}
           .box{style: 'left: 180px; top: 45px;'}
@@ -332,6 +324,7 @@ title: Your new Proton site
           CSS3 transform properties work with *$.fn.css* as well.
 
       %article
+        .hover
         .code
           %pre
             != "$('.box').<b>css({</b>"
@@ -343,17 +336,16 @@ title: Your new Proton site
             != "    <b>rotate: '-10deg'</b>"
             %br<>
             != "<b>}</b>)</b>;"
-          %button Run
 
         .field{style: 'height: 150px'}
           .box{style: 'left: 10px; top: 10px'}
 
       %article
+        .hover
         .code
           %h3 Transform (automatically adds vendor prefixes)
           %pre
             != "$('.box').css({ <b>transform: 'rotate(40deg)'</b> });"
-          %button Run
 
         .field
           .box{style: 'left: 10px; top: 10px;'}
@@ -380,12 +372,12 @@ title: Your new Proton site
           *"x y"*, where *x* and *y* are coordinates in the given element.
 
       %article
+        .hover
         .code
           %pre
             != "$('.box').css({ <b>transformOrigin: '10px 10px'</b> });"
             %br<>
             != "$('.box').transition({ rotate: 40, scale: 1.2 });"
-          %button Run
 
         .field
           .box{style: 'left: 10px; top: 10px;'}

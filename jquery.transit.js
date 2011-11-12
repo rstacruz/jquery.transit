@@ -236,7 +236,7 @@
 
       for (i in this) {
         if ((this.hasOwnProperty(i)) && (i[0] !== '_')) {
-          if ((use3d) && (i === 'scale') || (i === 'translate'))
+          if ((use3d) && ((i === 'scale') || (i === 'translate')))
             re.push(i + "3d(" + this[i] + ",0)");
           else
             re.push(i + "(" + this[i] + ")");
