@@ -1,10 +1,10 @@
 /*!
- * jQuery CSS3 Transitions
+ * jQuery Transit - CSS3 transitions and transformations
  * Copyright(c) 2011 Rico Sta. Cruz <rico@ricostacruz.com>
  * MIT Licensed.
  *
- * http://github.com/rstacruz/jquery.css3transitions
- * http://ricostacruz.com
+ * http://ricostacruz.com/jquery.transit
+ * http://github.com/rstacruz/jquery.transit
  */
 
 (function($) {
@@ -38,10 +38,11 @@
         transform = new Transform(transform);
 
       var str = transform.toString();
-      elem.style[     '-o-transform'] = str;
-      elem.style[   '-moz-transform'] = str;
-      elem.style['-webkit-transform'] = transform.toWebkitString();
-      elem.style['transform']         = str;
+      elem.style[     'oTransform'] = str;
+      elem.style[    'msTransform'] = str;
+      elem.style[   'mozTransform'] = str;
+      elem.style['webkitTransform'] = transform.toWebkitString();
+      elem.style[      'transform'] = str;
 
       $(elem).data('transform', transform);
     }
@@ -231,6 +232,15 @@
   //     // With everything
   //     $("...").transition({ opacity: 0.1, scale: 0.3 }, 500, 'in', function() { ... });
   //
+  //     // Alternate syntax
+  //     $("...").transition({
+  //       opacity: 0.1,
+  //       duration: 200,
+  //       delay: 40,
+  //       easing: 'in',
+  //       complete: function() { /* ... */ }
+  //      });
+  //
   $.fn.transition = function(properties, duration, easing, callback) {
     var self  = this;
     var delay = 0;
@@ -258,6 +268,11 @@
       delete properties.duration;
     }
 
+    if (properties.complete) {
+      callback = properties.complete;
+      delete properties.complete;
+    }
+
     // Account for aliases (`in` => `ease-in`).
     if ($.cssEase[easing]) easing = $.cssEase[easing];
 
@@ -283,16 +298,16 @@
 
     // Apply transitions.
     this.each(function() {
-      oldTransitions[this] = getVendorProperty(this, 'transition');
+      oldTransitions[this] = getVendorProperty(this, 'Transition');
 
-      setVendorProperty(this, 'transition', transition);
+      setVendorProperty(this, 'Transition', transition);
       $(this).css(properties);
     });
 
     // Prepare the callback.
     var cb = function() {
       self.each(function() {
-        setVendorProperty(this, 'transition', oldTransitions[this]);
+        setVendorProperty(this, 'Transition', oldTransitions[this]);
       });
       if (typeof callback === 'function') callback.apply(self);
     };
@@ -353,16 +368,18 @@
   // Sets a CSS property to `element` and accounts for vendor prefixes.
   //
   function setVendorProperty(element, prop, val) {
-    element.style[     '-o-' + prop] = val;
-    element.style[   '-moz-' + prop] = val;
-    element.style['-webkit-' + prop] = val;
+    element.style[     'o' + prop] = val;
+    element.style[    'ms' + prop] = val;
+    element.style[   'moz' + prop] = val;
+    element.style['webkit' + prop] = val;
     element.style[prop] = val;
   }
 
   function getVendorProperty(element, prop) {
     return element.style[prop] ||
-      element.style[     '-o-' + prop] ||
-      element.style[   '-moz-' + prop] ||
-      element.style['-webkit-' + prop];
+      element.style[     'o' + prop] ||
+      element.style[    'ms' + prop] ||
+      element.style[   'moz' + prop] ||
+      element.style['webkit' + prop];
   }
 })(jQuery);
