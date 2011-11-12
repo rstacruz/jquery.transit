@@ -75,6 +75,27 @@ $("#box").transition({ opacity: 0.1, scale: 0.3 }, 500, 'in', function() {
 });
 ```
 
+Alternatives
+------------
+
+__[Move.js](https://github.com/visionmedia/move.js)__
+
+ * Pros: no jQuery dependency, great syntax.
+ * Cons (at time of writing): no iOS support (doesn't use `translate3d`), some
+   IE bugs.
+
+__[jQuery animate 
+enhanced](https://github.com/benbarnett/jQuery-Animate-Enhanced)__
+
+* Pros: transparently overrides `$.fn.animate()` to provide CSS transitions 
+  support.
+* Cons: transpalently overrides `$.fn.animate()`. No transformations support.
+
+__[jQuery CSS3 rotate](http://plugins.jquery.com/project/Rotate)__
+
+* Pros: simply provides rotation.
+* Cons: simply provides rotation. No transitions support.
+
 Acknowledgements
 ----------------
 
