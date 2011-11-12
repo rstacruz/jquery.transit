@@ -358,6 +358,19 @@ title: Your new Proton site
         .field
           .box{style: 'left: 10px; top: 10px;'}
 
+      %article
+        .code
+          %h3 Getting values
+          %pre
+            != "$('.box').css({ rotate: '40deg' });"
+            %br<>
+            != "alert($('.box').<b>css('rotate')</b>);"
+            %br<>
+            != "alert($('.box').<b>css('transform')</b>);"
+          %button Run
+
+        .field{style: 'height: 150px'}
+          .box{style: 'left: 10px; top: 10px;'}
       -# ============================================================================
       %h2 Source code
       .info.source
