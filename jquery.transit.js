@@ -38,9 +38,9 @@
         transform = new Transform(transform);
 
       var str = transform.toString();
-      elem.style[     'oTransform'] = str;
+      elem.style[     'OTransform'] = str;
       elem.style[    'msTransform'] = str;
-      elem.style[   'mozTransform'] = str;
+      elem.style[   'MozTransform'] = str;
       elem.style['webkitTransform'] = transform.toWebkitString();
       elem.style[      'transform'] = str;
 
@@ -368,18 +368,18 @@
   // Sets a CSS property to `element` and accounts for vendor prefixes.
   //
   function setVendorProperty(element, prop, val) {
-    element.style[     'o' + prop] = val;
+    element.style[     'O' + prop] = val;
     element.style[    'ms' + prop] = val;
-    element.style[   'moz' + prop] = val;
+    element.style[   'Moz' + prop] = val;
     element.style['webkit' + prop] = val;
     element.style[prop] = val;
   }
 
   function getVendorProperty(element, prop) {
     return element.style[prop] ||
-      element.style[     'o' + prop] ||
+      element.style[     'O' + prop] ||
       element.style[    'ms' + prop] ||
-      element.style[   'moz' + prop] ||
+      element.style[   'Moz' + prop] ||
       element.style['webkit' + prop];
   }
 })(jQuery);
