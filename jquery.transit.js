@@ -11,10 +11,11 @@
   // ## $.cssEase
   // List of easing aliases that you can use with `$.fn.transition`.
   $.cssEase = {
-    'in':     'ease-in',
-    'out':    'ease-out',
-    'in-out': 'ease-in-out',
-    'snap':   'cubic-bezier(0,1,.5,1)'
+    '_default': 'ease',
+    'in':       'ease-in',
+    'out':      'ease-out',
+    'in-out':   'ease-in-out',
+    'snap':     'cubic-bezier(0,1,.5,1)'
   };
 
   // ## 'transform' CSS hook
@@ -310,7 +311,7 @@
 
     // Set defaults. (`400` duration, `ease` easing)
     if (duration == null) duration = $.fx.speeds._default;
-    if (easing == null) easing = 'ease';
+    if (easing == null) easing = $.cssEase._default;
 
     duration = toMS(duration);
 

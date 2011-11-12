@@ -209,27 +209,75 @@ title: Your new Proton site
         :markdown
           Simply provide a third parameter to *$.fn.transition*.
 
-      %article
+      %article.mini
         .hover
         .code
-          %h3 Custom easing
+          %h3 Linear
           %pre
-            != "$('.box1').transition({ x: 300 }, 500, <b>'in'</b>);"
-            %br<>
-            != "$('.box2').transition({ x: 300 }, 500, <b>'out'</b>);"
-            %br<>
-            != "$('.box3').transition({ x: 300 }, 500, <b>'in-out'</b>);"
-            %br<>
-            != "$('.box4').transition({ x: 300 }, 500, <b>'snap'</b>);"
-            %br<>
-            != "$('.box5').transition({ x: 300 }, 500, <b>'linear'</b>);"
+            != "$('.box').transition({ x: 330 }, 500, <b>'linear'</b>);"
 
-        .field{style: 'height: 230px'}
-          .box.box1{style: 'left: 10px; top: 15px; height: 30px;'}
-          .box.box2{style: 'left: 10px; top: 55px; height: 30px;'}
-          .box.box3{style: 'left: 10px; top: 95px; height: 30px;'}
-          .box.box4{style: 'left: 10px; top: 135px; height: 30px;'}
-          .box.box5{style: 'left: 10px; top: 175px; height: 30px;'}
+        .field{style: 'height: 53px'}
+          .box{style: 'left: 10px; top: 10px; height: 30px;'}
+
+      %article.mini
+        .hover
+        .code
+          %h3 Ease in
+          %pre
+            != "$('.box').transition({ x: 330 }, 500, <b>'in'</b>);"
+
+        .field{style: 'height: 53px'}
+          .box{style: 'left: 10px; top: 10px; height: 30px;'}
+
+      %article.mini
+        .hover
+        .code
+          %h3 Ease
+          %pre
+            != "$('.box').transition({ x: 330 }, 500, <b>'ease'</b>);"
+
+        .field{style: 'height: 53px'}
+          .box{style: 'left: 10px; top: 10px; height: 30px;'}
+
+      %article.mini
+        .hover
+        .code
+          %h3 Ease out
+          %pre
+            != "$('.box').transition({ x: 330 }, 500, <b>'out'</b>);"
+
+        .field{style: 'height: 53px'}
+          .box{style: 'left: 10px; top: 10px; height: 30px;'}
+
+      %article.mini
+        .hover
+        .code
+          %h3 Ease in-out
+          %pre
+            != "$('.box').transition({ x: 330 }, 500, <b>'in-out'</b>);"
+
+        .field{style: 'height: 53px'}
+          .box{style: 'left: 10px; top: 10px; height: 30px;'}
+
+      %article.mini
+        .hover
+        .code
+          %h3 Snap
+          %pre
+            != "$('.box').transition({ x: 330 }, 500, <b>'snap'</b>);"
+
+        .field{style: 'height: 53px'}
+          .box{style: 'left: 10px; top: 10px; height: 30px;'}
+
+      %article.mini.last
+        .hover
+        .code
+          %h3 Custom
+          %pre
+            != "$('.box').transition({ x: 330 }, 500, <b>'cubic-bezier(0,0.9,0.3,1)'</b>);"
+
+        .field{style: 'height: 53px'}
+          .box{style: 'left: 10px; top: 10px; height: 30px;'}
 
       -# ============================================================================
       %h2 Delay

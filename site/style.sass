@@ -84,6 +84,15 @@ article
   padding-top: 10px
   position: relative
 
+  &.mini
+    margin: 0 0
+
+  *:not(.mini) + &.mini
+    margin-top: 40px
+
+  &.mini.last
+    margin-bottom: 40px
+
   >.hover
     cursor: pointer
     position: absolute
