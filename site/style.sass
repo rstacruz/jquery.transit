@@ -1,0 +1,222 @@
+@import 'compass/css3'
+@import 'compass/utilities'
+@import 'compass/reset'
+
+$liteslate: #7bd
+$slate: #7bd
+$box:   #7bd
+
+body, td, label
+  font-family: 'helvetica neue', helvetica, arial, sans-serif
+  font-weight: 200
+  font-size: 12pt
+
+body
+  line-height: 1.5
+  color: #555
+  background: #fafafa
+  text-shadow: 1px 1px 0 rgba(white, 0.4)
+
+#all
+  width: 800px
+  margin: 0 auto
+
+em
+  font-style: italic
+  color: #aaa
+
+// Code
+pre, code
+  font-family: monaco, monospace
+
+code
+  font-size: 0.9em
+  color: $slate
+  padding: 0 6px
+  +border-radius(2px)
+  background: rgba(white, 0.3)
+  +box-shadow(1px 1px rgba(black, 0.1))
+  font-weight: 200
+
+pre
+  +box-sizing(border-box)
+  padding: 10px
+  font-size: 9pt
+
+  .comment
+    color: #808090
+
+  b
+    color: #389
+    background: #fafae0
+    padding: 2px 3px
+    +border-radius(4px)
+
+//
+// Header
+//
+#header
+  &
+    text-align: center
+    line-height: 1.3
+    padding: 40px 0
+
+  h1
+    font-size: 33pt
+    font-weight: 100
+
+  p
+    font-size: 14pt
+    font-weight: 800
+    padding: 0 200px
+    color: $slate
+
+//
+// Each thingie
+//
+article
+  +pie-clearfix
+  margin: 40px 0
+  padding-top: 10px
+  position: relative
+
+  h3
+    font-weight: 800
+    font-size: 12pt
+    color: $liteslate
+
+  .code
+    float: right
+    width: 50%
+    +box-sizing(border-box)
+    padding-left: 20px
+
+  .code pre
+    padding: 5px 0 20px 0
+
+  .field
+    position: relative
+    float: right
+    width: 50%
+    height: 100px
+
+    background: #f3f3f3
+    border: solid 1px #eee
+    +box-sizing(border-box)
+
+  .box
+    width: 50px
+    height: 50px
+    +box-sizing(border-box)
+    display: block
+    position: absolute
+    +border-radius(2px)
+    background: rgba($box, 0.8)
+    +box-shadow(inset 0 0 2px rgba(white, 0.5))
+    border: solid 1px $box
+
+  .box.ghost
+    background: #e0fafa * 1.2
+    opacity: 0.4
+    border: 0
+    +box-shadow(inset 0 0 1px #7bd, inset 2px 2px 3px rgba(#7bd*0.4, 0.2))
+
+h2
+  text-align: center
+  font-size: 1.1em
+  padding: 5px 0
+  +border-radius(2px)
+  margin-bottom: -10px
+  border-bottom: solid 1px rgba($slate, 0.1)
+  background: rgba($slate, 0.1)
+  line-height: 20pt
+
+  font-weight: 800
+
+h2 + .info
+  margin-top: 10px
+  background: rgba($slate, 0.08)
+  padding: 10px
+  text-align: center
+  margin-bottom: -10px
+
+button, a.button
+  text-decoration: none
+  position: relative
+  padding: 0 50px 0 10px
+  border: 0
+  margin: 0
+  text-shadow: 1px 1px 0 rgba(black, 0.1)
+  +box-sizing(border-box)
+  display: inline-block
+
+  height: 20px
+  line-height: 20px
+
+  background: $slate
+  color: white
+  font-weight: 800
+  +border-radius(15px)
+
+  cursor: pointer
+
+  &:before
+    content: '»'
+    display: block
+
+    position: absolute
+    right: 0
+    top: 0
+
+    height: 20px
+    line-height: 20px
+    width: 30px
+    text-align: center
+
+  &:hover
+    background: $slate * 0.8
+
+
+.meta
+  padding: 10px 0 50px 0
+  text-align: center
+
+  a.button
+    margin: 0 10px
+    background: #777
+    font-weight: 200
+    padding: 0 50px
+    text-align: center
+    height: 30px
+    line-height: 30px
+
+    &:hover
+      background: #555
+
+    &:before
+      display: none
+
+.credits
+  padding: 30px 0 100px 0
+  font-size: 0.8em
+  overflow: hidden
+
+  p, ul
+    float: left
+    width: 32%
+    +box-sizing(border-box)
+    padding-right: 30px
+    margin: 10px 0
+
+  ul
+    margin-left: 20px
+
+  ul, ul li
+    list-style-type: disc
+
+  a
+    color: #999
+    text-decoration: none
+
+  a:hover
+    border-bottom: solid 1px #aaa

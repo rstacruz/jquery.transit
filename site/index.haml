@@ -1,0 +1,340 @@
+title: Your new Proton site
+--
+!!! 5
+%html
+  %head
+    %link(rel='stylesheet' media='screen' type='text/css' href='style.css')
+    %script(src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.4/jquery.min.js')
+    %script(src='jquery.transit.js')
+    %script(src='script.js')
+  %body
+    != '<a href="http://github.com/rstacruz/jquery.transit"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://d3nwyuy0nl342s.cloudfront.net/img/7afbc8b248c68eb468279e8c17986ad46549fb71/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"></a>'
+    #all
+      %hgroup#header
+        %h1 jQuery Transit
+        %p Super-smooth CSS3 transformations and transitions for jQuery
+
+      .meta
+        %a.button{href: 'jquery.transit.js'} Download
+        %a.button{href: 'jquery.transit.min.js'} Download (minified)
+
+      -# ============================================================================
+      %h2 Transitions - Translate
+
+      %article
+        .code
+          %h3 Translate X
+          %pre
+            != "$('.box').transition({ <b>x: '90px'</b> });"
+          %button Run
+
+        .field
+          .box{style: 'left: 10px; top: 10px;'}
+
+      %article
+        .code
+          %h3 Translate Y
+          %pre
+            != "$('.box').transition({ <b>y: '30px'</b> });"
+          %button Run
+
+        .field
+          .box{style: 'left: 10px; top: 10px;'}
+
+      %article
+        .code
+          %h3 Translate X and Y
+          %pre
+            != "$('.box').transition({ <b>x: '200px', y: '20px'</b> });"
+          %button Run
+
+        .field
+          .box{style: 'left: 10px; top: 10px;'}
+
+      -# ============================================================================
+      %h2 Rotation
+
+      %article
+        .code
+          %h3 Rotate
+          %pre
+            != "$('.box').transition({ <b>rotate: '30deg'</b> });"
+            
+          %button Run
+
+        .field
+          .box{style: 'left: 180px; top: 20px;'}
+
+      -# ============================================================================
+      %h2 Skew
+
+      %article
+        .code
+          %h3 Skew X
+          %pre
+            != "$('.box').transition({ <b>skewX: '30deg'</b> });"
+            
+          %button Run
+
+        .field
+          .box{style: 'left: 180px; top: 20px;'}
+
+      %article
+        .code
+          %h3 Skew Y
+          %pre
+            != "$('.box').transition({ <b>skewY: '30deg'</b> });"
+            
+          %button Run
+
+        .field
+          .box{style: 'left: 180px; top: 20px;'}
+
+
+      %article
+        .code
+          %h3 Skew X and Y
+          %pre
+            != "$('.box').transition({"
+            %br<>
+            != "    <b>skewX: '30deg',</b>"
+            %br<>
+            != "    <b>skewY: '-30deg'</b>"
+            %br<>
+            != "});"
+            
+          %button Run
+
+        .field{style: 'height: 150px'}
+          .box{style: 'left: 180px; top: 45px;'}
+
+      -# ============================================================================
+      %h2 Transitions for other properties
+      .info You can animate any available CSS property.
+
+      %article
+        .code
+          %h3 $.fn.transition for any CSS property
+          %pre
+            != "$('.box').transition({"
+            %br<>
+            != "    <b>opacity: 0,</b>"
+            %br<>
+            != "    scale: 1.6"
+            %br<>
+            != "});"
+            
+          %button Run
+
+        .field{style: 'height: 150px'}
+          .box{style: 'left: 180px; top: 45px;'}
+
+      %article
+        .code
+          %pre
+            != "$('.box').transition({"
+            %br<>
+            != "    <b>marginLeft: '20px',</b>"
+            %br<>
+            != "    <b>height: '80px'</b>"
+            %br<>
+            != "});"
+            
+          %button Run
+
+        .field{style: 'height: 130px'}
+          .box{style: 'left: 180px; top: 35px;'}
+
+      -# ============================================================================
+      %h2 Callbacks
+
+      .info
+        :markdown
+          $.fn.transition(*options, \[duration\], \[easing\], \[callback\]*);  
+          $.fn.transition works just like $.fn.animate. You can pass a *duration*, *easing*, and *callback*.
+
+      %article
+        .code
+          %h3 Providing callbacks
+          %pre
+            != "$('.box').transition({ x: -100 }, <b>function() {</b>"
+            %br<>
+            != "<b>    $(this).transition({ opacity: 0 });</b>"
+            %br<>
+            != "<b>}</b>);"
+            
+          %button Run
+
+        .field{style: 'height: 150px'}
+          .box{style: 'left: 180px; top: 45px;'}
+
+      -# ============================================================================
+      %h2 Custom duration
+
+      %article
+        .code
+          %h3 Custom duration (jQuery style)
+          %pre
+            != "$('.box').transition({ opacity: 0 }, <b>'fast'</b>);"
+          %button Run
+
+        .field{style: 'height: 150px'}
+          .box{style: 'left: 180px; top: 45px;'}
+
+      %article
+        .code
+          %h3 Custom duration (in milliseconds)
+          %pre
+            != "$('.box').transition({ opacity: 0 }, <b>2000</b>);"
+          %button Run
+
+        .field{style: 'height: 150px'}
+          .box{style: 'left: 180px; top: 45px;'}
+
+      -# ============================================================================
+      %h2 Easing
+      .info
+        :markdown
+          Simply provide a third parameter to *$.fn.transition*.
+
+      %article
+        .code
+          %h3 Custom easing
+          %pre
+            != "$('.box1').transition({ x: 300 }, 500, <b>'in'</b>);"
+            %br<>
+            != "$('.box2').transition({ x: 300 }, 500, <b>'out'</b>);"
+            %br<>
+            != "$('.box3').transition({ x: 300 }, 500, <b>'in-out'</b>);"
+            %br<>
+            != "$('.box4').transition({ x: 300 }, 500, <b>'snap'</b>);"
+            %br<>
+            != "$('.box5').transition({ x: 300 }, 500, <b>'linear'</b>);"
+          %button Run
+
+        .field{style: 'height: 230px'}
+          .box.box1{style: 'left: 10px; top: 15px; height: 30px;'}
+          .box.box2{style: 'left: 10px; top: 55px; height: 30px;'}
+          .box.box3{style: 'left: 10px; top: 95px; height: 30px;'}
+          .box.box4{style: 'left: 10px; top: 135px; height: 30px;'}
+          .box.box5{style: 'left: 10px; top: 175px; height: 30px;'}
+
+      -# ============================================================================
+      %h2 Delay
+
+      %article
+        .code
+          %h3 Delay by 400ms
+          %pre
+            != "$('.box').transition({ x: -100, <b>delay: 400</b> });"
+          %button Run
+
+        .field{style: 'height: 150px'}
+          .box{style: 'left: 180px; top: 45px;'}
+
+      -# ============================================================================
+      %h2 Alternate easing/duration syntax
+
+      .info
+        :markdown
+          You can provide *easing* and *duration* in the options instead
+          Great for CoffeeScript.
+
+      %article
+        .code
+          %pre
+            != "$('.box').transition({"
+            %br<>
+            != "    x: '100px',"
+            %br<>
+            != "    <b>easing: 'snap',</b>"
+            %br<>
+            != "    <b>duration: '2000ms'</b>"
+            %br<>
+            != "});"
+
+          %button Run
+
+        .field{style: 'height: 150px'}
+          .box{style: 'left: 180px; top: 45px;'}
+
+      -# ============================================================================
+      %h2 Optional units
+
+      .info
+        :markdown
+          All units (*px*, *deg*, *ms*, etc) are optional.
+
+      %article
+        .code
+          %pre
+            != "$('.box').transition({"
+            %br<>
+            != "    x: <b>100</b>,"
+            %br<>
+            != "    duration: <b>2000</b>,"
+            %br<>
+            != "    rotate: <b>30</b>,"
+            %br<>
+            != "    easing: 'snap'"
+            %br<>
+            != "});"
+
+          %button Run
+
+        .field{style: 'height: 150px'}
+          .box{style: 'left: 180px; top: 45px;'}
+
+
+      -# ============================================================================
+      %h2 $.fn.css
+      .info 
+        :markdown
+          CSS3 transform properties work with *$.fn.css* as well.
+
+      %article
+        .code
+          %pre
+            != "$('.box').<b>css({</b>"
+            %br<>
+            != "    <b>x: '90px'</b>,"
+            %br<>
+            != "    <b>y: '10px'</b>,"
+            %br<>
+            != "    <b>rotate: '-10deg'</b>"
+            %br<>
+            != "<b>}</b>)</b>;"
+          %button Run
+
+        .field{style: 'height: 150px'}
+          .box{style: 'left: 10px; top: 10px'}
+
+      %article
+        .code
+          %h3 Transform (automatically adds vendor prefixes)
+          %pre
+            != "$('.box').css({ <b>transform: 'rotate(40deg)'</b> });"
+          %button Run
+
+        .field
+          .box{style: 'left: 10px; top: 10px;'}
+
+      -# ============================================================================
+      %h2 Credits
+
+      .credits
+        :markdown
+          Copyright 2011, Rico Sta. Cruz. Released under the [MIT 
+          License](http://www.opensource.org/licenses/mit-license.php).
+
+          jQuery Transit is authored and maintained by [Rico Sta. Cruz][rsc] with help from it's 
+          [contributors][c]. It is sponsored by my startup, [Sinefunc, Inc][sf].
+
+           * [My website](http://ricostacruz.com) (ricostacruz.com)
+           * [Sinefunc, Inc.](http://sinefunc.com) (sinefunc.com)
+           * [Github](http://github.com/rstacruz) (@rstacruz)
+           * [Twitter](http://twitter.com/rstacruz) (@rstacruz)
+
+          [rsc]: http://ricostacruz.com
+          [c]:   http://github.com/rstacruz/xxxxx
+          [sf]:  http://sinefunc.com
