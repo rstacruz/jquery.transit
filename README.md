@@ -34,6 +34,8 @@ $("#box").css({ rotate: '30deg' });         // Rotate 30 degrees clockwise
 $("#box").css({ rotate: 30 });
 $("#box").css({ skewX: '30deg' });          // Skew horizontally by 30 degrees
 $("#box").css({ skewX: 30 });
+$("#box").css({ rotate: '+=30' });          // Relative values are supported
+$("#box").css('rotate');                    // Getters are okay, too
 ```
 
 Animating
@@ -42,38 +44,18 @@ Animating
 You can animate with CSS3 transitions using `$.fn.transition()`. It works 
 exactly like `$.fn.animate()`, except it uses CSS3 transitions.
 
+The syntax is `$.transition(options, [duration], [easing], [complete])`.
+
 ``` javascript
 $("#box").transition({ opacity: 0.1, scale: 0.3 });
+$("#box").transition({ opacity: 0.1, scale: 0.3 }, 500);                         // duration
+$("#box").transition({ opacity: 0.1, scale: 0.3 }, 'fast');                      // easing
+$("#box").transition({ opacity: 0.1, scale: 0.3 }, 500, 'in');                   // duration+easing
+$("#box").transition({ opacity: 0.1, scale: 0.3 }, function() {..});             // callback
+$("#box").transition({ opacity: 0.1, scale: 0.3 }, 500, 'in', function() {..});  // everything
 ```
 
-You can provide duration, and easing.
-
-``` javascript
-$("#box").transition({ opacity: 0.1, scale: 0.3 }, 500);
-$("#box").transition({ opacity: 0.1, scale: 0.3 }, 'fast');
-```
-
-You can provide easing as `in`, `out`, `linear`, `snap` or anything else 
-supported by CSS3.
-
-``` javascript
-// With duration and easing
-$("#box").transition({ opacity: 0.1, scale: 0.3 }, 500, 'in');
-```
-
-You can provide a callback to be executed after.
-
-``` javascript
-// With callback
-$("#box").transition({ opacity: 0.1, scale: 0.3 }, function() {
-  /* ... */
-});
-
-// With everything
-$("#box").transition({ opacity: 0.1, scale: 0.3 }, 500, 'in', function() {
-  /* ... */
-});
-```
+You can also pass *duration* and *easing* and *complete* as values in `options`, just like in `$.fn.animate()`.
 
 Alternatives
 ------------
