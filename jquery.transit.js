@@ -1,10 +1,10 @@
 /*!
- * jQuery CSS3 Transitions
+ * jQuery Transit - CSS3 transitions and transformations
  * Copyright(c) 2011 Rico Sta. Cruz <rico@ricostacruz.com>
  * MIT Licensed.
  *
- * http://github.com/rstacruz/jquery.css3transitions
- * http://ricostacruz.com
+ * http://ricostacruz.com/jquery.transit
+ * http://github.com/rstacruz/jquery.transit
  */
 
 (function($) {
@@ -231,6 +231,15 @@
   //     // With everything
   //     $("...").transition({ opacity: 0.1, scale: 0.3 }, 500, 'in', function() { ... });
   //
+  //     // Alternate syntax
+  //     $("...").transition({
+  //       opacity: 0.1,
+  //       duration: 200,
+  //       delay: 40,
+  //       easing: 'in',
+  //       complete: function() { /* ... */ }
+  //      });
+  //
   $.fn.transition = function(properties, duration, easing, callback) {
     var self  = this;
     var delay = 0;
@@ -256,6 +265,11 @@
     if (properties.duration) {
       duration = properties.duration;
       delete properties.duration;
+    }
+
+    if (properties.complete) {
+      callback = properties.complete;
+      delete properties.complete;
     }
 
     // Account for aliases (`in` => `ease-in`).
