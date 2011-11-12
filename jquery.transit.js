@@ -38,11 +38,11 @@
         transform = new Transform(transform);
 
       var str = transform.toString();
-      elem.style[     '-o-transform'] = str;
-      elem.style[    '-ms-transform'] = str;
-      elem.style[   '-moz-transform'] = str;
-      elem.style['-webkit-transform'] = transform.toWebkitString();
-      elem.style['transform']         = str;
+      elem.style[     'oTransform'] = str;
+      elem.style[    'msTransform'] = str;
+      elem.style[   'mozTransform'] = str;
+      elem.style['webkitTransform'] = transform.toWebkitString();
+      elem.style[      'transform'] = str;
 
       $(elem).data('transform', transform);
     }
@@ -298,16 +298,16 @@
 
     // Apply transitions.
     this.each(function() {
-      oldTransitions[this] = getVendorProperty(this, 'transition');
+      oldTransitions[this] = getVendorProperty(this, 'Transition');
 
-      setVendorProperty(this, 'transition', transition);
+      setVendorProperty(this, 'Transition', transition);
       $(this).css(properties);
     });
 
     // Prepare the callback.
     var cb = function() {
       self.each(function() {
-        setVendorProperty(this, 'transition', oldTransitions[this]);
+        setVendorProperty(this, 'Transition', oldTransitions[this]);
       });
       if (typeof callback === 'function') callback.apply(self);
     };
@@ -368,18 +368,18 @@
   // Sets a CSS property to `element` and accounts for vendor prefixes.
   //
   function setVendorProperty(element, prop, val) {
-    element.style[     '-o-' + prop] = val;
-    element.style[    '-ms-' + prop] = val;
-    element.style[   '-moz-' + prop] = val;
-    element.style['-webkit-' + prop] = val;
+    element.style[     'o' + prop] = val;
+    element.style[    'ms' + prop] = val;
+    element.style[   'moz' + prop] = val;
+    element.style['webkit' + prop] = val;
     element.style[prop] = val;
   }
 
   function getVendorProperty(element, prop) {
     return element.style[prop] ||
-      element.style[     '-o-' + prop] ||
-      element.style[    '-ms-' + prop] ||
-      element.style[   '-moz-' + prop] ||
-      element.style['-webkit-' + prop];
+      element.style[     'o' + prop] ||
+      element.style[    'ms' + prop] ||
+      element.style[   'moz' + prop] ||
+      element.style['webkit' + prop];
   }
 })(jQuery);
