@@ -301,6 +301,29 @@ title: Your new Proton site
         .field{style: 'height: 150px'}
           .box{style: 'left: 180px; top: 45px;'}
 
+      -# ============================================================================
+      %h2 Relative units
+
+      .info
+        :markdown
+          jQuery-style relative units are supported. Start your values with either *+=* or *-=*.
+
+      %article
+        .code
+          %pre
+            != "$('.box').transition({"
+            %br<>
+            != "    rotate: <b>'+=30deg'</b>,"
+            %br<>
+            != "    x: <b>'+=30'</b>"
+            %br<>
+            != "});"
+
+          %button Run
+
+        .field{style: 'height: 150px'}
+          .box{style: 'left: 180px; top: 45px;'}
+
 
       -# ============================================================================
       %h2 $.fn.css
