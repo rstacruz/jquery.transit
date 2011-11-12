@@ -8,14 +8,16 @@
  */
 
 (function($) {
+  // Check for the browser's transitions support.
+  var hasTransitions = (getVendorProperty($("<div>")[0], 'Transition') !== undefined);
+
   // ## $.cssEase
   // List of easing aliases that you can use with `$.fn.transition`.
   $.cssEase = {
-    '_default': 'ease',
-    'in':       'ease-in',
-    'out':      'ease-out',
-    'in-out':   'ease-in-out',
-    'snap':     'cubic-bezier(0,1,.5,1)'
+    'in':     'ease-in',
+    'out':    'ease-out',
+    'in-out': 'ease-in-out',
+    'snap':   'cubic-bezier(0,1,.5,1)'
   };
 
   // ## 'transform' CSS hook
@@ -311,7 +313,7 @@
 
     // Set defaults. (`400` duration, `ease` easing)
     if (duration == null) duration = $.fx.speeds._default;
-    if (easing == null) easing = $.cssEase._default;
+    if (easing == null) easing = 'ease';
 
     duration = toMS(duration);
 
@@ -345,7 +347,9 @@
       if (typeof callback === 'function') callback.apply(self);
     };
     
-    i = parseInt(duration) + parseInt(delay);
+    // Compute delay until callback.  When the browser has no support for CSS
+    // transitions, fire the callback immediately.
+    var i = hasTransitions ? (parseInt(duration) + parseInt(delay)) : 0;
     window.setTimeout(cb, i);
   };
 
@@ -399,7 +403,6 @@
 
   // ### setVendorProperty(element, property, value)
   // Sets a CSS property to `element` and accounts for vendor prefixes.
-  //
   function setVendorProperty(element, prop, val, webkitVal) {
     element.style[     'O' + prop] = val;
     element.style[    'ms' + prop] = val;
@@ -409,10 +412,11 @@
   }
 
   function getVendorProperty(element, prop) {
-    return element.style[prop] ||
-      element.style[     'O' + prop] ||
-      element.style[    'ms' + prop] ||
-      element.style[   'Moz' + prop] ||
-      element.style['webkit' + prop];
+    var re = element.style[prop];
+    if (re === undefined) re = element.style[     'O' + prop];
+    if (re === undefined) re = element.style[    'ms' + prop];
+    if (re === undefined) re = element.style[   'Moz' + prop];
+    if (re === undefined) re = element.style['webkit' + prop];
+    return re;
   }
 })(jQuery);
