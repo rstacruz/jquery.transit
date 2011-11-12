@@ -1,3 +1,25 @@
+module Compressor
+  def self.compress(jscode)
+    require 'net/http'
+    require 'uri'
+
+    response = Net::HTTP.post_form(URI.parse('http://closure-compiler.appspot.com/compile'), {
+      'js_code' => jscode,
+      'compilation_level' => "SIMPLE_OPTIMIZATIONS",
+      'output_format' => 'text',
+      'output_info' => 'compiled_code'
+    })
+    response.body
+  end
+
+  def self.compress_with_comment(jscode)
+    comment    = jscode.match(/(\/\*!.*?\*\/)/m) && $1
+    compressed = compress(jscode)
+    compressed = comment + "\n" + compressed  if comment
+    compressed
+  end
+end
+
 module Helpers
   def can_run?(what)
     ! `which #{what}`.strip.empty?
@@ -12,19 +34,25 @@ end
 extend Helpers
 
 task :check_deps do
-  die "Error: You need YUI Compressor."  unless can_run?('yuicompressor')
   die "Error: You need Docco. Try `gem install docco`."  unless can_run?('docco')
-  require 'proton'
-  die "Error: You need Proton. Try `gem install proton`."  unless can_run?('proton')
+  begin
+    require 'proton'
+  rescue => e
+    die "Error: You need Proton. Try `gem install proton`."
+  end
+end
+
+task :compress do
+  system "cp jquery.transit.js site/"
+
+  puts "==> Compressing (site/jquery.transit.min.js)..."
+  str = File.read('jquery.transit.js')
+  str = Compressor.compress_with_comment(str)
+  File.open('site/jquery.transit.min.js', 'w') { |f| f.write str }
 end
 
 # Prepare
-task :prebuild => :check_deps do
-  system "cp jquery.transit.js site/"
-
-  puts "==> YUI Compressing..."
-  system "yuicompressor jquery.transit.js > site/jquery.transit.min.js"
-
+task :prebuild => [:check_deps, :compress] do
   puts "==> Generating annotated source..."
   system "docco jquery.transit.js > /dev/null"
   system "mv docs/docco.css site/docco.css"

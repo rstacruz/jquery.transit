@@ -6,7 +6,7 @@ title: Your new Proton site
     %link(rel='stylesheet' media='screen' type='text/css' href='style.css')
     %meta(name='description' content='Super-smooth CSS3 transformations and transitions for jQuery.')
     %script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js')
-    %script(src='jquery.transit.js')
+    %script(src='jquery.transit.min.js')
     %script(src='script.js')
     - if ENV['ANALYTICS_ID']
       :javascript
@@ -29,10 +29,10 @@ title: Your new Proton site
       .meta
         %a.button{href: 'jquery.transit.js'}
           Download
-          %small 9.9kb
+          %small 10kb
         %a.button{href: 'jquery.transit.min.js'}
           Download (Minified)
-          %small 1.3kb gzipped
+          %small 1kb gzipped
 
       -# ============================================================================
       %h2 Transitions - Translate
