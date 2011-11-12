@@ -39,7 +39,7 @@
 
       setVendorProperty(elem, 'Transform',
         transform.toString(),         // for normal browsers
-        transform.toWebkitString());  // for Webkits (3D)
+        transform.toString(true));    // for Webkits (3D)
 
       $(elem).data('transform', transform);
     }
@@ -184,24 +184,14 @@
     },
 
     // ### toString()
-    // Converts to a `transition` CSS property string.
-    toString: function() {
-      var re = [];
-      for (i in this)
-        if ((this.hasOwnProperty(i)) && (i[0] !== '_'))
-          re.push(i + "(" + this[i] + ")");
-
-      return re.join(" ");
-    },
-
-    // ### toWebkitString()
-    // Converts to a `-webkit-transition` CSS property string.
-    toWebkitString: function() {
+    // Converts to a `transition` CSS property string. If `use3d` is given,
+    // it converts to a `-webkit-transition` CSS property string instead.
+    toString: function(use3d) {
       var re = [];
 
       for (i in this) {
         if ((this.hasOwnProperty(i)) && (i[0] !== '_')) {
-          if ((i === 'scale') || (i === 'translate'))
+          if ((use3d) && (i === 'scale') || (i === 'translate'))
             re.push(i + "3d(" + this[i] + ",0)");
           else
             re.push(i + "(" + this[i] + ")");
