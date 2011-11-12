@@ -46,7 +46,6 @@
     });
 
     // Run it.
-    console.log(code);
     eval(code);
   });
 })();
