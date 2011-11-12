@@ -91,6 +91,11 @@ enhanced](https://github.com/benbarnett/jQuery-Animate-Enhanced)__
   support.
 * Cons: transpalently overrides `$.fn.animate()`. No transformations support.
 
+__[jQuery 2D transformations](https://github.com/heygrady/transform/)__
+
+* Pros: Tons of transformations.
+* Cons: No CSS transition support; animates via `fx.step`.
+
 __[jQuery CSS3 rotate](http://plugins.jquery.com/project/Rotate)__
 
 * Pros: simply provides rotation.
