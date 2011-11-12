@@ -39,6 +39,7 @@
 
       var str = transform.toString();
       elem.style[     '-o-transform'] = str;
+      elem.style[    '-ms-transform'] = str;
       elem.style[   '-moz-transform'] = str;
       elem.style['-webkit-transform'] = transform.toWebkitString();
       elem.style['transform']         = str;
@@ -368,6 +369,7 @@
   //
   function setVendorProperty(element, prop, val) {
     element.style[     '-o-' + prop] = val;
+    element.style[    '-ms-' + prop] = val;
     element.style[   '-moz-' + prop] = val;
     element.style['-webkit-' + prop] = val;
     element.style[prop] = val;
@@ -376,6 +378,7 @@
   function getVendorProperty(element, prop) {
     return element.style[prop] ||
       element.style[     '-o-' + prop] ||
+      element.style[    '-ms-' + prop] ||
       element.style[   '-moz-' + prop] ||
       element.style['-webkit-' + prop];
   }
