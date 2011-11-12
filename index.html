@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href='style.css' media='screen' rel='stylesheet' type='text/css' />
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+<script src='jquery.transit.js'></script>
+<script src='script.js'></script>
+</head>
+<body>
+<a href="http://github.com/rstacruz/jquery.transit"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://d3nwyuy0nl342s.cloudfront.net/img/7afbc8b248c68eb468279e8c17986ad46549fb71/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"></a>
+<div id='all'>
+<hgroup id='header'>
+<h1>jQuery Transit</h1>
+<p>Super-smooth CSS3 transformations and transitions for jQuery</p>
+</hgroup>
+<div class='meta'>
+<a class='button' href='jquery.transit.js'>Download</a>
+<a class='button' href='jquery.transit.min.js'>Download (minified)</a>
+</div>
+<h2>Transitions - Translate</h2>
+<article>
+<div class='code'>
+<h3>Translate X</h3>
+<pre>$('.box').transition({ <b>x: '90px'</b> });</pre>
+<button>Run</button>
+</div>
+<div class='field'>
+<div class='box' style='left: 10px; top: 10px;'></div>
+</div>
+</article>
+<article>
+<div class='code'>
+<h3>Translate Y</h3>
+<pre>$('.box').transition({ <b>y: '30px'</b> });</pre>
+<button>Run</button>
+</div>
+<div class='field'>
+<div class='box' style='left: 10px; top: 10px;'></div>
+</div>
+</article>
+<article>
+<div class='code'>
+<h3>Translate X and Y</h3>
+<pre>$('.box').transition({ <b>x: '200px', y: '20px'</b> });</pre>
+<button>Run</button>
+</div>
+<div class='field'>
+<div class='box' style='left: 10px; top: 10px;'></div>
+</div>
+</article>
+<h2>Rotation</h2>
+<article>
+<div class='code'>
+<h3>Rotate</h3>
+<pre>$('.box').transition({ <b>rotate: '30deg'</b> });</pre>
+<button>Run</button>
+</div>
+<div class='field'>
+<div class='box' style='left: 180px; top: 20px;'></div>
+</div>
+</article>
+<h2>Skew</h2>
+<article>
+<div class='code'>
+<h3>Skew X</h3>
+<pre>$('.box').transition({ <b>skewX: '30deg'</b> });</pre>
+<button>Run</button>
+</div>
+<div class='field'>
+<div class='box' style='left: 180px; top: 20px;'></div>
+</div>
+</article>
+<article>
+<div class='code'>
+<h3>Skew Y</h3>
+<pre>$('.box').transition({ <b>skewY: '30deg'</b> });</pre>
+<button>Run</button>
+</div>
+<div class='field'>
+<div class='box' style='left: 180px; top: 20px;'></div>
+</div>
+</article>
+<article>
+<div class='code'>
+<h3>Skew X and Y</h3>
+<pre>$('.box').transition({<br />    <b>skewX: '30deg',</b><br />    <b>skewY: '-30deg'</b><br />});</pre>
+<button>Run</button>
+</div>
+<div class='field' style='height: 150px'>
+<div class='box' style='left: 180px; top: 45px;'></div>
+</div>
+</article>
+<h2>Transitions for other properties</h2>
+<div class='info'>You can animate any available CSS property.</div>
+<article>
+<div class='code'>
+<h3>$.fn.transition for any CSS property</h3>
+<pre>$('.box').transition({<br />    <b>opacity: 0,</b><br />    scale: 1.6<br />});</pre>
+<button>Run</button>
+</div>
+<div class='field' style='height: 150px'>
+<div class='box' style='left: 180px; top: 45px;'></div>
+</div>
+</article>
+<article>
+<div class='code'>
+<pre>$('.box').transition({<br />    <b>marginLeft: '20px',</b><br />    <b>height: '80px'</b><br />});</pre>
+<button>Run</button>
+</div>
+<div class='field' style='height: 130px'>
+<div class='box' style='left: 180px; top: 35px;'></div>
+</div>
+</article>
+<h2>Callbacks</h2>
+<div class='info'>
+<p>$.fn.transition(<em>options, [duration], [easing], [callback]</em>);<br />$.fn.transition works just like $.fn.animate. You can pass a <em>duration</em>, <em>easing</em>, and <em>callback</em>.</p>
+</div>
+<article>
+<div class='code'>
+<h3>Providing callbacks</h3>
+<pre>$('.box').transition({ x: -100 }, <b>function() {</b><br /><b>    $(this).transition({ opacity: 0 });</b><br /><b>}</b>);</pre>
+<button>Run</button>
+</div>
+<div class='field' style='height: 150px'>
+<div class='box' style='left: 180px; top: 45px;'></div>
+</div>
+</article>
+<h2>Custom duration</h2>
+<article>
+<div class='code'>
+<h3>Custom duration (jQuery style)</h3>
+<pre>$('.box').transition({ opacity: 0 }, <b>'fast'</b>);</pre>
+<button>Run</button>
+</div>
+<div class='field' style='height: 150px'>
+<div class='box' style='left: 180px; top: 45px;'></div>
+</div>
+</article>
+<article>
+<div class='code'>
+<h3>Custom duration (in milliseconds)</h3>
+<pre>$('.box').transition({ opacity: 0 }, <b>2000</b>);</pre>
+<button>Run</button>
+</div>
+<div class='field' style='height: 150px'>
+<div class='box' style='left: 180px; top: 45px;'></div>
+</div>
+</article>
+<h2>Easing</h2>
+<div class='info'>
+<p>Simply provide a third parameter to <em>$.fn.transition</em>.</p>
+</div>
+<article>
+<div class='code'>
+<h3>Custom easing</h3>
+<pre>$('.box1').transition({ x: 300 }, 500, <b>'in'</b>);<br />$('.box2').transition({ x: 300 }, 500, <b>'out'</b>);<br />$('.box3').transition({ x: 300 }, 500, <b>'in-out'</b>);<br />$('.box4').transition({ x: 300 }, 500, <b>'snap'</b>);<br />$('.box5').transition({ x: 300 }, 500, <b>'linear'</b>);</pre>
+<button>Run</button>
+</div>
+<div class='field' style='height: 230px'>
+<div class='box box1' style='left: 10px; top: 15px; height: 30px;'></div>
+<div class='box box2' style='left: 10px; top: 55px; height: 30px;'></div>
+<div class='box box3' style='left: 10px; top: 95px; height: 30px;'></div>
+<div class='box box4' style='left: 10px; top: 135px; height: 30px;'></div>
+<div class='box box5' style='left: 10px; top: 175px; height: 30px;'></div>
+</div>
+</article>
+<h2>Delay</h2>
+<article>
+<div class='code'>
+<h3>Delay by 400ms</h3>
+<pre>$('.box').transition({ x: -100, <b>delay: 400</b> });</pre>
+<button>Run</button>
+</div>
+<div class='field' style='height: 150px'>
+<div class='box' style='left: 180px; top: 45px;'></div>
+</div>
+</article>
+<h2>Alternate easing/duration syntax</h2>
+<div class='info'>
+<p>You can provide <em>easing</em> and <em>duration</em> in the options instead Great for CoffeeScript.</p>
+</div>
+<article>
+<div class='code'>
+<pre>$('.box').transition({<br />    x: '100px',<br />    <b>easing: 'snap',</b><br />    <b>duration: '2000ms'</b><br />});</pre>
+<button>Run</button>
+</div>
+<div class='field' style='height: 150px'>
+<div class='box' style='left: 180px; top: 45px;'></div>
+</div>
+</article>
+<h2>Optional units</h2>
+<div class='info'>
+<p>All units (<em>px</em>, <em>deg</em>, <em>ms</em>, etc) are optional.</p>
+</div>
+<article>
+<div class='code'>
+<pre>$('.box').transition({<br />    x: <b>100</b>,<br />    duration: <b>2000</b>,<br />    rotate: <b>30</b>,<br />    easing: 'snap'<br />});</pre>
+<button>Run</button>
+</div>
+<div class='field' style='height: 150px'>
+<div class='box' style='left: 180px; top: 45px;'></div>
+</div>
+</article>
+<h2>$.fn.css</h2>
+<div class='info'>
+<p>CSS3 transform properties work with <em>$.fn.css</em> as well.</p>
+</div>
+<article>
+<div class='code'>
+<pre>$('.box').<b>css({</b><br />    <b>x: '90px'</b>,<br />    <b>y: '10px'</b>,<br />    <b>rotate: '-10deg'</b><br /><b>}</b>)</b>;</pre>
+<button>Run</button>
+</div>
+<div class='field' style='height: 150px'>
+<div class='box' style='left: 10px; top: 10px'></div>
+</div>
+</article>
+<article>
+<div class='code'>
+<h3>Transform (automatically adds vendor prefixes)</h3>
+<pre>$('.box').css({ <b>transform: 'rotate(40deg)'</b> });</pre>
+<button>Run</button>
+</div>
+<div class='field'>
+<div class='box' style='left: 10px; top: 10px;'></div>
+</div>
+</article>
+<h2>Credits</h2>
+<div class='credits'>
+<p>Copyright 2011, Rico Sta. Cruz. Released under the <a href='http://www.opensource.org/licenses/mit-license.php'>MIT License</a>.</p>
+
+<p>jQuery Transit is authored and maintained by <a href='http://ricostacruz.com'>Rico Sta. Cruz</a> with help from it&#8217;s <a href='http://github.com/rstacruz/xxxxx'>contributors</a>. It is sponsored by my startup, <a href='http://sinefunc.com'>Sinefunc, Inc</a>.</p>
+
+<ul>
+<li><a href='http://ricostacruz.com'>My website</a> (ricostacruz.com)</li>
+
+<li><a href='http://sinefunc.com'>Sinefunc, Inc.</a> (sinefunc.com)</li>
+
+<li><a href='http://github.com/rstacruz'>Github</a> (@rstacruz)</li>
+
+<li><a href='http://twitter.com/rstacruz'>Twitter</a> (@rstacruz)</li>
+</ul>
+</div>
+</div>
+</body>
+</html>
