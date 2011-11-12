@@ -371,6 +371,25 @@ title: Your new Proton site
 
         .field{style: 'height: 150px'}
           .box{style: 'left: 10px; top: 10px;'}
+
+      -# ============================================================================
+      %h2 Setting transform origins
+      .info
+        :markdown
+          You can provide transformation origins via *$.fn.css*. The format is
+          *"x y"*, where *x* and *y* are coordinates in the given element.
+
+      %article
+        .code
+          %pre
+            != "$('.box').css({ <b>transformOrigin: '10px 10px'</b> });"
+            %br<>
+            != "$('.box').transition({ rotate: 40, scale: 1.2 });"
+          %button Run
+
+        .field
+          .box{style: 'left: 10px; top: 10px;'}
+
       -# ============================================================================
       %h2 Source code
       .info.source

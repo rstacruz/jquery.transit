@@ -45,6 +45,21 @@
     }
   };
 
+  // ## 'transformOrigin' CSS hook
+  // Allows the use for `transformOrigin` to define where scaling and rotation
+  // is pivoted.
+  //
+  //     $("#hello").css({ transformOrigin: '0 0' });
+  //
+  $.cssHooks.transformOrigin = {
+    get: function(elem) {
+      return getVendorProperty(elem, 'TransformOrigin');
+    },
+    set: function(elem, value) {
+      setVendorProperty(elem, 'TransformOrigin', value);
+    }
+  };
+
   // ## Other CSS hooks
   // Allows you to rotate, scale and translate.
   registerCssHook('scale');
