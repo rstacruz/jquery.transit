@@ -45,6 +45,21 @@
     }
   };
 
+  // ## 'transformOrigin' CSS hook
+  // Allows the use for `transformOrigin` to define where scaling and rotation
+  // is pivoted.
+  //
+  //     $("#hello").css({ transformOrigin: '0 0' });
+  //
+  $.cssHooks.transformOrigin = {
+    get: function(elem) {
+      return getVendorProperty(elem, 'TransformOrigin');
+    },
+    set: function(elem, value) {
+      setVendorProperty(elem, 'TransformOrigin', value);
+    }
+  };
+
   // ## Other CSS hooks
   // Allows you to rotate, scale and translate.
   registerCssHook('scale');
@@ -112,6 +127,14 @@
       }
     },
 
+    get: function(prop) {
+      if (this.getter[prop]) {
+        return this.getter[prop].apply(this);
+      } else {
+        return this[prop] || 0;
+      }
+    },
+
     setter: {
       // ### rotate
       //
@@ -171,6 +194,28 @@
         if (y !== null) this._translateY = y;
 
         this.translate = this._translateX + "," + this._translateY;
+      }
+    },
+
+    getter: {
+      x: function() {
+        return this._translateX || 0;
+      },
+
+      y: function() {
+        return this._translateY || 0;
+      },
+
+      scale: function() {
+        var s = (this.scale || "1,1").split(',');
+
+        // "2.5,2.5" => 2.5
+        if (parseFloat(s[0]) == parseFloat(s[1]))
+          return parseFloat(s[0]);
+
+        // "2.5,1" => "2.5,1"
+        else
+          return s;
       }
     },
 
@@ -309,8 +354,8 @@
 
     $.cssHooks[prop] = {
       get: function(elem) {
-        var t = $(elem).css('transform');
-        if (t) return t[prop];
+        var t = $(elem).css('transform') || new Transform;
+        return t.get(prop);
       },
 
       set: function(elem, value) {

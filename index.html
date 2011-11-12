@@ -222,6 +222,19 @@ Download (Minified)
 <div class='box' style='left: 180px; top: 45px;'></div>
 </div>
 </article>
+<h2>Relative units</h2>
+<div class='info'>
+<p>jQuery-style relative units are supported. Start your values with either <em>+=</em> or <em>-=</em>.</p>
+</div>
+<article>
+<div class='code'>
+<pre>$('.box').transition({<br />    rotate: <b>'+=30deg'</b>,<br />    x: <b>'+=30'</b><br />});</pre>
+<button>Run</button>
+</div>
+<div class='field' style='height: 150px'>
+<div class='box' style='left: 180px; top: 45px;'></div>
+</div>
+</article>
 <h2>$.fn.css</h2>
 <div class='info'>
 <p>CSS3 transform properties work with <em>$.fn.css</em> as well.</p>
@@ -239,6 +252,29 @@ Download (Minified)
 <div class='code'>
 <h3>Transform (automatically adds vendor prefixes)</h3>
 <pre>$('.box').css({ <b>transform: 'rotate(40deg)'</b> });</pre>
+<button>Run</button>
+</div>
+<div class='field'>
+<div class='box' style='left: 10px; top: 10px;'></div>
+</div>
+</article>
+<article>
+<div class='code'>
+<h3>Getting values</h3>
+<pre>$('.box').css({ rotate: '40deg' });<br />alert($('.box').<b>css('rotate')</b>);<br />alert($('.box').<b>css('transform')</b>);</pre>
+<button>Run</button>
+</div>
+<div class='field' style='height: 150px'>
+<div class='box' style='left: 10px; top: 10px;'></div>
+</div>
+</article>
+<h2>Setting transform origins</h2>
+<div class='info'>
+<p>You can provide transformation origins via <em>$.fn.css</em>. The format is <em>&#8220;x y&#8221;</em>, where <em>x</em> and <em>y</em> are coordinates in the given element.</p>
+</div>
+<article>
+<div class='code'>
+<pre>$('.box').css({ <b>transformOrigin: '10px 10px'</b> });<br />$('.box').transition({ rotate: 40, scale: 1.2 });</pre>
 <button>Run</button>
 </div>
 <div class='field'>
