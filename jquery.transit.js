@@ -37,12 +37,9 @@
       if (transform.__proto__ != Transform.prototype)
         transform = new Transform(transform);
 
-      var str = transform.toString();
-      elem.style[     'OTransform'] = str;
-      elem.style[    'msTransform'] = str;
-      elem.style[   'MozTransform'] = str;
-      elem.style['webkitTransform'] = transform.toWebkitString();
-      elem.style[      'transform'] = str;
+      setVendorProperty(elem, 'Transform',
+        transform.toString(),         // for normal browsers
+        transform.toWebkitString());  // for Webkits (3D)
 
       $(elem).data('transform', transform);
     }
@@ -367,11 +364,11 @@
   // ### setVendorProperty(element, property, value)
   // Sets a CSS property to `element` and accounts for vendor prefixes.
   //
-  function setVendorProperty(element, prop, val) {
+  function setVendorProperty(element, prop, val, webkitVal) {
     element.style[     'O' + prop] = val;
     element.style[    'ms' + prop] = val;
     element.style[   'Moz' + prop] = val;
-    element.style['webkit' + prop] = val;
+    element.style['webkit' + prop] = webkitVal || val;
     element.style[prop] = val;
   }
 
