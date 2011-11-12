@@ -2,42 +2,51 @@
   var i = 0;
   $("article button").live('click', function(e) {
     e.preventDefault();
-
     var $parent = $(this).closest('article');
-    var id      = $parent.attr('id');
+    $parent.trigger('jiggle');
+    $parent.trigger('restore');
+  });
 
-    // Restore in it's old glory.
-    var restore = function() {
-      $parent.find('.box').remove();
-      $parent.find('.ghost').removeClass('ghost').addClass('box');
-    };
+  $("article .hover").live('mouseover', function(e) {
+    $(this).closest('article').trigger('jiggle');
+  });
 
-    if ($parent.find('.ghost').length) restore();
+  $("article .hover").live('mouseout', function(e) {
+    $(this).closest('article').trigger('restore');
+  });
 
-    // Abort an old timer.
-    var timer = $parent.data('timer');
-    if (timer) { clearTimeout(timer); }
+  $("article").live('restore', function(e) {
+    var $this = $(this);
+    $this.removeClass('highlight');
+    if ($this.find('.ghost').length) {
+      $this.find('.box').remove();
+      $this.find('.ghost').removeClass('ghost').addClass('box');
+    }
+  });
+
+  $("article").live('jiggle', function(e) {
+    var $this = $(this);
+    var id      = $this.attr('id');
+
+    $this.addClass('highlight');
 
     // Assign an ID if it doesn't have one.
     if (!id) {
       id = 'item_'+(i++);
-      $parent.attr('id', id);
+      $this.attr('id', id);
     }
 
     // Extract the code.
-    var code = $parent.find('pre').text();
-    code = code.replace(/\$\(['"](.*?)['"]\)/g, '$("#'+id+' $1")');
+    var code = $this.find('pre').text();
+    code = code.replace(/\$\(['"](.*?)['"]\)/g, '$("#'+id+' $1:not(.ghost)")');
 
     // Duplicate the boxes to make ghosts.
-    $parent.find('.field>*').each(function() {
+    $this.find('.field>*').each(function() {
       $(this).before($(this).clone().removeClass('box').addClass('ghost'));
     });
 
     // Run it.
+    console.log(code);
     eval(code);
-
-    // Restore it eventually.
-    var timer = window.setTimeout(restore, 3000);
-    $parent.data('timer', timer);
   });
 })();

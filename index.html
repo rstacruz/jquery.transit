@@ -38,32 +38,35 @@ Download (Minified)
 <small>1kb gzipped</small>
 </a>
 </div>
-<h2>Transitions - Translate</h2>
+<h2>Translate (move)</h2>
+<div class='info'>
+Hover on a demo box to see it in action.
+</div>
 <article>
+<div class='hover'></div>
 <div class='code'>
 <h3>Translate X</h3>
 <pre>$('.box').transition({ <b>x: '90px'</b> });</pre>
-<button>Run</button>
 </div>
 <div class='field'>
 <div class='box' style='left: 10px; top: 10px;'></div>
 </div>
 </article>
 <article>
+<div class='hover'></div>
 <div class='code'>
 <h3>Translate Y</h3>
 <pre>$('.box').transition({ <b>y: '30px'</b> });</pre>
-<button>Run</button>
 </div>
 <div class='field'>
 <div class='box' style='left: 10px; top: 10px;'></div>
 </div>
 </article>
 <article>
+<div class='hover'></div>
 <div class='code'>
 <h3>Translate X and Y</h3>
 <pre>$('.box').transition({ <b>x: '200px', y: '20px'</b> });</pre>
-<button>Run</button>
 </div>
 <div class='field'>
 <div class='box' style='left: 10px; top: 10px;'></div>
@@ -71,10 +74,10 @@ Download (Minified)
 </article>
 <h2>Rotation</h2>
 <article>
+<div class='hover'></div>
 <div class='code'>
 <h3>Rotate</h3>
 <pre>$('.box').transition({ <b>rotate: '30deg'</b> });</pre>
-<button>Run</button>
 </div>
 <div class='field'>
 <div class='box' style='left: 180px; top: 20px;'></div>
@@ -82,30 +85,30 @@ Download (Minified)
 </article>
 <h2>Skew</h2>
 <article>
+<div class='hover'></div>
 <div class='code'>
 <h3>Skew X</h3>
 <pre>$('.box').transition({ <b>skewX: '30deg'</b> });</pre>
-<button>Run</button>
 </div>
 <div class='field'>
 <div class='box' style='left: 180px; top: 20px;'></div>
 </div>
 </article>
 <article>
+<div class='hover'></div>
 <div class='code'>
 <h3>Skew Y</h3>
 <pre>$('.box').transition({ <b>skewY: '30deg'</b> });</pre>
-<button>Run</button>
 </div>
 <div class='field'>
 <div class='box' style='left: 180px; top: 20px;'></div>
 </div>
 </article>
 <article>
+<div class='hover'></div>
 <div class='code'>
 <h3>Skew X and Y</h3>
 <pre>$('.box').transition({<br />    <b>skewX: '30deg',</b><br />    <b>skewY: '-30deg'</b><br />});</pre>
-<button>Run</button>
 </div>
 <div class='field' style='height: 150px'>
 <div class='box' style='left: 180px; top: 45px;'></div>
@@ -114,19 +117,19 @@ Download (Minified)
 <h2>Transitions for other properties</h2>
 <div class='info'>You can animate any available CSS property.</div>
 <article>
+<div class='hover'></div>
 <div class='code'>
 <h3>$.fn.transition for any CSS property</h3>
 <pre>$('.box').transition({<br />    <b>opacity: 0,</b><br />    scale: 1.6<br />});</pre>
-<button>Run</button>
 </div>
 <div class='field' style='height: 150px'>
 <div class='box' style='left: 180px; top: 45px;'></div>
 </div>
 </article>
 <article>
+<div class='hover'></div>
 <div class='code'>
 <pre>$('.box').transition({<br />    <b>marginLeft: '20px',</b><br />    <b>height: '80px'</b><br />});</pre>
-<button>Run</button>
 </div>
 <div class='field' style='height: 130px'>
 <div class='box' style='left: 180px; top: 35px;'></div>
@@ -137,10 +140,10 @@ Download (Minified)
 <p>$.fn.transition(<em>options, [duration], [easing], [callback]</em>);<br />$.fn.transition works just like $.fn.animate. You can pass a <em>duration</em>, <em>easing</em>, and <em>callback</em>.</p>
 </div>
 <article>
+<div class='hover'></div>
 <div class='code'>
 <h3>Providing callbacks</h3>
 <pre>$('.box').transition({ x: -100 }, <b>function() {</b><br /><b>    $(this).transition({ opacity: 0 });</b><br /><b>}</b>);</pre>
-<button>Run</button>
 </div>
 <div class='field' style='height: 150px'>
 <div class='box' style='left: 180px; top: 45px;'></div>
@@ -148,20 +151,20 @@ Download (Minified)
 </article>
 <h2>Custom duration</h2>
 <article>
+<div class='hover'></div>
 <div class='code'>
 <h3>Custom duration (jQuery style)</h3>
 <pre>$('.box').transition({ opacity: 0 }, <b>'fast'</b>);</pre>
-<button>Run</button>
 </div>
 <div class='field' style='height: 150px'>
 <div class='box' style='left: 180px; top: 45px;'></div>
 </div>
 </article>
 <article>
+<div class='hover'></div>
 <div class='code'>
 <h3>Custom duration (in milliseconds)</h3>
 <pre>$('.box').transition({ opacity: 0 }, <b>2000</b>);</pre>
-<button>Run</button>
 </div>
 <div class='field' style='height: 150px'>
 <div class='box' style='left: 180px; top: 45px;'></div>
@@ -172,10 +175,10 @@ Download (Minified)
 <p>Simply provide a third parameter to <em>$.fn.transition</em>.</p>
 </div>
 <article>
+<div class='hover'></div>
 <div class='code'>
 <h3>Custom easing</h3>
 <pre>$('.box1').transition({ x: 300 }, 500, <b>'in'</b>);<br />$('.box2').transition({ x: 300 }, 500, <b>'out'</b>);<br />$('.box3').transition({ x: 300 }, 500, <b>'in-out'</b>);<br />$('.box4').transition({ x: 300 }, 500, <b>'snap'</b>);<br />$('.box5').transition({ x: 300 }, 500, <b>'linear'</b>);</pre>
-<button>Run</button>
 </div>
 <div class='field' style='height: 230px'>
 <div class='box box1' style='left: 10px; top: 15px; height: 30px;'></div>
@@ -187,10 +190,10 @@ Download (Minified)
 </article>
 <h2>Delay</h2>
 <article>
+<div class='hover'></div>
 <div class='code'>
 <h3>Delay by 400ms</h3>
 <pre>$('.box').transition({ x: -100, <b>delay: 400</b> });</pre>
-<button>Run</button>
 </div>
 <div class='field' style='height: 150px'>
 <div class='box' style='left: 180px; top: 45px;'></div>
@@ -201,9 +204,9 @@ Download (Minified)
 <p>You can provide <em>easing</em> and <em>duration</em> in the options instead Great for CoffeeScript.</p>
 </div>
 <article>
+<div class='hover'></div>
 <div class='code'>
 <pre>$('.box').transition({<br />    x: '100px',<br />    <b>easing: 'snap',</b><br />    <b>duration: '2000ms'</b><br />});</pre>
-<button>Run</button>
 </div>
 <div class='field' style='height: 150px'>
 <div class='box' style='left: 180px; top: 45px;'></div>
@@ -214,9 +217,9 @@ Download (Minified)
 <p>All units (<em>px</em>, <em>deg</em>, <em>ms</em>, etc) are optional.</p>
 </div>
 <article>
+<div class='hover'></div>
 <div class='code'>
 <pre>$('.box').transition({<br />    x: <b>100</b>,<br />    duration: <b>2000</b>,<br />    rotate: <b>30</b>,<br />    easing: 'snap'<br />});</pre>
-<button>Run</button>
 </div>
 <div class='field' style='height: 150px'>
 <div class='box' style='left: 180px; top: 45px;'></div>
@@ -227,9 +230,9 @@ Download (Minified)
 <p>jQuery-style relative units are supported. Start your values with either <em>+=</em> or <em>-=</em>.</p>
 </div>
 <article>
+<div class='hover'></div>
 <div class='code'>
 <pre>$('.box').transition({<br />    rotate: <b>'+=30deg'</b>,<br />    x: <b>'+=30'</b><br />});</pre>
-<button>Run</button>
 </div>
 <div class='field' style='height: 150px'>
 <div class='box' style='left: 180px; top: 45px;'></div>
@@ -240,19 +243,19 @@ Download (Minified)
 <p>CSS3 transform properties work with <em>$.fn.css</em> as well.</p>
 </div>
 <article>
+<div class='hover'></div>
 <div class='code'>
 <pre>$('.box').<b>css({</b><br />    <b>x: '90px'</b>,<br />    <b>y: '10px'</b>,<br />    <b>rotate: '-10deg'</b><br /><b>}</b>)</b>;</pre>
-<button>Run</button>
 </div>
 <div class='field' style='height: 150px'>
 <div class='box' style='left: 10px; top: 10px'></div>
 </div>
 </article>
 <article>
+<div class='hover'></div>
 <div class='code'>
 <h3>Transform (automatically adds vendor prefixes)</h3>
 <pre>$('.box').css({ <b>transform: 'rotate(40deg)'</b> });</pre>
-<button>Run</button>
 </div>
 <div class='field'>
 <div class='box' style='left: 10px; top: 10px;'></div>
@@ -273,9 +276,9 @@ Download (Minified)
 <p>You can provide transformation origins via <em>$.fn.css</em>. The format is <em>&#8220;x y&#8221;</em>, where <em>x</em> and <em>y</em> are coordinates in the given element.</p>
 </div>
 <article>
+<div class='hover'></div>
 <div class='code'>
 <pre>$('.box').css({ <b>transformOrigin: '10px 10px'</b> });<br />$('.box').transition({ rotate: 40, scale: 1.2 });</pre>
-<button>Run</button>
 </div>
 <div class='field'>
 <div class='box' style='left: 10px; top: 10px;'></div>
