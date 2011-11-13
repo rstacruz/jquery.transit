@@ -516,6 +516,31 @@ title: Your new Proton site
           = "    $.fx.transition = $.fx.animate;"
 
       -# ============================================================================
+      %h2 Setting defaults
+      .more.info
+
+        %pre
+          != "<b>// Transit uses the same default as $.fn.animate.</b>"
+          %br<>
+          != "$.fx.speeds._default = 300;"
+
+        %pre
+          != "<b>// Default easing is stored in $.cssEase.</b>"
+          %br<>
+          = "$.cssEase._default = 'snap';"
+
+      -# ============================================================================
+      %h2 Custom easing
+      .more.info
+        :markdown
+          Define custom easing aliases in *$.cssEase*.
+
+        %pre
+          != "$.cssEase['bounce'] = 'cubic-bezier(0,1,0.5,1.3)';"
+          %br<>
+          != "$('.box').transition({ x: 0 }, 500, <b>'bounce'</b>);"
+
+      -# ============================================================================
       %h2 Source code
       .info.source
         %a{href: 'source.html'}
