@@ -4,8 +4,8 @@
 jQuery Transit is a plugin for to help you do CSS transformations and 
 transitions in jQuery.
 
-Refer to the [website](http://ricostacruz.com/jquery.transit) for full 
-reference.
+Refer to the [jQuery Transit website](http://ricostacruz.com/jquery.transit) for 
+examples.
 
 Usage
 -----
@@ -24,31 +24,56 @@ You can set transformations as you would any CSS property in jQuery.
 (Note that you cannot `$.fn.animate()` them, only set them.)
 
 ``` javascript
+$("#box").css({ x: '30px' });               // Move right
+$("#box").css({ y: '60px' });               // Move down
+$("#box").css({ translate: [60,30] });      // Move right and down
+$("#box").css({ rotate: '30deg' });         // Rotate clockwise
 $("#box").css({ scale: 2 });                // Scale up 2x (200%)
-$("#box").css({ x: '30px' });               // Move right 30px
-$("#box").css({ x: 30 });
-$("#box").css({ y: '60px' });               // Move down 30px
-$("#box").css({ y: 60 });
-$("#box").css({ translate: '60px,30px' });  // Move right 60px, and down 30px
-$("#box").css({ rotate: '30deg' });         // Rotate 30 degrees clockwise
-$("#box").css({ rotate: 30 });
-$("#box").css({ skewX: '30deg' });          // Skew horizontally by 30 degrees
-$("#box").css({ skewX: 30 });
+$("#box").css({ scale: [2, 1.5] });         // Scale horiz and vertical
+$("#box").css({ skewX: '30deg' });          // Skew horizontally
+$("#box").css({ skewY: '30deg' });          // Skew vertical
 $("#box").css({ perspective: 100, rotateX: 30 }); // Webkit 3d rotation
 $("#box").css({ rotateY: 30 });
 $("#box").css({ rotate3d: [1, 1, 0, 45] });
-$("#box").css({ rotate: '+=30' });          // Relative values are supported
-$("#box").css({ translate: [60, 30] });     // Array syntax works too
-$("#box").css('rotate');                    // Getters are okay, too
 ```
 
-Animating
----------
+Relative values are supported.
+
+``` javascript
+$("#box").css({ rotate: '+=30' });          // 30 degrees more
+$("#box").css({ rotate: '-=30' });          // 30 degrees less
+```
+
+All units are optional.
+
+``` javascript
+$("#box").css({ x: '30px' });
+$("#box").css({ x: 30 });
+```
+
+Multiple arguments can be commas or an array.
+
+``` javascript
+$("#box").css({ translate: [60,30] });
+$("#box").css({ translate: ['60px','30px'] });
+$("#box").css({ translate: '60px,30px' });
+```
+
+Getters are supported. (Getting properties with multiple arguments returns
+arrays.)
+
+``` javascript
+$("#box").css('rotate');     //=> "30deg"
+$("#box").css('translate');  //=> ['60px', '30px']
+```
+
+Animating - `$.fn.transition`
+-----------------------------
+
+    $('...').transition(options, [duration], [easing], [complete])
 
 You can animate with CSS3 transitions using `$.fn.transition()`. It works 
 exactly like `$.fn.animate()`, except it uses CSS3 transitions.
-
-The syntax is `$.transition(options, [duration], [easing], [complete])`.
 
 ``` javascript
 $("#box").transition({ opacity: 0.1, scale: 0.3 });
@@ -60,6 +85,15 @@ $("#box").transition({ opacity: 0.1, scale: 0.3 }, 500, 'in', function() {..}); 
 ```
 
 You can also pass *duration* and *easing* and *complete* as values in `options`, just like in `$.fn.animate()`.
+
+``` javascript
+$("#box").transition({
+  opacity: 0.1, scale: 0.3,
+  duration: 500,
+  easing: 'in',
+  complete: function() { /* ... */ }
+});
+```
 
 Alternatives
 ------------

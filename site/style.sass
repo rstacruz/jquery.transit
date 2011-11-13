@@ -224,6 +224,28 @@ button, a.button
     &:before
       display: none
 
+//
+// Info links
+//
+.info
+  a
+    text-decoration: none
+    color: #555
+    padding: 3px 5px
+    +border-radius(2px)
+    background: $yellow
+    +box-shadow(1px 1px 0 rgba(black, 0.1))
+    +transition(all 200ms linear)
+
+  a span
+    border-bottom: solid 1px rgba(black, 0.1)
+
+  a:hover
+    background: $yellow * 0.9
+
+//
+// More info
+//
 .info.source, .more.info
   margin-top: 30px
   margin-bottom: 30px
@@ -231,19 +253,6 @@ button, a.button
   text-align: center
   padding-left: 50px
   padding-right: 50px
-
-  a
-    text-decoration: none
-    color: #555
-    padding: 3px 5px
-    +border-radius(2px)
-    background: rgba($yellow, 0.8)
-
-  a span
-    border-bottom: solid 1px rgba(black, 0.1)
-
-  a:hover
-    background: $yellow
 
   >*:first-child
     margin-top: 0
@@ -293,3 +302,26 @@ button, a.button
 
   a:hover
     border-bottom: solid 1px #aaa
+
+.info.transformations
+  padding:
+    left: 125px
+    right: 125px
+
+  text-align: left
+
+  ul
+    line-height: 2
+
+  li
+    line-height: 1.3
+    display: inline-block
+    width: 150px
+    text-align: left
+    font-size: 0.9em
+
+  li em
+    font-style: normal
+    margin-left: 5px
+    font-size: 0.9em
+
