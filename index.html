@@ -39,6 +39,14 @@ Download (Minified)
 <small>1kb gzipped</small>
 </a>
 </div>
+<h2>How to use</h2>
+<div class='more info'>
+<p>
+Just include this script after jQuery. Requires jQuery 1.4+.
+<br />
+Use <em>$('...').transition</em> instead of jQuery's <em>$('...').animate</em>. It has the same syntax as <a href='http://api.jquery.com/animate/'>animate.</a>
+</p>
+</div>
 <h2>Translate (move)</h2>
 <div class='info'>
 Hover on a demo box to see it in action.
@@ -341,6 +349,34 @@ Hover on a demo box to see it in action.
 <div class='box' style='left: 10px; top: 10px;'></div>
 </div>
 </article>
+<h2>Browser support</h2>
+<div class='info'>
+<ul>
+<li>IE <em>10+</em></li>
+
+<li>Firefox <em>4+</em></li>
+
+<li>Safari <em>5+</em></li>
+
+<li>Chrome <em>10+</em></li>
+
+<li>Opera <em>11+</em></li>
+
+<li>Mobile Safari</li>
+</ul>
+</div>
+<div class='more info'>
+<p>See <a href='http://caniuse.com/#search=transition'>caniuse.com&#8217;s report</a> on CSS transitions. To support Mobile Safari, jQuery Transit uses <em>translate3d</em> and <em>scale3d</em>.</p>
+</div>
+<h2>What about older browsers?</h2>
+<div class='more info'>
+<p>jQuery Transit degrades older browsers by simply not doing the transformations (<em>rotate</em>, <em>scale</em>, etc) while still doing standard CSS (<em>opacity</em>, <em>marginLeft</em>, etc) without any animation.<br />Delays and durations will be ignored.</p>
+</div>
+<h2>Fallback to frame-based animation</h2>
+<div class='more info'>
+<p>If you would like to fallback to classic animation when transitions aren&#8217;t supported<br />(usually not recommended):</p>
+<pre>if (!$.support.transition) $.fx.transition = $.fx.animate;</pre>
+</div>
 <h2>Source code</h2>
 <div class='info source'>
 <a href='source.html'>
