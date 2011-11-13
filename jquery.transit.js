@@ -8,10 +8,20 @@
  */
 
 (function($) {
+  var div = $("<div>")[0];
+
   // Check for the browser's transitions support.
   // You can access this in jQuery's `$.support.transition`.
-  var hasTransitions = (getVendorProperty($("<div>")[0], 'Transition') !== undefined);
+  var hasTransitions = (getVendorProperty(div, 'Transition') !== undefined);
   if (typeof $.support.transition === 'undefined') $.support.transition = hasTransitions;
+
+  var isMozilla = (div.style['MozTransition'] === "");
+
+  // Detect the 'transitionend' event needed.
+  var transitionEnd = null;
+  if (isMozilla)                                 transitionEnd = 'transitionend';
+  else if (div.style['OTransition'] === "")      transitionEnd = 'oTransitionEnd';
+  else if (div.style['webkitTransition'] === "") transitionEnd = 'webkitTransitionEnd';
 
   // ## $.cssEase
   // List of easing aliases that you can use with `$.fn.transition`.
@@ -318,6 +328,9 @@
     // Account for aliases (`in` => `ease-in`).
     if ($.cssEase[easing]) easing = $.cssEase[easing];
 
+    // Durations that are too slow can't be handled by Moz. (Tested on Mac/FF 7.0.1)
+    if ((isMozilla) && (parseInt(duration) < 25)) duration = 25;
+
     duration = toMS(duration);
 
     // Build the `transition` property.
@@ -337,13 +350,16 @@
     // Apply transitions.
     this.each(function() {
       oldTransitions[this] = getVendorProperty(this, 'Transition');
-
       setVendorProperty(this, 'Transition', transition);
       $(this).css(properties);
     });
 
+    var bound = false;
+
     // Prepare the callback.
     var cb = function() {
+      if (bound) self.unbind(transitionEnd, cb);
+
       self.each(function() {
         setVendorProperty(this, 'Transition', oldTransitions[this]);
       });
@@ -353,7 +369,14 @@
     // Compute delay until callback.  When the browser has no support for CSS
     // transitions, fire the callback immediately.
     var i = hasTransitions ? (parseInt(duration) + parseInt(delay)) : 0;
-    window.setTimeout(cb, i);
+
+    // Use the 'transitionend' event if it's available, then fallback to timers.
+    if ((i > 0) && (transitionEnd)) {
+      bound = true;
+      self.bind(transitionEnd, cb);
+    } else {
+      window.setTimeout(cb, i);
+    }
   };
 
   function registerCssHook(prop, isPixels) {
