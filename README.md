@@ -34,7 +34,11 @@ $("#box").css({ rotate: '30deg' });         // Rotate 30 degrees clockwise
 $("#box").css({ rotate: 30 });
 $("#box").css({ skewX: '30deg' });          // Skew horizontally by 30 degrees
 $("#box").css({ skewX: 30 });
+$("#box").css({ perspective: 100, rotateX: 30 }); // Webkit 3d rotation
+$("#box").css({ rotateY: 30 });
+$("#box").css({ rotate3d: [1, 1, 0, 45] });
 $("#box").css({ rotate: '+=30' });          // Relative values are supported
+$("#box").css({ translate: [60, 30] });     // Array syntax works too
 $("#box").css('rotate');                    // Getters are okay, too
 ```
 
@@ -60,11 +64,11 @@ You can also pass *duration* and *easing* and *complete* as values in `options`,
 Alternatives
 ------------
 
-__[Move.js](https://github.com/visionmedia/move.js)__
+__[Move.js](https://github.com/visionmedia/move.js)__ (recommended!)
 
  * Pros: no jQuery dependency, great syntax.
  * Cons (at time of writing): no iOS support (doesn't use `translate3d`), some
-   IE bugs.
+   IE bugs, no 3D transforms, no animation queue.
 
 __[jQuery animate 
 enhanced](https://github.com/benbarnett/jQuery-Animate-Enhanced)__
