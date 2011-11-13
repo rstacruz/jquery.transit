@@ -245,14 +245,20 @@ button, a.button
   a:hover
     background: $yellow
 
-  pre
-    color: #888
-
   >*:first-child
     margin-top: 0
 
   p, ul, pre
     margin-top: 10px
+
+  pre
+    color: #888
+    padding: 10px
+    background: #e8eaea
+    +box-shadow(1px 1px 0 rgba(black, 0.1))
+    +border-radius(2px)
+    margin: 20px 150px 0 150px
+    text-align: left
 
 .info
   li

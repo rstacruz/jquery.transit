@@ -441,6 +441,31 @@ title: Your new Proton site
           .box{style: 'left: 10px; top: 10px;'}
 
       -# ============================================================================
+      %h2 Transitioning from one style to another
+      .info
+
+        :markdown
+          It's a common idiom to do *.css({ .. }).animate({ .. })* in jQuery. However,
+          this will not work in *.transition* given how CSS transitions work.
+          You will need to chain two *.transition* calls via callbacks.
+
+      %article
+        .hover
+        .code
+          %p
+            Do a transition with 0 duration, then call the
+            actual transition after it.
+          %pre
+            != "$('.box').transition({ x: '-800px' }, <b>0</b>, function() {"
+            %br<>
+            = "    this.transition({ x: 0 });"
+            %br<>
+            = "});"
+
+        .field{style: 'height: 150px; overflow: hidden;'}
+          .box{style: 'left: 10px; top: 10px; width: 380px; height: 130px;'}
+
+      -# ============================================================================
       %h2 Browser support
       .info
         :markdown
@@ -474,10 +499,16 @@ title: Your new Proton site
         :markdown
           If you would like to fallback to classic animation when transitions
           aren't supported  
-          (usually not recommended):
+          (usually not recommended, may be slow):
 
         %pre
-          = "if (!$.support.transition) $.fx.transition = $.fx.animate;"
+          != "<b>// Delegate .transition() calls to .animate()</b>"
+          %br<>
+          != "<b>// if the browser can't do CSS transitions.</b>"
+          %br<>
+          = "if (!$.support.transition)"
+          %br<>
+          = "    $.fx.transition = $.fx.animate;"
 
       -# ============================================================================
       %h2 Source code
