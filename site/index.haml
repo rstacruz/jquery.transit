@@ -446,13 +446,13 @@ title: Your new Proton site
           .box{style: 'left: 10px; top: 10px;'}
 
       -# ============================================================================
-      %h2 Transitioning from one style to another
+      %h2 Effect queue
       .info
 
         :markdown
-          It's a common idiom to do *.css({ .. }).animate({ .. })* in jQuery. However,
-          this will not work in *.transition* given how CSS transitions work.
-          You will need to chain two *.transition* calls via callbacks.
+          Transit uses jQuery's [effect queue](http://api.jquery.com/queue/) by default,
+          exactly like *$.fn.animate*. This means that transitions will never
+          run in parallel.
 
       %article
         .hover
@@ -461,11 +461,36 @@ title: Your new Proton site
             Do a transition with 0 duration, then call the
             actual transition after it.
           %pre
-            != "$('.box').transition({ x: '-800px' }, <b>0</b>, function() {"
+            != "$('.box').transition({ x: '-40px' }, 250);"
             %br<>
-            = "    this.transition({ x: 0 });"
+            != "$('.box').transition({ x: '0px' }, 250);"
             %br<>
-            = "});"
+            != "$('.box').transition({ y: '-40px' }, 250);"
+            %br<>
+            != "$('.box').transition({ y: '0px' }, 250);"
+
+        .field{style: 'height: 150px; overflow: hidden;'}
+          .box{style: 'left: 180px; top: 45px;'}
+
+      -# ============================================================================
+      %h2 Transitioning from one style to another
+      .info
+
+        :markdown
+          It's a common idiom to do *.css({ .. }).animate({ .. })* in jQuery. However,
+          this will not work in *.transition* given how CSS transitions work.
+          You will need to chain two *.transition* calls.
+
+      %article
+        .hover
+        .code
+          %p
+            Do a transition with 0 duration, then call the
+            actual transition after it.
+          %pre
+            != "$('.box').transition({ x: '-800px' }, <b>0</b>);"
+            %br<>
+            = "$('.box').transition({ x: 0 });"
 
         .field{style: 'height: 150px; overflow: hidden;'}
           .box{style: 'left: 10px; top: 10px; width: 380px; height: 130px;'}
