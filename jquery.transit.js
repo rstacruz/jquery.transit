@@ -127,7 +127,11 @@
     //     // Same as set('scale', '2', '4');
     //
     setFromString: function(prop, val) {
-      var args = (typeof val === 'string') ? val.split(',') : [val];
+      var args =
+        (typeof val === 'string')  ? val.split(',') :
+        (val.constructor == Array) ? val :
+        [ val ];
+
       args.unshift(prop);
 
       Transform.prototype.set.apply(this, args);
@@ -228,14 +232,12 @@
 
       scale: function() {
         var s = (this.scale || "1,1").split(',');
+        if (s[0]) s[0] = parseFloat(s[0]);
+        if (s[1]) s[1] = parseFloat(s[1]);
 
         // "2.5,2.5" => 2.5
-        if (parseFloat(s[0]) == parseFloat(s[1]))
-          return parseFloat(s[0]);
-
-        // "2.5,1" => "2.5,1"
-        else
-          return s;
+        // "2.5,1" => [2.5,1]
+        return (s[0] == s[1]) ? s[0] : s;
       }
     },
 
