@@ -332,9 +332,6 @@
     // Account for aliases (`in` => `ease-in`).
     if ($.cssEase[easing]) easing = $.cssEase[easing];
 
-    // Durations that are too slow can't be handled by Moz. (Tested on Mac/FF 7.0.1)
-    if ((isMozilla) && (parseInt(duration) < 25)) duration = 25;
-
     duration = toMS(duration);
 
     // Build the `transition` property.
@@ -348,13 +345,19 @@
       delete properties.delay;
     }
 
+    // Compute delay until callback.
+    // If this becomes 0, don't bother setting the transition property.
+    var i = hasTransitions ? (parseInt(duration) + parseInt(delay)) : 0;
+
     // Save the old transitions of each element so we can restore it later.
     var oldTransitions = {};
 
     // Apply transitions.
     this.each(function() {
-      oldTransitions[this] = getVendorProperty(this, 'Transition');
-      setVendorProperty(this, 'Transition', transition);
+      if (i > 0) {
+        oldTransitions[this] = getVendorProperty(this, 'Transition');
+        setVendorProperty(this, 'Transition', transition);
+      }
       $(this).css(properties);
     });
 
@@ -364,21 +367,21 @@
     var cb = function() {
       if (bound) self.unbind(transitionEnd, cb);
 
-      self.each(function() {
-        setVendorProperty(this, 'Transition', oldTransitions[this]);
-      });
+      if (i > 0) {
+        self.each(function() {
+          setVendorProperty(this, 'Transition', oldTransitions[this]);
+        });
+      }
       if (typeof callback === 'function') callback.apply(self);
     };
-    
-    // Compute delay until callback.  When the browser has no support for CSS
-    // transitions, fire the callback immediately.
-    var i = hasTransitions ? (parseInt(duration) + parseInt(delay)) : 0;
 
     // Use the 'transitionend' event if it's available, then fallback to timers.
     if ((i > 0) && (transitionEnd)) {
       bound = true;
       self.bind(transitionEnd, cb);
     } else {
+      // Durations that are too slow will get transitions mixed up. (Tested on Mac/FF 7.0.1)
+      if ((isMozilla) && (i < 25)) i = 25;
       window.setTimeout(cb, i);
     }
   };
