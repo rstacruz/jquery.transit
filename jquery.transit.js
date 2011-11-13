@@ -10,18 +10,22 @@
 (function($) {
   var div = $("<div>")[0];
 
-  // Check for the browser's transitions support.
-  // You can access this in jQuery's `$.support.transition`.
-  var hasTransitions = (getVendorProperty(div, 'Transition') !== undefined);
-  if (typeof $.support.transition === 'undefined') $.support.transition = hasTransitions;
-
-  var isMozilla = (div.style['MozTransition'] === "");
+  // Detect browser support for transition.
+  var isMozilla = (div.style['MozTransition']    !== undefined),
+      isOpera   = (div.style['OTransition']      !== undefined),
+      isIE      = (div.style['msTransition']     !== undefined),
+      isWebkit  = (div.style['webkitTransition'] !== undefined);
 
   // Detect the 'transitionend' event needed.
-  var transitionEnd = null;
-  if (isMozilla)                                 transitionEnd = 'transitionend';
-  else if (div.style['OTransition'] === "")      transitionEnd = 'oTransitionEnd';
-  else if (div.style['webkitTransition'] === "") transitionEnd = 'webkitTransitionEnd';
+  var transitionEnd = isMozilla ? 'transitionend' :
+                      isOpera   ? 'oTransitionEnd' :
+                      isWebkit  ? 'webkitTransitionEnd' :
+                      isIE      ? 'msTransitionEnd' : null;
+
+  // Check for the browser's transitions support.
+  // You can access this in jQuery's `$.support.transition`.
+  var hasTransitions = isMozilla | isOpera | isWebkit | isIE;
+  if (typeof $.support.transition === 'undefined') $.support.transition = hasTransitions;
 
   // ## $.cssEase
   // List of easing aliases that you can use with `$.fn.transition`.
@@ -430,19 +434,21 @@
   // ### setVendorProperty(element, property, value)
   // Sets a CSS property to `element` and accounts for vendor prefixes.
   function setVendorProperty(element, prop, val, webkitVal) {
-    element.style[     'O' + prop] = val;
-    element.style[    'ms' + prop] = val;
-    element.style[   'Moz' + prop] = val;
-    element.style['webkit' + prop] = webkitVal || val;
+    if      (isOpera)   element.style[     'O' + prop] = val;
+    else if (isIE)      element.style[    'ms' + prop] = val;
+    else if (isMozilla) element.style[   'Moz' + prop] = val;
+    else if (isWebkit)  element.style['webkit' + prop] = webkitVal || val;
+
     element.style[prop] = val;
   }
 
   function getVendorProperty(element, prop) {
     var re = element.style[prop];
-    if (re === undefined) re = element.style[     'O' + prop];
-    if (re === undefined) re = element.style[    'ms' + prop];
-    if (re === undefined) re = element.style[   'Moz' + prop];
-    if (re === undefined) re = element.style['webkit' + prop];
-    return re;
+    if (re !== undefined) return re;
+
+    if (isOpera)   return element.style[     'O' + prop];
+    if (isIE)      return element.style[    'ms' + prop];
+    if (isMozilla) return element.style[   'Moz' + prop];
+    if (isWebkit)  return element.style['webkit' + prop];
   }
 })(jQuery);
