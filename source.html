@@ -355,8 +355,11 @@ toMS(10)       //=&gt; '10ms'
     <span class="k">if</span> <span class="p">(</span><span class="nx">isIE</span><span class="p">)</span>      <span class="k">return</span> <span class="nx">element</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span>    <span class="s1">&#39;ms&#39;</span> <span class="o">+</span> <span class="nx">prop</span><span class="p">];</span>
     <span class="k">if</span> <span class="p">(</span><span class="nx">isMozilla</span><span class="p">)</span> <span class="k">return</span> <span class="nx">element</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span>   <span class="s1">&#39;Moz&#39;</span> <span class="o">+</span> <span class="nx">prop</span><span class="p">];</span>
     <span class="k">if</span> <span class="p">(</span><span class="nx">isWebkit</span><span class="p">)</span>  <span class="k">return</span> <span class="nx">element</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span><span class="s1">&#39;webkit&#39;</span> <span class="o">+</span> <span class="nx">prop</span><span class="p">];</span>
-  <span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>Alias to $.transit.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nx">$</span><span class="p">.</span><span class="nx">transit</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">transition</span><span class="p">;</span>
-  <span class="nx">$</span><span class="p">.</span><span class="nx">transit</span><span class="p">.</span><span class="nx">version</span> <span class="o">=</span> <span class="s2">&quot;0.0.1&quot;</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">$</span><span class="p">.</span><span class="nx">transit</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">version</span><span class="o">:</span> <span class="s2">&quot;0.0.1&quot;</span>
+  <span class="p">};</span>
 <span class="p">})(</span><span class="nx">jQuery</span><span class="p">);</span>
 
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
