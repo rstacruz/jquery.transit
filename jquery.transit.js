@@ -408,7 +408,11 @@
         }
 
         if (typeof callback === 'function') callback.apply(self);
-        if (typeof nextCall == 'function') nextCall();
+
+        // Defer execution of next call. It may trigger another CSS transition,
+        // in which case Opera can screw up when it's executed in the same
+        // JavaScript 'tick'.
+        if (typeof nextCall === 'function') window.setTimeout(nextCall, 0);
       };
 
       // Use the 'transitionend' event if it's available, then fallback to timers.
@@ -416,7 +420,8 @@
         bound = true;
         self.bind(transitionEnd, cb);
       } else {
-        // Durations that are too slow will get transitions mixed up. (Tested on Mac/FF 7.0.1)
+        // Durations that are too slow will get transitions mixed up. (Tested
+        // on Mac/FF 7.0.1)
         if ((isMozilla) && (i < 25)) i = 25;
         window.setTimeout(cb, i);
       }
