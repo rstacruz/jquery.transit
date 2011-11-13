@@ -41,9 +41,11 @@
     code = code.replace(/\$\(['"](.*?)['"]\)/g, '$("#'+id+' $1:not(.ghost)")');
 
     // Duplicate the boxes to make ghosts.
-    $this.find('.field>*').each(function() {
-      $(this).before($(this).clone().removeClass('box').addClass('ghost'));
-    });
+    if (!$this.is('.noghost')) {
+      $this.find('.field>*').each(function() {
+        $(this).before($(this).clone().removeClass('box').addClass('ghost'));
+      });
+    }
 
     // Run it.
     eval(code);
