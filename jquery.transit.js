@@ -21,7 +21,7 @@
   var transitionEnd = isMozilla ? 'transitionend' :
                       isOpera   ? 'oTransitionEnd' :
                       isWebkit  ? 'webkitTransitionEnd' :
-                      isIE      ? 'msTransitionEnd' : null;
+                      isIE      ? 'MSTransitionEnd' : null;
 
   // Check for the browser's transitions support.
   // You can access this in jQuery's `$.support.transition`.
