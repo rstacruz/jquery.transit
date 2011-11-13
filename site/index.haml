@@ -457,17 +457,16 @@ title: Your new Proton site
       %article
         .hover
         .code
-          %p
-            Do a transition with 0 duration, then call the
-            actual transition after it.
           %pre
-            != "$('.box').transition({ x: '-40px' }, 250);"
+            != "$('.box')."
             %br<>
-            != "$('.box').transition({ x: '0px' }, 250);"
+            != "    transition({ x: '-40px' }, 250)."
             %br<>
-            != "$('.box').transition({ y: '-40px' }, 250);"
+            != "    transition({ x: '0px' }, 250)."
             %br<>
-            != "$('.box').transition({ y: '0px' }, 250);"
+            != "    transition({ y: '-40px' }, 250)."
+            %br<>
+            != "    transition({ y: '0px' }, 250);"
 
         .field{style: 'height: 150px; overflow: hidden;'}
           .box{style: 'left: 180px; top: 45px;'}
@@ -488,9 +487,11 @@ title: Your new Proton site
             Do a transition with 0 duration, then call the
             actual transition after it.
           %pre
-            != "$('.box').transition({ x: '-800px' }, <b>0</b>);"
+            != "$('.box')."
             %br<>
-            = "$('.box').transition({ x: 0 });"
+            != "    transition({ x: '-800px' }, <b>0</b>)."
+            %br<>
+            != "    transition({ x: 0 });"
 
         .field{style: 'height: 150px; overflow: hidden;'}
           .box{style: 'left: 10px; top: 10px; width: 380px; height: 130px;'}
