@@ -356,9 +356,22 @@ Hover on a demo box to see it in action.
 <div class='box' style='left: 10px; top: 10px;'></div>
 </div>
 </article>
+<h2>Effect queue</h2>
+<div class='info'>
+<p>Transit uses jQuery&#8217;s <a href='http://api.jquery.com/queue/'>effect queue</a> by default, exactly like <em>$.fn.animate</em>. This means that transitions will never run in parallel.</p>
+</div>
+<article>
+<div class='hover'></div>
+<div class='code'>
+<pre>$('.box').<br />    transition({ x: '-40px' }, 250).<br />    transition({ x: '0px' }, 250).<br />    transition({ y: '-40px' }, 250).<br />    transition({ y: '0px' }, 250);</pre>
+</div>
+<div class='field' style='height: 150px; overflow: hidden;'>
+<div class='box' style='left: 180px; top: 45px;'></div>
+</div>
+</article>
 <h2>Transitioning from one style to another</h2>
 <div class='info'>
-<p>It&#8217;s a common idiom to do <em>.css({ .. }).animate({ .. })</em> in jQuery. However, this will not work in <em>.transition</em> given how CSS transitions work. You will need to chain two <em>.transition</em> calls via callbacks.</p>
+<p>It&#8217;s a common idiom to do <em>.css({ .. }).animate({ .. })</em> in jQuery. However, this will not work in <em>.transition</em> given how CSS transitions work. You will need to chain two <em>.transition</em> calls.</p>
 </div>
 <article>
 <div class='hover'></div>
@@ -367,7 +380,7 @@ Hover on a demo box to see it in action.
 Do a transition with 0 duration, then call the
 actual transition after it.
 </p>
-<pre>$('.box').transition({ x: '-800px' }, <b>0</b>, function() {<br />    this.transition({ x: 0 });<br />});</pre>
+<pre>$('.box').<br />    transition({ x: '-800px' }, <b>0</b>).<br />    transition({ x: 0 });</pre>
 </div>
 <div class='field' style='height: 150px; overflow: hidden;'>
 <div class='box' style='left: 10px; top: 10px; width: 380px; height: 130px;'></div>

@@ -296,6 +296,7 @@
   $.fn.transition = function(properties, duration, easing, callback) {
     var self  = this;
     var delay = 0;
+    var queue = true;
 
     // Account for `.transition(properties, callback)`.
     if (typeof duration === 'function') {
@@ -325,6 +326,11 @@
       delete properties.complete;
     }
 
+    if (properties.queue) {
+      queue = properties.queue;
+      delete properties.queue;
+    }
+
     // Set defaults. (`400` duration, `ease` easing)
     if (duration == null) duration = $.fx.speeds._default;
     if (easing == null) easing = $.cssEase._default;
@@ -352,38 +358,53 @@
     // Save the old transitions of each element so we can restore it later.
     var oldTransitions = {};
 
-    // Apply transitions.
-    this.each(function() {
-      if (i > 0) {
-        oldTransitions[this] = getVendorProperty(this, 'Transition');
-        setVendorProperty(this, 'Transition', transition);
+    var run = function(nextCall) {
+      // Apply transitions.
+      self.each(function() {
+        if (i > 0) {
+          oldTransitions[this] = getVendorProperty(this, 'Transition');
+          setVendorProperty(this, 'Transition', transition);
+        }
+        $(this).css(properties);
+      });
+
+      var bound = false;
+
+      // Prepare the callback.
+      var cb = function() {
+        if (bound) self.unbind(transitionEnd, cb);
+
+        if (i > 0) {
+          self.each(function() {
+            setVendorProperty(this, 'Transition', oldTransitions[this]);
+          });
+        }
+
+        if (typeof callback === 'function') callback.apply(self);
+        if (typeof nextCall == 'function') nextCall();
+      };
+
+      // Use the 'transitionend' event if it's available, then fallback to timers.
+      if ((i > 0) && (transitionEnd)) {
+        bound = true;
+        self.bind(transitionEnd, cb);
+      } else {
+        // Durations that are too slow will get transitions mixed up. (Tested on Mac/FF 7.0.1)
+        if ((isMozilla) && (i < 25)) i = 25;
+        window.setTimeout(cb, i);
       }
-      $(this).css(properties);
-    });
-
-    var bound = false;
-
-    // Prepare the callback.
-    var cb = function() {
-      if (bound) self.unbind(transitionEnd, cb);
-
-      if (i > 0) {
-        self.each(function() {
-          setVendorProperty(this, 'Transition', oldTransitions[this]);
-        });
-      }
-      if (typeof callback === 'function') callback.apply(self);
     };
 
-    // Use the 'transitionend' event if it's available, then fallback to timers.
-    if ((i > 0) && (transitionEnd)) {
-      bound = true;
-      self.bind(transitionEnd, cb);
-    } else {
-      // Durations that are too slow will get transitions mixed up. (Tested on Mac/FF 7.0.1)
-      if ((isMozilla) && (i < 25)) i = 25;
-      window.setTimeout(cb, i);
-    }
+    // Use jQuery's fx queue.
+    if (typeof queue === 'string')
+      self.queue(queue, run);
+    else if (queue)
+      self.queue(run);
+    else
+      run();
+
+    // Chainability.
+    return this;
   };
 
   function registerCssHook(prop, isPixels) {
