@@ -63,6 +63,9 @@ is pivoted.</p>
 <p>Allows you to rotate, scale and translate.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nx">registerCssHook</span><span class="p">(</span><span class="s1">&#39;scale&#39;</span><span class="p">);</span>
   <span class="nx">registerCssHook</span><span class="p">(</span><span class="s1">&#39;translate&#39;</span><span class="p">);</span>
   <span class="nx">registerCssHook</span><span class="p">(</span><span class="s1">&#39;rotate&#39;</span><span class="p">);</span>
+  <span class="nx">registerCssHook</span><span class="p">(</span><span class="s1">&#39;rotateX&#39;</span><span class="p">);</span>
+  <span class="nx">registerCssHook</span><span class="p">(</span><span class="s1">&#39;rotateY&#39;</span><span class="p">);</span>
+  <span class="nx">registerCssHook</span><span class="p">(</span><span class="s1">&#39;rotate3d&#39;</span><span class="p">);</span>
   <span class="nx">registerCssHook</span><span class="p">(</span><span class="s1">&#39;perspective&#39;</span><span class="p">);</span>
   <span class="nx">registerCssHook</span><span class="p">(</span><span class="s1">&#39;skewX&#39;</span><span class="p">);</span>
   <span class="nx">registerCssHook</span><span class="p">(</span><span class="s1">&#39;skewY&#39;</span><span class="p">);</span>
@@ -104,7 +107,11 @@ t.toWebkitString()   //=&gt; "rotate(90deg) scale3d(4,4,0)"
 <pre><code>t.setFromString('scale', '2,4');
 // Same as set('scale', '2', '4');
 </code></pre>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">setFromString</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">prop</span><span class="p">,</span> <span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kd">var</span> <span class="nx">args</span> <span class="o">=</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">val</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="p">)</span> <span class="o">?</span> <span class="nx">val</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span> <span class="o">:</span> <span class="p">[</span><span class="nx">val</span><span class="p">];</span>
+      <span class="kd">var</span> <span class="nx">args</span> <span class="o">=</span>
+        <span class="p">(</span><span class="k">typeof</span> <span class="nx">val</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="p">)</span>  <span class="o">?</span> <span class="nx">val</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span> <span class="o">:</span>
+        <span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nx">constructor</span> <span class="o">==</span> <span class="nb">Array</span><span class="p">)</span> <span class="o">?</span> <span class="nx">val</span> <span class="o">:</span>
+        <span class="p">[</span> <span class="nx">val</span> <span class="p">];</span>
+
       <span class="nx">args</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span><span class="nx">prop</span><span class="p">);</span>
 
       <span class="nx">Transform</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">set</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">args</span><span class="p">);</span>
@@ -135,10 +142,17 @@ t.toWebkitString()   //=&gt; "rotate(90deg) scale3d(4,4,0)"
 <pre><code>.css({ rotate: 30 })
 .css({ rotate: "30" })
 .css({ rotate: "30deg" })
-</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="nx">rotate</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">v</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">val</span> <span class="o">=</span> <span class="nx">unit</span><span class="p">(</span><span class="nx">v</span><span class="p">,</span> <span class="s1">&#39;deg&#39;</span><span class="p">);</span>
+.css({ rotate: "30deg" })
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="nx">rotate</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">theta</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">rotate</span> <span class="o">=</span> <span class="nx">unit</span><span class="p">(</span><span class="nx">theta</span><span class="p">,</span> <span class="s1">&#39;deg&#39;</span><span class="p">);</span>
+      <span class="p">},</span>
 
-        <span class="k">this</span><span class="p">.</span><span class="nx">rotate</span> <span class="o">=</span> <span class="nx">val</span><span class="p">;</span>
+      <span class="nx">rotateX</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">theta</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">rotateX</span> <span class="o">=</span> <span class="nx">unit</span><span class="p">(</span><span class="nx">theta</span><span class="p">,</span> <span class="s1">&#39;deg&#39;</span><span class="p">);</span>
+      <span class="p">},</span>
+
+      <span class="nx">rotateY</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">theta</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">rotateY</span> <span class="o">=</span> <span class="nx">unit</span><span class="p">(</span><span class="nx">theta</span><span class="p">,</span> <span class="s1">&#39;deg&#39;</span><span class="p">);</span>
       <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <h3>scale</h3>
 
 <pre><code>.css({ scale: 9 })      //=&gt; "scale(9,9)"
@@ -152,7 +166,9 @@ t.toWebkitString()   //=&gt; "rotate(90deg) scale3d(4,4,0)"
 
       <span class="nx">skewY</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">skewY</span> <span class="o">=</span> <span class="nx">unit</span><span class="p">(</span><span class="nx">y</span><span class="p">,</span> <span class="s1">&#39;deg&#39;</span><span class="p">);</span>
-      <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <h3>x / y</h3>
+      <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <h3>perspectvie</h3>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="nx">perspective</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">dist</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">perspective</span> <span class="o">=</span> <span class="nx">unit</span><span class="p">(</span><span class="nx">dist</span><span class="p">,</span> <span class="s1">&#39;px&#39;</span><span class="p">);</span>
+      <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <h3>x / y</h3>
 
 <p>Translations. Notice how this keeps the other value.</p>
 
@@ -164,7 +180,7 @@ t.toWebkitString()   //=&gt; "rotate(90deg) scale3d(4,4,0)"
 
       <span class="nx">y</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;translate&#39;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">y</span><span class="p">);</span>
-      <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <h3>translate</h3>
+      <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <h3>translate</h3>
 
 <p>Notice how this keeps the other value.</p>
 
@@ -190,15 +206,25 @@ t.toWebkitString()   //=&gt; "rotate(90deg) scale3d(4,4,0)"
       <span class="p">},</span>
 
       <span class="nx">scale</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">scale</span> <span class="o">||</span> <span class="s2">&quot;1,1&quot;</span><span class="p">).</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">);</span></pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>"2.5,2.5" => 2.5</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="k">if</span> <span class="p">(</span><span class="nb">parseFloat</span><span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">parseFloat</span><span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-          <span class="k">return</span> <span class="nb">parseFloat</span><span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span></pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>"2.5,1" => "2.5,1"</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="k">else</span>
-          <span class="k">return</span> <span class="nx">s</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">scale</span> <span class="o">||</span> <span class="s2">&quot;1,1&quot;</span><span class="p">).</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="nx">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">parseFloat</span><span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="nx">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">parseFloat</span><span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span></pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>"2.5,2.5" => 2.5
+"2.5,1" => [2.5,1]</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="k">return</span> <span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="nx">s</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">?</span> <span class="nx">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">:</span> <span class="nx">s</span><span class="p">;</span>
+      <span class="p">},</span>
+      
+      <span class="nx">rotate3d</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">rotate3d</span> <span class="o">||</span> <span class="s2">&quot;0,0,0,0deg&quot;</span><span class="p">).</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;=</span><span class="mi">3</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span>
+          <span class="k">if</span> <span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span> <span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">parseFloat</span><span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="nx">s</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="nx">unit</span><span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="s1">&#39;deg&#39;</span><span class="p">);</span>
+
+        <span class="k">return</span> <span class="nx">s</span><span class="p">;</span>
       <span class="p">}</span>
     <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <h3>parse()</h3>
 
 <p>Parses from a string. Called on constructor.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">parse</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span> <span class="p">{</span>
       <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
-      <span class="nx">str</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/([a-z]+)\((.*?)\)/g</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">prop</span><span class="p">,</span> <span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">str</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/([a-zA-Z0-9]+)\((.*?)\)/g</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">prop</span><span class="p">,</span> <span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
         <span class="nx">self</span><span class="p">.</span><span class="nx">setFromString</span><span class="p">(</span><span class="nx">prop</span><span class="p">,</span> <span class="nx">val</span><span class="p">);</span>
       <span class="p">});</span>
     <span class="p">},</span></pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <h3>toString()</h3>

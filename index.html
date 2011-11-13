@@ -100,6 +100,40 @@ Hover on a demo box to see it in action.
 <div class='box' style='left: 180px; top: 20px;'></div>
 </div>
 </article>
+<h2>3D rotation (Webkit only)</h2>
+<div class='info'>
+<p>You may rotate using <em>rotateX</em> and <em>rotateY</em>. Using <em>perspective</em> is optional, but it should always come before <em>rotateX/Y</em>.</p>
+</div>
+<article>
+<div class='hover'></div>
+<div class='code'>
+<h3>Rotate X</h3>
+<pre>$('.box').transition({<br />    <b>perspective: '100px',</b><br />    <b>rotateX: '180deg'</b><br />});</pre>
+</div>
+<div class='field'>
+<div class='box' style='left: 180px; top: 20px;'></div>
+</div>
+</article>
+<article>
+<div class='hover'></div>
+<div class='code'>
+<h3>Rotate Y</h3>
+<pre>$('.box').transition({<br />    <b>perspective: '100px',</b><br />    <b>rotateY: '180deg'</b><br />});</pre>
+</div>
+<div class='field'>
+<div class='box' style='left: 180px; top: 20px;'></div>
+</div>
+</article>
+<article>
+<div class='hover'></div>
+<div class='code'>
+<h3>Rotate 3D</h3>
+<pre>$('.box').transition({<br />    <b>perspective: '100px',</b><br />    <b>rotate3d: '1, 1, 0, 180deg'</b><br />});</pre>
+</div>
+<div class='field'>
+<div class='box' style='left: 180px; top: 20px;'></div>
+</div>
+</article>
 <h2>Skew</h2>
 <article>
 <div class='hover'></div>

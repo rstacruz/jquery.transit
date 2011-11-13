@@ -85,6 +85,9 @@
   registerCssHook('scale');
   registerCssHook('translate');
   registerCssHook('rotate');
+  registerCssHook('rotateX');
+  registerCssHook('rotateY');
+  registerCssHook('rotate3d');
   registerCssHook('perspective');
   registerCssHook('skewX');
   registerCssHook('skewY');
@@ -127,7 +130,11 @@
     //     // Same as set('scale', '2', '4');
     //
     setFromString: function(prop, val) {
-      var args = (typeof val === 'string') ? val.split(',') : [val];
+      var args =
+        (typeof val === 'string')  ? val.split(',') :
+        (val.constructor == Array) ? val :
+        [ val ];
+
       args.unshift(prop);
 
       Transform.prototype.set.apply(this, args);
@@ -161,11 +168,18 @@
       //     .css({ rotate: 30 })
       //     .css({ rotate: "30" })
       //     .css({ rotate: "30deg" })
+      //     .css({ rotate: "30deg" })
       //
-      rotate: function(v) {
-        var val = unit(v, 'deg');
+      rotate: function(theta) {
+        this.rotate = unit(theta, 'deg');
+      },
 
-        this.rotate = val;
+      rotateX: function(theta) {
+        this.rotateX = unit(theta, 'deg');
+      },
+
+      rotateY: function(theta) {
+        this.rotateY = unit(theta, 'deg');
       },
 
       // ### scale
@@ -185,6 +199,11 @@
 
       skewY: function(y) {
         this.skewY = unit(y, 'deg');
+      },
+
+      // ### perspectvie
+      perspective: function(dist) {
+        this.perspective = unit(dist, 'px');
       },
 
       // ### x / y
@@ -228,14 +247,21 @@
 
       scale: function() {
         var s = (this.scale || "1,1").split(',');
+        if (s[0]) s[0] = parseFloat(s[0]);
+        if (s[1]) s[1] = parseFloat(s[1]);
 
         // "2.5,2.5" => 2.5
-        if (parseFloat(s[0]) == parseFloat(s[1]))
-          return parseFloat(s[0]);
+        // "2.5,1" => [2.5,1]
+        return (s[0] == s[1]) ? s[0] : s;
+      },
+      
+      rotate3d: function() {
+        var s = (this.rotate3d || "0,0,0,0deg").split(',');
+        for (i=0; i<=3; ++i)
+          if (s[i]) s[i] = parseFloat(s[i]);
+        if (s[3]) s[3] = unit(s[3], 'deg');
 
-        // "2.5,1" => "2.5,1"
-        else
-          return s;
+        return s;
       }
     },
 
@@ -243,7 +269,7 @@
     // Parses from a string. Called on constructor.
     parse: function(str) {
       var self = this;
-      str.replace(/([a-z]+)\((.*?)\)/g, function(x, prop, val) {
+      str.replace(/([a-zA-Z0-9]+)\((.*?)\)/g, function(x, prop, val) {
         self.setFromString(prop, val);
       });
     },
