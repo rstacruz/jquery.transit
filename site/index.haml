@@ -36,6 +36,15 @@ title: Your new Proton site
           %small 1kb gzipped
 
       -# ============================================================================
+      %h2 How to use
+      .more.info
+
+        %p
+          Just include this script after jQuery. Requires jQuery 1.4+.
+          %br
+          != "Use <em>$('...').transition</em> instead of jQuery's <em>$('...').animate</em>. It has the same syntax as <a href='http://api.jquery.com/animate/'>animate.</a>"
+
+      -# ============================================================================
       %h2 Translate (move)
       .info
         Hover on a demo box to see it in action.
@@ -430,6 +439,45 @@ title: Your new Proton site
 
         .field
           .box{style: 'left: 10px; top: 10px;'}
+
+      -# ============================================================================
+      %h2 Browser support
+      .info
+        :markdown
+          - IE *10+*
+          - Firefox *4+*
+          - Safari *5+*
+          - Chrome *10+*
+          - Opera *11+*
+          - Mobile Safari
+
+      .more.info
+        :markdown
+
+          See [caniuse.com's report](http://caniuse.com/#search=transition) on CSS transitions.
+          To support Mobile Safari, jQuery Transit uses *translate3d* and *scale3d*.
+
+      -# ============================================================================
+      %h2 What about older browsers?
+      .more.info
+        :markdown
+
+          jQuery Transit degrades older browsers by simply not doing the
+          transformations (*rotate*, *scale*, etc) while still doing standard CSS
+          (*opacity*, *marginLeft*, etc) without any animation.  
+          Delays and durations will be ignored.
+          
+      -# ============================================================================
+      %h2 Fallback to frame-based animation
+      .more.info
+
+        :markdown
+          If you would like to fallback to classic animation when transitions
+          aren't supported  
+          (usually not recommended):
+
+        %pre
+          = "if (!$.support.transition) $.fx.transition = $.fx.animate;"
 
       -# ============================================================================
       %h2 Source code

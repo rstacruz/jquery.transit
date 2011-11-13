@@ -224,10 +224,13 @@ button, a.button
     &:before
       display: none
 
-.info.source
+.info.source, .more.info
   margin-top: 30px
   margin-bottom: 30px
   background: transparent
+  text-align: center
+  padding-left: 50px
+  padding-right: 50px
 
   a
     text-decoration: none
@@ -241,6 +244,24 @@ button, a.button
 
   a:hover
     background: $yellow
+
+  pre
+    color: #888
+
+  >*:first-child
+    margin-top: 0
+
+  p, ul, pre
+    margin-top: 10px
+
+.info
+  li
+    display: inline-block
+    margin-left: 5px
+    background: rgba($slate, 0.1)
+    padding: 2px 8px
+    +border-radius(4px)
+    +box-shadow(1px 1px 0 rgba(black, 0.1))
 
 .credits
   padding: 30px 0 100px 0

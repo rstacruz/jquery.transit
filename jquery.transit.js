@@ -9,7 +9,9 @@
 
 (function($) {
   // Check for the browser's transitions support.
+  // You can access this in jQuery's `$.support.transition`.
   var hasTransitions = (getVendorProperty($("<div>")[0], 'Transition') !== undefined);
+  if (typeof $.support.transition === 'undefined') $.support.transition = hasTransitions;
 
   // ## $.cssEase
   // List of easing aliases that you can use with `$.fn.transition`.
