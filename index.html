@@ -412,7 +412,7 @@ actual transition after it.
 <h2>Fallback to frame-based animation</h2>
 <div class='more info'>
 <p>If you would like to fallback to classic animation when transitions aren&#8217;t supported<br />(usually not recommended, may be slow):</p>
-<pre><b>// Delegate .transition() calls to .animate()</b><br /><b>// if the browser can't do CSS transitions.</b><br />if (!$.support.transition)<br />    $.fx.transition = $.fx.animate;</pre>
+<pre><b>// Delegate .transition() calls to .animate()</b><br /><b>// if the browser can't do CSS transitions.</b><br />if (!$.support.transition)<br />    $.fn.transition = $.fn.animate;</pre>
 </div>
 <h2>Setting defaults</h2>
 <div class='more info'>
