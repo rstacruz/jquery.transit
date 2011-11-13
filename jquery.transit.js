@@ -13,7 +13,7 @@
   // Detect browser support for transition.
   var isMozilla = (div.style['MozTransition']    !== undefined),
       isOpera   = (div.style['OTransition']      !== undefined),
-      isIE      = (div.style['msTransition']     !== undefined),
+      isIE      = (div.style['MSTransition']     !== undefined),
       isWebkit  = (div.style['webkitTransition'] !== undefined),
       isGeneric = (div.style['transition']       !== undefined);
 
