@@ -454,4 +454,8 @@
     if (isMozilla) return element.style[   'Moz' + prop];
     if (isWebkit)  return element.style['webkit' + prop];
   }
+
+  // Alias to $.transit.
+  $.transit = $.transition;
+  $.transit.version = "0.0.1";
 })(jQuery);
