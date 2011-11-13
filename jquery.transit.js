@@ -14,7 +14,8 @@
   var isMozilla = (div.style['MozTransition']    !== undefined),
       isOpera   = (div.style['OTransition']      !== undefined),
       isIE      = (div.style['msTransition']     !== undefined),
-      isWebkit  = (div.style['webkitTransition'] !== undefined);
+      isWebkit  = (div.style['webkitTransition'] !== undefined),
+      isGeneric = (div.style['transition']       !== undefined);
 
   // Detect the 'transitionend' event needed.
   var transitionEnd = isMozilla ? 'transitionend' :
@@ -24,7 +25,7 @@
 
   // Check for the browser's transitions support.
   // You can access this in jQuery's `$.support.transition`.
-  var hasTransitions = isMozilla | isOpera | isWebkit | isIE;
+  var hasTransitions = isMozilla | isOpera | isWebkit | isIE | isGeneric;
   if (typeof $.support.transition === 'undefined') $.support.transition = hasTransitions;
 
   // ## $.cssEase
