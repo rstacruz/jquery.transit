@@ -85,6 +85,9 @@
   registerCssHook('scale');
   registerCssHook('translate');
   registerCssHook('rotate');
+  registerCssHook('rotateX');
+  registerCssHook('rotateY');
+  registerCssHook('rotate3d');
   registerCssHook('perspective');
   registerCssHook('skewX');
   registerCssHook('skewY');
@@ -165,11 +168,18 @@
       //     .css({ rotate: 30 })
       //     .css({ rotate: "30" })
       //     .css({ rotate: "30deg" })
+      //     .css({ rotate: "30deg" })
       //
-      rotate: function(v) {
-        var val = unit(v, 'deg');
+      rotate: function(theta) {
+        this.rotate = unit(theta, 'deg');
+      },
 
-        this.rotate = val;
+      rotateX: function(theta) {
+        this.rotateX = unit(theta, 'deg');
+      },
+
+      rotateY: function(theta) {
+        this.rotateY = unit(theta, 'deg');
       },
 
       // ### scale
@@ -189,6 +199,11 @@
 
       skewY: function(y) {
         this.skewY = unit(y, 'deg');
+      },
+
+      // ### perspectvie
+      perspective: function(dist) {
+        this.perspective = unit(dist, 'px');
       },
 
       // ### x / y
@@ -238,6 +253,15 @@
         // "2.5,2.5" => 2.5
         // "2.5,1" => [2.5,1]
         return (s[0] == s[1]) ? s[0] : s;
+      },
+      
+      rotate3d: function() {
+        var s = (this.rotate3d || "0,0,0,0deg").split(',');
+        for (i=0; i<=3; ++i)
+          if (s[i]) s[i] = parseFloat(s[i]);
+        if (s[3]) s[3] = unit(s[3], 'deg');
+
+        return s;
       }
     },
 
@@ -245,7 +269,7 @@
     // Parses from a string. Called on constructor.
     parse: function(str) {
       var self = this;
-      str.replace(/([a-z]+)\((.*?)\)/g, function(x, prop, val) {
+      str.replace(/([a-zA-Z0-9]+)\((.*?)\)/g, function(x, prop, val) {
         self.setFromString(prop, val);
       });
     },

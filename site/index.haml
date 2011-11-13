@@ -99,6 +99,62 @@ title: Your new Proton site
           .box{style: 'left: 180px; top: 20px;'}
 
       -# ============================================================================
+      %h2 3D rotation (Webkit only)
+
+      .info
+        :markdown
+          You may rotate using *rotateX* and *rotateY*. Using *perspective* is optional,
+          but it should always come before *rotateX/Y*.
+
+      %article
+        .hover
+        .code
+          %h3 Rotate X
+          %pre
+            != "$('.box').transition({"
+            %br<>
+            != "    <b>perspective: '100px',</b>"
+            %br<>
+            != "    <b>rotateX: '180deg'</b>"
+            %br<>
+            != "});"
+
+        .field
+          .box{style: 'left: 180px; top: 20px;'}
+
+      %article
+        .hover
+        .code
+          %h3 Rotate Y
+          %pre
+            != "$('.box').transition({"
+            %br<>
+            != "    <b>perspective: '100px',</b>"
+            %br<>
+            != "    <b>rotateY: '180deg'</b>"
+            %br<>
+            != "});"
+
+        .field
+          .box{style: 'left: 180px; top: 20px;'}
+
+      %article
+        .hover
+        .code
+          %h3 Rotate 3D
+          %pre
+            != "$('.box').transition({"
+            %br<>
+            != "    <b>perspective: '100px',</b>"
+            %br<>
+            != "    <b>rotate3d: '1, 1, 0, 180deg'</b>"
+            %br<>
+            != "});"
+
+        .field
+          .box{style: 'left: 180px; top: 20px;'}
+
+      -# ============================================================================
       %h2 Skew
 
       %article
