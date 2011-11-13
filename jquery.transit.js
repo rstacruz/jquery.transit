@@ -54,7 +54,7 @@
     // The setter accepts a `Transform` object or a string.
     set: function(elem, value) {
       var transform = value;
-      if (transform.__proto__ != Transform.prototype)
+      if (!(transform instanceof Transform))
         transform = new Transform(transform);
 
       setVendorProperty(elem, 'Transform',
@@ -130,7 +130,7 @@
       var args = (typeof val === 'string') ? val.split(',') : [val];
       args.unshift(prop);
 
-      this.__proto__.set.apply(this, args);
+      Transform.prototype.set.apply(this, args);
     },
 
     // ### set()
