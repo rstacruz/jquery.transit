@@ -8,6 +8,8 @@
  */
 
 (function($) {
+  $.transit = { version: "0.0.1" };
+
   var div = $("<div>")[0];
 
   // Detect browser support for transition.
@@ -58,7 +60,7 @@
       if (!(transform instanceof Transform))
         transform = new Transform(transform);
 
-      setVendorProperty(elem, 'Transform',
+      setVendorProperty(elem, 'transform',
         transform.toString(),         // for normal browsers
         transform.toString(true));    // for Webkits (3D)
 
@@ -74,10 +76,10 @@
   //
   $.cssHooks.transformOrigin = {
     get: function(elem) {
-      return getVendorProperty(elem, 'TransformOrigin');
+      return getVendorProperty(elem, 'transformOrigin');
     },
     set: function(elem, value) {
-      setVendorProperty(elem, 'TransformOrigin', value);
+      setVendorProperty(elem, 'transformOrigin', value);
     }
   };
 
@@ -389,8 +391,8 @@
       // Apply transitions.
       self.each(function() {
         if (i > 0) {
-          oldTransitions[this] = getVendorProperty(this, 'Transition');
-          setVendorProperty(this, 'Transition', transition);
+          oldTransitions[this] = getVendorProperty(this, 'transition');
+          setVendorProperty(this, 'transition', transition);
         }
         $(this).css(properties);
       });
@@ -403,7 +405,7 @@
 
         if (i > 0) {
           self.each(function() {
-            setVendorProperty(this, 'Transition', oldTransitions[this]);
+            setVendorProperty(this, 'transition', oldTransitions[this]);
           });
         }
 
@@ -490,25 +492,25 @@
   // ### setVendorProperty(element, property, value)
   // Sets a CSS property to `element` and accounts for vendor prefixes.
   function setVendorProperty(element, prop, val, webkitVal) {
-    if      (isOpera)   element.style[     'O' + prop] = val;
-    else if (isIE)      element.style[    'ms' + prop] = val;
-    else if (isMozilla) element.style[   'Moz' + prop] = val;
-    else if (isWebkit)  element.style['webkit' + prop] = webkitVal || val;
+    var prop_ = prop[0].toUpperCase() + prop.substr(1);
+
+    if      (isOpera)   element.style[     'O' + prop_] = val;
+    else if (isIE)      element.style[    'MS' + prop_] = val;
+    else if (isMozilla) element.style[   'Moz' + prop_] = val;
+    else if (isWebkit)  element.style['webkit' + prop_] = webkitVal || val;
 
     element.style[prop] = val;
   }
 
   function getVendorProperty(element, prop) {
+    var prop_ = prop[0].toUpperCase() + prop.substr(1);
+
     var re = element.style[prop];
     if (re !== undefined) return re;
 
-    if (isOpera)   return element.style[     'O' + prop];
-    if (isIE)      return element.style[    'ms' + prop];
-    if (isMozilla) return element.style[   'Moz' + prop];
-    if (isWebkit)  return element.style['webkit' + prop];
+    if (isOpera)   return element.style[     'O' + prop_];
+    if (isIE)      return element.style[    'MS' + prop_];
+    if (isMozilla) return element.style[   'Moz' + prop_];
+    if (isWebkit)  return element.style['webkit' + prop_];
   }
-
-  $.transit = {
-    version: "0.0.1"
-  };
 })(jQuery);
