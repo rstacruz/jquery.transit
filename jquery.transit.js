@@ -12,26 +12,41 @@
 
   var div = document.createElement('div');
 
-  // Detect browser support for transition.
-  var isMozilla = (div.style['MozTransition']    !== undefined),
-      isOpera   = (div.style['OTransition']      !== undefined),
-      isIE      = (div.style['msTransition']     !== undefined),
-      isWebkit  = (div.style['webkitTransition'] !== undefined),
-      isGeneric = (div.style['transition']       !== undefined);
+  // Helper function to get the proper vendor property name.
+  // (`transition` => `WebkitTransition`)
+  function getVendorPropertyName(prop) {
+    var prefixes = ['Moz', 'Webkit', 'O', 'ms'];
+    var prop_ = prop.charAt(0).toUpperCase() + prop.substr(1);
 
-  // Avoid memory leak in IE.
-  div = null;
+    if (prop in div.style) return prop;
 
-  // Detect the 'transitionend' event needed.
-  var transitionEnd = isMozilla ? 'transitionend' :
-                      isOpera   ? 'oTransitionEnd' :
-                      isWebkit  ? 'webkitTransitionEnd' :
-                      isIE      ? 'MSTransitionEnd' : null;
+    for (var i=0; i<prefixes.length; ++i) {
+      var vendorProp = prefixes[i] + prop_;
+      if (vendorProp in div.style) return vendorProp;
+    }
+  }
 
   // Check for the browser's transitions support.
   // You can access this in jQuery's `$.support.transition`.
-  var hasTransitions = isMozilla | isOpera | isWebkit | isIE | isGeneric;
-  if (typeof $.support.transition === 'undefined') $.support.transition = hasTransitions;
+  // As per [jQuery's cssHooks documentation](http://api.jquery.com/jQuery.cssHooks/),
+  // we set $.support.transition to a string of the actual property name used.
+  var g = getVendorPropertyName;
+  var transition      = $.support.transition = g('transition');
+  var transform       = $.support.transform  = g('transform');
+  var transformOrigin = $.support.transformOrigin = g('transformOrigin');
+
+  var eventNames = {
+    'MozTransition':    'transitionend',
+    'OTransition':      'oTransitionEnd',
+    'WebkitTransition': 'webkitTransitionEnd',
+    'msTransition':     'MSTransitionEnd'
+  };
+
+  // Detect the 'transitionend' event needed.
+  var transitionEnd = eventNames[transition] || null;
+
+  // Avoid memory leak in IE.
+  div = null;
 
   // ## $.cssEase
   // List of easing aliases that you can use with `$.fn.transition`.
@@ -58,16 +73,17 @@
     },
 
     // The setter accepts a `Transform` object or a string.
-    set: function(elem, value) {
-      var transform = value;
-      if (!(transform instanceof Transform))
-        transform = new Transform(transform);
+    set: function(elem, v) {
+      var value = v;
+      if (!(value instanceof Transform))
+        value = new Transform(value);
 
-      setVendorProperty(elem, 'transform',
-        transform.toString(),         // for normal browsers
-        transform.toString(true));    // for Webkits (3D)
+      if (transform == 'WebkitTransform')
+        elem.style[transform] = value.toString(true);
+      else
+        elem.style[transform] = value.toString();
 
-      $(elem).data('transform', transform);
+      $(elem).data('transform', value);
     }
   };
 
@@ -79,10 +95,10 @@
   //
   $.cssHooks.transformOrigin = {
     get: function(elem) {
-      return getVendorProperty(elem, 'transformOrigin');
+      return elem.style[transformOrigin];
     },
     set: function(elem, value) {
-      setVendorProperty(elem, 'transformOrigin', value);
+      elem.style[transformOrigin] = value;
     }
   };
 
@@ -325,7 +341,7 @@
   //       complete: function() { /* ... */ }
   //      });
   //
-  $.fn.transition = function(properties, duration, easing, callback) {
+  $.fn.transition = $.fn.transit = function(properties, duration, easing, callback) {
     var self  = this;
     var delay = 0;
     var queue = true;
@@ -373,19 +389,18 @@
     duration = toMS(duration);
 
     // Build the `transition` property.
-    var transition = 'all';
-    transition += ' ' + duration + ' ' + easing;
+    var transitionValue = 'all ' + duration + ' ' + easing;
 
     // Delay may be part of the properties.
     if (properties.delay) {
       delay = toMS(properties.delay);
-      transition += ' ' + delay;
+      transitionValue += ' ' + delay;
       delete properties.delay;
     }
 
     // Compute delay until callback.
     // If this becomes 0, don't bother setting the transition property.
-    var i = hasTransitions ? (parseInt(duration) + parseInt(delay)) : 0;
+    var i = transition ? (parseInt(duration) + parseInt(delay)) : 0;
 
     // Save the old transitions of each element so we can restore it later.
     var oldTransitions = {};
@@ -394,8 +409,7 @@
       // Apply transitions.
       self.each(function() {
         if (i > 0) {
-          oldTransitions[this] = getVendorProperty(this, 'transition');
-          setVendorProperty(this, 'transition', transition);
+          this.style[transition] = transitionValue;
         }
         $(this).css(properties);
       });
@@ -408,7 +422,7 @@
 
         if (i > 0) {
           self.each(function() {
-            setVendorProperty(this, 'transition', oldTransitions[this]);
+            this.style[transition] = oldTransitions[this];
           });
         }
 
@@ -490,30 +504,5 @@
     if ($.fx.speeds[i]) i = $.fx.speeds[i];
 
     return unit(i, 'ms');
-  }
-
-  // ### setVendorProperty(element, property, value)
-  // Sets a CSS property to `element` and accounts for vendor prefixes.
-  function setVendorProperty(element, prop, val, webkitVal) {
-    var prop_ = prop[0].toUpperCase() + prop.substr(1);
-
-    if      (isOpera)   element.style[     'O' + prop_] = val;
-    else if (isIE)      element.style[    'ms' + prop_] = val;
-    else if (isMozilla) element.style[   'Moz' + prop_] = val;
-    else if (isWebkit)  element.style['Webkit' + prop_] = webkitVal || val;
-
-    element.style[prop] = val;
-  }
-
-  function getVendorProperty(element, prop) {
-    var prop_ = prop[0].toUpperCase() + prop.substr(1);
-
-    var re = element.style[prop];
-    if (re !== undefined) return re;
-
-    if (isOpera)   return element.style[     'O' + prop_];
-    if (isIE)      return element.style[    'ms' + prop_];
-    if (isMozilla) return element.style[   'Moz' + prop_];
-    if (isWebkit)  return element.style['Webkit' + prop_];
   }
 })(jQuery);
