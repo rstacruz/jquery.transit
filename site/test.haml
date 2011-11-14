@@ -49,8 +49,6 @@ title: Your new Proton site
 
       -# ============================================================================
       %h2 Translate (move)
-      .info
-        Hover on a demo box to see it in action.
 
       %article
         .hover
@@ -160,11 +158,6 @@ title: Your new Proton site
       -# ============================================================================
       %h2 3D rotation (Webkit only)
 
-      .info
-        :markdown
-          You may rotate using *rotateX* and *rotateY*. Using *perspective* is optional,
-          but it should always come before *rotateX/Y*.
-
       %article
         .hover
         .code
@@ -215,7 +208,6 @@ title: Your new Proton site
 
       -# ============================================================================
       %h2 Transitions for other properties
-      .info You can animate any available CSS property.
 
       %article
         .hover
@@ -250,11 +242,6 @@ title: Your new Proton site
 
       -# ============================================================================
       %h2 Callbacks
-
-      .info
-        :markdown
-          $.fn.transition(*options, \[duration\], \[easing\], \[callback\]*);  
-          $.fn.transition works just like $.fn.animate. You can pass a *duration*, *easing*, and *callback*.
 
       %article
         .hover
@@ -295,9 +282,6 @@ title: Your new Proton site
 
       -# ============================================================================
       %h2 Easing
-      .info
-        :markdown
-          Simply provide a third parameter to *$.fn.transition*.
 
       %article.mini
         .hover
@@ -385,11 +369,6 @@ title: Your new Proton site
       -# ============================================================================
       %h2 Alternate easing/duration syntax
 
-      .info
-        :markdown
-          You can provide *easing* and *duration* in the options instead
-          Great for CoffeeScript.
-
       %article
         .hover
         .code
@@ -409,10 +388,6 @@ title: Your new Proton site
 
       -# ============================================================================
       %h2 Optional units
-
-      .info
-        :markdown
-          All units (*px*, *deg*, *ms*, etc) are optional.
 
       %article
         .hover
@@ -436,10 +411,6 @@ title: Your new Proton site
       -# ============================================================================
       %h2 Relative units
 
-      .info
-        :markdown
-          jQuery-style relative units are supported. Start your values with either *+=* or *-=*.
-
       %article
         .hover
         .code
@@ -458,9 +429,6 @@ title: Your new Proton site
 
       -# ============================================================================
       %h2 $.fn.css
-      .info 
-        :markdown
-          CSS3 transform properties work with *$.fn.css* as well.
 
       %article
         .hover
@@ -505,10 +473,6 @@ title: Your new Proton site
 
       -# ============================================================================
       %h2 Setting transform origins
-      .info
-        :markdown
-          You can provide transformation origins via *$.fn.css*. The format is
-          *"x y"*, where *x* and *y* are coordinates in the given element.
 
       %article
         .hover
@@ -523,12 +487,6 @@ title: Your new Proton site
 
       -# ============================================================================
       %h2 Effect queue
-      .info
-
-        :markdown
-          Transit uses jQuery's [effect queue](http://api.jquery.com/queue/) by default,
-          exactly like *$.fn.animate*. This means that transitions will never
-          run in parallel.
 
       %article
         .hover
@@ -547,3 +505,98 @@ title: Your new Proton site
         .field{style: 'height: 150px; overflow: hidden;'}
           .box{style: 'left: 180px; top: 45px;'}
 
+  :javascript
+    // Super simple test framework.
+    var T = {
+      test: null,
+
+      run: function(tests) {
+        var self = this;
+
+        for (test in tests) {
+          if (tests.hasOwnProperty(test)) {
+            if (test.charAt(0) == '_') continue;
+            var fn    = tests[test];
+            var obj   = {};
+            if (tests._setup) tests._setup.apply(obj);
+            fn.apply(obj, [ function(val) { self.assert(val, test); } ]);
+          }
+        }
+      },
+
+      assert: function(value, test) {
+        if (!value) {
+          console.error(test, "- Assertion failed.");
+          console.trace();
+        }
+      }
+    };
+
+    // Tests yo
+    T.run({
+      _setup: function() {
+        this.div = $("<div>");
+      },
+
+      get_rotate: function(a) {
+        a(this.div.css('rotate') == 0);
+      },
+
+      set_and_get_rotate: function(a) {
+        this.div.css('rotate', 30);
+        a(this.div.css('rotate') == '30deg');
+      },
+
+      set_and_get_rotate_radian: function(a) {
+        this.div.css('rotate', '30rad');
+        a(this.div.css('rotate') == '30rad');
+      },
+
+      translate: function(a) {
+        this.div.css('x', 30);
+        this.div.css('y', 40);
+
+        a(this.div.css('x') == '30px');
+        a(this.div.css('y') == '40px');
+        a(this.div.css('translate') == ['30px','40px']);
+      },
+
+      array_args: function(a) {
+        this.div.css('translate', [300, 400]);
+        a(this.div.css('translate') == ['300px','400px']);
+      },
+
+      array_args_2: function(a) {
+        this.div.css('translate', ['300', '400']);
+        a(this.div.css('translate') == ['300px','400px']);
+      },
+
+      array_args_3: function(a) {
+        this.div.css('translate', ['300em', '400em']);
+        a(this.div.css('translate') == ['300em','400em']);
+      },
+
+      transform_object: function(a) {
+        this.div.css('x', '40px');
+        this.div.css('y', '90px');
+        this.div.css('rotate', 400);
+
+        var t = this.div.css('transform');
+        a(t.toString() == 'translate(40px,90px) rotate(400deg)');
+        a(t.toString(true) == 'translate3d(40px,90px,0) rotate(400deg)');
+        a(t.rotate === '400deg');
+        a(t.translate === '40px,90px');
+      },
+
+      callback: function(a) {
+        var div = $("<div>").appendTo($("body"));
+        var x = 1;
+        div.transition({ x: -40 }, 400, function() {
+          x = 2;
+        });
+
+        window.setTimeout(function() {
+          a(x == 2);
+        }, 600);
+      },
+    });
