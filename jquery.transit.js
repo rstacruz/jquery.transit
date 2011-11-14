@@ -10,14 +10,17 @@
 (function($) {
   $.transit = { version: "0.0.1" };
 
-  var div = $("<div>")[0];
+  var div = document.createElement('div');
 
   // Detect browser support for transition.
   var isMozilla = (div.style['MozTransition']    !== undefined),
       isOpera   = (div.style['OTransition']      !== undefined),
-      isIE      = (div.style['MSTransition']     !== undefined),
+      isIE      = (div.style['msTransition']     !== undefined),
       isWebkit  = (div.style['webkitTransition'] !== undefined),
       isGeneric = (div.style['transition']       !== undefined);
+
+  // Avoid memory leak in IE.
+  div = null;
 
   // Detect the 'transitionend' event needed.
   var transitionEnd = isMozilla ? 'transitionend' :
@@ -495,9 +498,9 @@
     var prop_ = prop[0].toUpperCase() + prop.substr(1);
 
     if      (isOpera)   element.style[     'O' + prop_] = val;
-    else if (isIE)      element.style[    'MS' + prop_] = val;
+    else if (isIE)      element.style[    'ms' + prop_] = val;
     else if (isMozilla) element.style[   'Moz' + prop_] = val;
-    else if (isWebkit)  element.style['webkit' + prop_] = webkitVal || val;
+    else if (isWebkit)  element.style['Webkit' + prop_] = webkitVal || val;
 
     element.style[prop] = val;
   }
@@ -509,8 +512,8 @@
     if (re !== undefined) return re;
 
     if (isOpera)   return element.style[     'O' + prop_];
-    if (isIE)      return element.style[    'MS' + prop_];
+    if (isIE)      return element.style[    'ms' + prop_];
     if (isMozilla) return element.style[   'Moz' + prop_];
-    if (isWebkit)  return element.style['webkit' + prop_];
+    if (isWebkit)  return element.style['Webkit' + prop_];
   }
 })(jQuery);
