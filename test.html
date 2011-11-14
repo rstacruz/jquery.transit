@@ -8,53 +8,35 @@
 <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js'></script>
 <script src='jquery.transit.min.js'></script>
 <script src='script.js'></script>
-<script type='text/javascript'>
-  //<![CDATA[
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-20473929-1']);
-    _gaq.push(['_trackPageview']);
-    
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  //]]>
-</script>
-
 </head>
 <body>
-<a href="http://github.com/rstacruz/jquery.transit"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://d3nwyuy0nl342s.cloudfront.net/img/7afbc8b248c68eb468279e8c17986ad46549fb71/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"></a>
 <div id='all'>
 <hgroup id='header'>
 <h1>
-jQuery Transit
+jQuery Transit tests
 </h1>
-<p>Super-smooth CSS3 transformations and transitions for jQuery &mdash; <span id='version'></span></p>
-<script type='text/javascript'>
-  //<![CDATA[
-    $("#version").html('v'+$.transit.version);
-  //]]>
-</script>
 </hgroup>
-<div class='meta'>
-<a class='button' href='jquery.transit.js'>
-Download
-<small>10kb</small>
-</a>
-<a class='button' href='jquery.transit.min.js'>
-Download (Minified)
-<small>1kb gzipped</small>
-</a>
+<h2>Transitioning from one style to another</h2>
+<article>
+<div class='hover'></div>
+<div class='code'>
+<h3>Transition with zero duration</h3>
+<pre>$('.box').<br />    transition({ x: '-200px' }, <b>0</b>).<br />    transition({ x: 0 });</pre>
 </div>
-<h2>How to use</h2>
-<div class='more info'>
-<p>
-Just include this script after jQuery. Requires jQuery 1.4+.
-<br />
-Use <em>$('...').transition</em> instead of jQuery's <em>$('...').animate</em>. It has the same syntax as <a href='http://api.jquery.com/animate/'>animate.</a>
-</p>
+<div class='field' style='height: 150px; overflow: hidden;'>
+<div class='box' style='left: 10px; top: 10px; width: 380px; height: 130px;'></div>
 </div>
+</article>
+<article>
+<div class='hover'></div>
+<div class='code'>
+<h3>Transition with CSS</h3>
+<pre>$('.box').<br />    css({ x: '-200px' }).<br />    transition({ x: 0 });</pre>
+</div>
+<div class='field' style='height: 150px; overflow: hidden;'>
+<div class='box' style='left: 10px; top: 10px; width: 380px; height: 130px;'></div>
+</div>
+</article>
 <h2>Translate (move)</h2>
 <div class='info'>
 Hover on a demo box to see it in action.
@@ -89,35 +71,6 @@ Hover on a demo box to see it in action.
 <div class='box' style='left: 10px; top: 10px;'></div>
 </div>
 </article>
-<h2>Available transformations</h2>
-<div class='info'>
-<p>The following transformations are available. Refer to the <a href='https://github.com/rstacruz/jquery.transit#readme'>README</a> for more information.</p>
-</div>
-<div class='info more transformations'>
-<ul>
-<li>x<em>(px)</em></li>
-
-<li>y<em>(px)</em></li>
-
-<li>translate<em>(x, y)</em></li>
-
-<li>rotate<em>(deg)</em></li>
-
-<li>rotateX<em>(deg)</em></li>
-
-<li>rotateY<em>(deg)</em></li>
-
-<li>rotate3d<em>(x, y, z, deg)</em></li>
-
-<li>scale<em>(x, [y])</em></li>
-
-<li>perspective<em>(px)</em></li>
-
-<li>skewX<em>(deg)</em></li>
-
-<li>skewY<em>(deg)</em></li>
-</ul>
-</div>
 <h2>Rotation</h2>
 <article>
 <div class='hover'></div>
@@ -441,7 +394,7 @@ Hover on a demo box to see it in action.
 <div class='box' style='left: 10px; top: 10px;'></div>
 </div>
 </article>
-<h2>Chaining / effect queue</h2>
+<h2>Effect queue</h2>
 <div class='info'>
 <p>Transit uses jQuery&#8217;s <a href='http://api.jquery.com/queue/'>effect queue</a> by default, exactly like <em>$.fn.animate</em>. This means that transitions will never run in parallel.</p>
 </div>
@@ -454,85 +407,6 @@ Hover on a demo box to see it in action.
 <div class='box' style='left: 180px; top: 45px;'></div>
 </div>
 </article>
-<h2>Transitioning from one style to another</h2>
-<div class='info'>
-<p>You can chain <em>css</em> and <em>transition</em> together (<em>.css({ .. }).transition({ .. })</em>).</p>
-</div>
-<article>
-<div class='hover'></div>
-<div class='code'>
-<pre>$('.box').<br />    css({ x: '-800px' }).<br />    transition({ x: 0 });</pre>
-</div>
-<div class='field' style='height: 150px; overflow: hidden;'>
-<div class='box' style='left: 10px; top: 10px; width: 380px; height: 130px;'></div>
-</div>
-</article>
-<h2>Browser support</h2>
-<div class='info'>
-<ul>
-<li>IE <em>10+</em></li>
-
-<li>Firefox <em>4+</em></li>
-
-<li>Safari <em>5+</em></li>
-
-<li>Chrome <em>10+</em></li>
-
-<li>Opera <em>11+</em></li>
-
-<li>Mobile Safari</li>
-</ul>
-</div>
-<div class='more info'>
-<p>See <a href='http://caniuse.com/#search=transition'>caniuse.com&#8217;s report</a> on CSS transitions. To support Mobile Safari, jQuery Transit uses <em>translate3d</em> and <em>scale3d</em>.</p>
-</div>
-<h2>What about older browsers?</h2>
-<div class='more info'>
-<p>jQuery Transit degrades older browsers by simply not doing the transformations (<em>rotate</em>, <em>scale</em>, etc) while still doing standard CSS (<em>opacity</em>, <em>marginLeft</em>, etc) without any animation.<br />Delays and durations will be ignored.</p>
-</div>
-<h2>Fallback to frame-based animation</h2>
-<div class='more info'>
-<p>If you would like to fallback to classic animation when transitions aren&#8217;t supported<br />(usually not recommended, may be slow):</p>
-<pre><b>// Delegate .transition() calls to .animate()</b><br /><b>// if the browser can't do CSS transitions.</b><br />if (!$.support.transition)<br />    $.fn.transition = $.fn.animate;</pre>
-</div>
-<h2>Setting defaults</h2>
-<div class='more info'>
-<pre><b>// Transit uses the same default as $.fn.animate.</b><br />$.fx.speeds._default = 300;</pre>
-<pre><b>// Default easing is stored in $.cssEase.</b><br />$.cssEase._default = 'snap';</pre>
-</div>
-<h2>Custom easing</h2>
-<div class='more info'>
-<p>Define custom easing aliases in <em>$.cssEase</em>.</p>
-<pre>$.cssEase['bounce'] = 'cubic-bezier(0,1,0.5,1.3)';<br />$('.box').transition({ x: 0 }, 500, <b>'bounce'</b>);</pre>
-</div>
-<h2>Source code</h2>
-<div class='info source'>
-<a href='source.html'>
-<span>See the annotated source code here.</span>
-&rarr;
-</a>
-You may also browse the
-<a href='https://github.com/rstacruz/jquery.transit'>
-<span>GitHub repo.</span>
-&rarr;
-</a>
-</div>
-<h2>Credits</h2>
-<div class='credits'>
-<p>Copyright 2011, Rico Sta. Cruz. Released under the <a href='http://www.opensource.org/licenses/mit-license.php'>MIT License</a>.</p>
-
-<p>jQuery Transit is authored and maintained by <a href='http://ricostacruz.com'>Rico Sta. Cruz</a> with help from it&#8217;s <a href='http://github.com/rstacruz/jquery.transit/contributors'>contributors</a>. It is sponsored by my startup, <a href='http://sinefunc.com'>Sinefunc, Inc</a>.</p>
-
-<ul>
-<li><a href='http://ricostacruz.com'>My website</a> (ricostacruz.com)</li>
-
-<li><a href='http://sinefunc.com'>Sinefunc, Inc.</a> (sinefunc.com)</li>
-
-<li><a href='http://github.com/rstacruz'>Github</a> (@rstacruz)</li>
-
-<li><a href='http://twitter.com/rstacruz'>Twitter</a> (@rstacruz)</li>
-</ul>
-</div>
 </div>
 </body>
 </html>
