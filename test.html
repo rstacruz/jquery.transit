@@ -40,7 +40,7 @@ jQuery Transit tests
 <article>
 <div class='hover'></div>
 <div class='code'>
-<h3>Zero durations with non-zeros</h3>
+<h3>Zero durations with non-zeros - fails in WebKit</h3>
 <pre>$('.box').<br />    transition({ x: '-200px' }, <b>0</b>).<br />    transition({ x: '0' }, <b>200</b>).<br />    transition({ y: 10 }, <b>0</b>).<br />    transition({ x: 200 }, <b>0</b>).<br />    transition({ x: 0 }, <b>200</b>).<br />    transition({ y: 0 }, <b>0</b>);</pre>
 </div>
 <div class='field' style='height: 150px; overflow: hidden;'>
