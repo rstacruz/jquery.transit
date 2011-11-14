@@ -9,7 +9,7 @@
 
 (function($) {
   $.transit = {
-    version: "0.0.1",
+    version: "0.1.0",
     enabled: true   // Will simply transition "instantly" if false
   };
 
@@ -321,6 +321,15 @@
     }
   };
 
+  function callOrQueue(self, queue, fn) {
+    if (queue === true)
+      self.queue(fn);
+    else if (queue)
+      self.queue(queue, fn)
+    else
+      fn();
+  }
+
   // ## $.fn.transition
   // Works like $.fn.animate(), but uses CSS transitions.
   //
@@ -417,13 +426,7 @@
         next();
       };
 
-      if (queue === true)
-        self.queue(fn);
-      else if (queue)
-        self.queue(queue, fn)
-      else
-        fn();
-
+      callOrQueue(self, queue, fn);
       return self;
     }
 
@@ -478,12 +481,7 @@
     };
 
     // Use jQuery's fx queue.
-    if (typeof queue === 'string')
-      self.queue(queue, deferredRun);
-    else if (queue)
-      self.queue(deferredRun);
-    else
-      deferredRun();
+    callOrQueue(self, queue, deferredRun);
 
     // Chainability.
     return this;
