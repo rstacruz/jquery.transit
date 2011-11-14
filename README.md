@@ -95,6 +95,16 @@ $("#box").transition({
 });
 ```
 
+Tests
+-----
+
+Since you can't easily programatically test transitions, you'll need to build 
+the site, open the test suite in your browser, and visually inspect if all 
+transitions work as they should.
+
+Build the site using `rake build`, then open `site/_output/test.html`. This 
+builds the minified JS and tests it.
+
 Alternatives
 ------------
 
