@@ -430,32 +430,38 @@
         }
 
         if (typeof callback === 'function') callback.apply(self);
-
-        // Defer execution of next call. It may trigger another CSS transition,
-        // in which case Opera can screw up when it's executed in the same
-        // JavaScript 'tick'.
-        if (typeof nextCall === 'function') window.setTimeout(nextCall, 0);
+        if (typeof nextCall === 'function') nextCall();
       };
 
-      // Use the 'transitionend' event if it's available, then fallback to timers.
       if ((i > 0) && (transitionEnd)) {
+        // Use the 'transitionend' event if it's available.
         bound = true;
         self.bind(transitionEnd, cb);
       } else {
-        // Durations that are too slow will get transitions mixed up. (Tested
-        // on Mac/FF 7.0.1)
-        if ((support.transition === 'MozTransition') && (i < 25)) i = 25;
+        // Fallback to timers if the 'transitionend' event isn't supported.
         window.setTimeout(cb, i);
       }
     };
 
+    // Defer running. This allows the browser to paint any pending CSS it hasn't
+    // painted yet before doing the transitions.
+    var deferredRun = function(next) {
+      var i = 0;
+
+      // Durations that are too slow will get transitions mixed up.
+      // (Tested on Mac/FF 7.0.1)
+      if ((support.transition === 'MozTransition') && (i < 25)) i = 25;
+
+      window.setTimeout(function() { run(next); }, i);
+    };
+
     // Use jQuery's fx queue.
     if (typeof queue === 'string')
-      self.queue(queue, run);
+      self.queue(queue, deferredRun);
     else if (queue)
-      self.queue(run);
+      self.queue(deferredRun);
     else
-      run();
+      deferredRun();
 
     // Chainability.
     return this;

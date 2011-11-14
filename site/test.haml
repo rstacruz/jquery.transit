@@ -10,45 +10,42 @@ title: Your new Proton site
     %script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js')
     %script(src='jquery.transit.min.js')
     %script(src='script.js')
-    - if ENV['ANALYTICS_ID']
-      :javascript
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', '#{ENV["ANALYTICS_ID"]}']);
-        _gaq.push(['_trackPageview']);
-
-        (function() {
-          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
   %body
-    != '<a href="http://github.com/rstacruz/jquery.transit"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://d3nwyuy0nl342s.cloudfront.net/img/7afbc8b248c68eb468279e8c17986ad46549fb71/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"></a>'
     #all
       %hgroup#header
         %h1
-          jQuery Transit
-        %p
-          != "Super-smooth CSS3 transformations and transitions for jQuery &mdash; "
-          %span#version<>
-
-        :javascript
-          $("#version").html('v'+$.transit.version);
-      .meta
-        %a.button{href: 'jquery.transit.js'}
-          Download
-          %small 10kb
-        %a.button{href: 'jquery.transit.min.js'}
-          Download (Minified)
-          %small 1kb gzipped
+          jQuery Transit tests
 
       -# ============================================================================
-      %h2 How to use
-      .more.info
+      %h2 Transitioning from one style to another
 
-        %p
-          Just include this script after jQuery. Requires jQuery 1.4+.
-          %br
-          != "Use <em>$('...').transition</em> instead of jQuery's <em>$('...').animate</em>. It has the same syntax as <a href='http://api.jquery.com/animate/'>animate.</a>"
+      %article
+        .hover
+        .code
+          %h3 Transition with zero duration
+          %pre
+            != "$('.box')."
+            %br<>
+            != "    transition({ x: '-200px' }, <b>0</b>)."
+            %br<>
+            != "    transition({ x: 0 });"
+
+        .field{style: 'height: 150px; overflow: hidden;'}
+          .box{style: 'left: 10px; top: 10px; width: 380px; height: 130px;'}
+
+      %article
+        .hover
+        .code
+          %h3 Transition with CSS
+          %pre
+            != "$('.box')."
+            %br<>
+            != "    css({ x: '-200px' })."
+            %br<>
+            != "    transition({ x: 0 });"
+
+        .field{style: 'height: 150px; overflow: hidden;'}
+          .box{style: 'left: 10px; top: 10px; width: 380px; height: 130px;'}
 
       -# ============================================================================
       %h2 Translate (move)
@@ -84,26 +81,6 @@ title: Your new Proton site
 
         .field
           .box{style: 'left: 10px; top: 10px;'}
-
-      -# ============================================================================
-      %h2 Available transformations
-      .info
-        :markdown
-          The following transformations are available. 
-          Refer to the [README](https://github.com/rstacruz/jquery.transit#readme) for more information.
-      .info.more.transformations
-        :markdown
-          * x*(px)*
-          * y*(px)*
-          * translate*(x, y)*
-          * rotate*(deg)*
-          * rotateX*(deg)*
-          * rotateY*(deg)*
-          * rotate3d*(x, y, z, deg)*
-          * scale*(x, \[y\])*
-          * perspective*(px)*
-          * skewX*(deg)*
-          * skewY*(deg)*
 
       -# ============================================================================
       %h2 Rotation
@@ -545,7 +522,7 @@ title: Your new Proton site
           .box{style: 'left: 10px; top: 10px;'}
 
       -# ============================================================================
-      %h2 Chaining / effect queue
+      %h2 Effect queue
       .info
 
         :markdown
@@ -570,124 +547,3 @@ title: Your new Proton site
         .field{style: 'height: 150px; overflow: hidden;'}
           .box{style: 'left: 180px; top: 45px;'}
 
-      -# ============================================================================
-      %h2 Transitioning from one style to another
-      .info
-
-        :markdown
-          You can chain *css* and *transition* together (*.css({ .. }).transition({ .. })*).
-
-      %article
-        .hover
-        .code
-          %pre
-            != "$('.box')."
-            %br<>
-            != "    css({ x: '-800px' })."
-            %br<>
-            != "    transition({ x: 0 });"
-
-        .field{style: 'height: 150px; overflow: hidden;'}
-          .box{style: 'left: 10px; top: 10px; width: 380px; height: 130px;'}
-
-      -# ============================================================================
-      %h2 Browser support
-      .info
-        :markdown
-          - IE *10+*
-          - Firefox *4+*
-          - Safari *5+*
-          - Chrome *10+*
-          - Opera *11+*
-          - Mobile Safari
-
-      .more.info
-        :markdown
-
-          See [caniuse.com's report](http://caniuse.com/#search=transition) on CSS transitions.
-          To support Mobile Safari, jQuery Transit uses *translate3d* and *scale3d*.
-
-      -# ============================================================================
-      %h2 What about older browsers?
-      .more.info
-        :markdown
-
-          jQuery Transit degrades older browsers by simply not doing the
-          transformations (*rotate*, *scale*, etc) while still doing standard CSS
-          (*opacity*, *marginLeft*, etc) without any animation.  
-          Delays and durations will be ignored.
-          
-      -# ============================================================================
-      %h2 Fallback to frame-based animation
-      .more.info
-
-        :markdown
-          If you would like to fallback to classic animation when transitions
-          aren't supported  
-          (usually not recommended, may be slow):
-
-        %pre
-          != "<b>// Delegate .transition() calls to .animate()</b>"
-          %br<>
-          != "<b>// if the browser can't do CSS transitions.</b>"
-          %br<>
-          = "if (!$.support.transition)"
-          %br<>
-          = "    $.fn.transition = $.fn.animate;"
-
-      -# ============================================================================
-      %h2 Setting defaults
-      .more.info
-
-        %pre
-          != "<b>// Transit uses the same default as $.fn.animate.</b>"
-          %br<>
-          != "$.fx.speeds._default = 300;"
-
-        %pre
-          != "<b>// Default easing is stored in $.cssEase.</b>"
-          %br<>
-          = "$.cssEase._default = 'snap';"
-
-      -# ============================================================================
-      %h2 Custom easing
-      .more.info
-        :markdown
-          Define custom easing aliases in *$.cssEase*.
-
-        %pre
-          != "$.cssEase['bounce'] = 'cubic-bezier(0,1,0.5,1.3)';"
-          %br<>
-          != "$('.box').transition({ x: 0 }, 500, <b>'bounce'</b>);"
-
-      -# ============================================================================
-      %h2 Source code
-      .info.source
-        %a{href: 'source.html'}
-          %span See the annotated source code here.
-          != "&rarr;"
-
-        You may also browse the
-        %a{href: 'https://github.com/rstacruz/jquery.transit'}
-          %span GitHub repo.
-          != "&rarr;"
-
-      -# ============================================================================
-      %h2 Credits
-
-      .credits
-        :markdown
-          Copyright 2011, Rico Sta. Cruz. Released under the [MIT 
-          License](http://www.opensource.org/licenses/mit-license.php).
-
-          jQuery Transit is authored and maintained by [Rico Sta. Cruz][rsc] with help from it's 
-          [contributors][c]. It is sponsored by my startup, [Sinefunc, Inc][sf].
-
-           * [My website](http://ricostacruz.com) (ricostacruz.com)
-           * [Sinefunc, Inc.](http://sinefunc.com) (sinefunc.com)
-           * [Github](http://github.com/rstacruz) (@rstacruz)
-           * [Twitter](http://twitter.com/rstacruz) (@rstacruz)
-
-          [rsc]: http://ricostacruz.com
-          [c]:   http://github.com/rstacruz/jquery.transit/contributors
-          [sf]:  http://sinefunc.com
