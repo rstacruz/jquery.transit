@@ -119,6 +119,68 @@ title: Your new Proton site
           .box{style: 'left: 180px; top: 20px;'}
 
       -# ============================================================================
+      %h2 Skew
+
+      %article
+        .hover
+        .code
+          %h3 Skew X
+          %pre
+            != "$('.box').transition({ <b>skewX: '30deg'</b> });"
+            
+        .field
+          .box{style: 'left: 180px; top: 20px;'}
+
+      %article
+        .hover
+        .code
+          %h3 Skew Y
+          %pre
+            != "$('.box').transition({ <b>skewY: '30deg'</b> });"
+            
+        .field
+          .box{style: 'left: 180px; top: 20px;'}
+
+      %article
+        .hover
+        .code
+          %h3 Skew X and Y
+          %pre
+            != "$('.box').transition({"
+            %br<>
+            != "    <b>skewX: '30deg',</b>"
+            %br<>
+            != "    <b>skewY: '-30deg'</b>"
+            %br<>
+            != "});"
+            
+        .field{style: 'height: 150px'}
+          .box{style: 'left: 180px; top: 45px;'}
+
+      -# ============================================================================
+      %h2 Scale
+
+      %article
+        .hover
+        .code
+          %h3 Scale up 120% size
+          %pre
+            != "$('.box').transition({ <b>scale: 1.2</b> });"
+            
+        .field
+          .box{style: 'left: 180px; top: 20px;'}
+
+      %article
+        .hover
+        .code
+          %h3 Scale 200% horizontally, 150% vertically
+          %pre
+            != "$('.box').transition({ <b>scale: [2, 1.5]</b> });"
+            
+        .field
+          .box{style: 'left: 180px; top: 25px;'}
+
+      -# ============================================================================
       %h2 3D rotation (Webkit only)
 
       .info
@@ -173,46 +235,6 @@ title: Your new Proton site
 
         .field
           .box{style: 'left: 180px; top: 20px;'}
-
-      -# ============================================================================
-      %h2 Skew
-
-      %article
-        .hover
-        .code
-          %h3 Skew X
-          %pre
-            != "$('.box').transition({ <b>skewX: '30deg'</b> });"
-            
-        .field
-          .box{style: 'left: 180px; top: 20px;'}
-
-      %article
-        .hover
-        .code
-          %h3 Skew Y
-          %pre
-            != "$('.box').transition({ <b>skewY: '30deg'</b> });"
-            
-        .field
-          .box{style: 'left: 180px; top: 20px;'}
-
-
-      %article
-        .hover
-        .code
-          %h3 Skew X and Y
-          %pre
-            != "$('.box').transition({"
-            %br<>
-            != "    <b>skewX: '30deg',</b>"
-            %br<>
-            != "    <b>skewY: '-30deg'</b>"
-            %br<>
-            != "});"
-            
-        .field{style: 'height: 150px'}
-          .box{style: 'left: 180px; top: 45px;'}
 
       -# ============================================================================
       %h2 Transitions for other properties

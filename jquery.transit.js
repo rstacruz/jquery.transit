@@ -81,7 +81,7 @@
       if (!(value instanceof Transform))
         value = new Transform(value);
 
-      if (transform == 'WebkitTransform')
+      if (support.transform == 'WebkitTransform')
         elem.style[support.transform] = value.toString(true);
       else
         elem.style[support.transform] = value.toString();
