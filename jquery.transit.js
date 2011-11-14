@@ -30,10 +30,13 @@
   // You can access this in jQuery's `$.support.transition`.
   // As per [jQuery's cssHooks documentation](http://api.jquery.com/jQuery.cssHooks/),
   // we set $.support.transition to a string of the actual property name used.
-  var g = getVendorPropertyName;
-  var transition      = $.support.transition = g('transition');
-  var transform       = $.support.transform  = g('transform');
-  var transformOrigin = $.support.transformOrigin = g('transformOrigin');
+  var support = {
+    transition:      getVendorPropertyName('transition'),
+    transform:       getVendorPropertyName('transform'),
+    transformOrigin: getVendorPropertyName('transformOrigin')
+  };
+
+  $.extend($.support, support);
 
   var eventNames = {
     'MozTransition':    'transitionend',
@@ -43,7 +46,7 @@
   };
 
   // Detect the 'transitionend' event needed.
-  var transitionEnd = eventNames[transition] || null;
+  var transitionEnd = eventNames[support.transition] || null;
 
   // Avoid memory leak in IE.
   div = null;
@@ -79,9 +82,9 @@
         value = new Transform(value);
 
       if (transform == 'WebkitTransform')
-        elem.style[transform] = value.toString(true);
+        elem.style[support.transform] = value.toString(true);
       else
-        elem.style[transform] = value.toString();
+        elem.style[support.transform] = value.toString();
 
       $(elem).data('transform', value);
     }
@@ -95,10 +98,10 @@
   //
   $.cssHooks.transformOrigin = {
     get: function(elem) {
-      return elem.style[transformOrigin];
+      return elem.style[support.transformOrigin];
     },
     set: function(elem, value) {
-      elem.style[transformOrigin] = value;
+      elem.style[support.transformOrigin] = value;
     }
   };
 
@@ -400,7 +403,7 @@
 
     // Compute delay until callback.
     // If this becomes 0, don't bother setting the transition property.
-    var i = transition ? (parseInt(duration) + parseInt(delay)) : 0;
+    var i = support.transition ? (parseInt(duration) + parseInt(delay)) : 0;
 
     // Save the old transitions of each element so we can restore it later.
     var oldTransitions = {};
@@ -409,7 +412,7 @@
       // Apply transitions.
       self.each(function() {
         if (i > 0) {
-          this.style[transition] = transitionValue;
+          this.style[support.transition] = transitionValue;
         }
         $(this).css(properties);
       });
@@ -422,7 +425,7 @@
 
         if (i > 0) {
           self.each(function() {
-            this.style[transition] = oldTransitions[this];
+            this.style[support.transition] = oldTransitions[this];
           });
         }
 
@@ -441,7 +444,7 @@
       } else {
         // Durations that are too slow will get transitions mixed up. (Tested
         // on Mac/FF 7.0.1)
-        if ((transition === 'MozTransition') && (i < 25)) i = 25;
+        if ((support.transition === 'MozTransition') && (i < 25)) i = 25;
         window.setTimeout(cb, i);
       }
     };
