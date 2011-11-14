@@ -25,6 +25,12 @@ module Helpers
     ! `which #{what}`.strip.empty?
   end
 
+  def version
+    contents = File.read('jquery.transit.js')
+    m = contents.match(/version: "(.*?)"/)
+    m[1]
+  end
+
   def die(str)
     puts str
     exit
@@ -32,6 +38,24 @@ module Helpers
 end
 
 extend Helpers
+
+desc "Print version."
+task :version do
+  puts version
+end
+
+desc "Puts released versions on the site."
+task :release => :compress do
+  require 'fileutils'
+
+  fn = "site/jquery.transit-#{version}.js"
+  FileUtils.cp 'site/jquery.transit.js', fn
+  puts "==> #{fn}"
+
+  fn = "site/jquery.transit-#{version}.min.js"
+  FileUtils.cp 'site/jquery.transit.min.js', fn
+  puts "==> #{fn}"
+end
 
 task :check_deps do
   die "Error: You need Docco. Try `gem install docco`."  unless can_run?('docco')
