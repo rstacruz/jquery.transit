@@ -8,7 +8,10 @@
  */
 
 (function($) {
-  $.transit = { version: "0.0.1" };
+  $.transit = {
+    version: "0.0.1",
+    enabled: true   // Will simply transition "instantly" if false
+  };
 
   var div = document.createElement('div');
 
@@ -401,9 +404,12 @@
       delete properties.delay;
     }
 
+    // True if transit should work using transitions.
+    var work = $.transit.enabled && support.transition;
+
     // Compute delay until callback.
     // If this becomes 0, don't bother setting the transition property.
-    var i = support.transition ? (parseInt(duration) + parseInt(delay)) : 0;
+    var i = work ? (parseInt(duration) + parseInt(delay)) : 0;
 
     // Save the old transitions of each element so we can restore it later.
     var oldTransitions = {};
