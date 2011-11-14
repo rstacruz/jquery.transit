@@ -129,6 +129,58 @@ Hover on a demo box to see it in action.
 <div class='box' style='left: 180px; top: 20px;'></div>
 </div>
 </article>
+<h2>Skew</h2>
+<article>
+<div class='hover'></div>
+<div class='code'>
+<h3>Skew X</h3>
+<pre>$('.box').transition({ <b>skewX: '30deg'</b> });</pre>
+</div>
+<div class='field'>
+<div class='box' style='left: 180px; top: 20px;'></div>
+</div>
+</article>
+<article>
+<div class='hover'></div>
+<div class='code'>
+<h3>Skew Y</h3>
+<pre>$('.box').transition({ <b>skewY: '30deg'</b> });</pre>
+</div>
+<div class='field'>
+<div class='box' style='left: 180px; top: 20px;'></div>
+</div>
+</article>
+<article>
+<div class='hover'></div>
+<div class='code'>
+<h3>Skew X and Y</h3>
+<pre>$('.box').transition({<br />    <b>skewX: '30deg',</b><br />    <b>skewY: '-30deg'</b><br />});</pre>
+</div>
+<div class='field' style='height: 150px'>
+<div class='box' style='left: 180px; top: 45px;'></div>
+</div>
+</article>
+<h2>Scale</h2>
+<article>
+<div class='hover'></div>
+<div class='code'>
+<h3>Scale up 120% size</h3>
+<pre>$('.box').transition({ <b>scale: 1.2</b> });</pre>
+</div>
+<div class='field'>
+<div class='box' style='left: 180px; top: 20px;'></div>
+</div>
+</article>
+<article>
+<div class='hover'></div>
+<div class='code'>
+<h3>Scale 200% horizontally, 150% vertically</h3>
+<pre>$('.box').transition({ <b>scale: [2, 1.5]</b> });</pre>
+</div>
+<div class='field'>
+<div class='box' style='left: 180px; top: 25px;'></div>
+</div>
+</article>
 <h2>3D rotation (Webkit only)</h2>
 <div class='info'>
 <p>You may rotate using <em>rotateX</em> and <em>rotateY</em>. Using <em>perspective</em> is optional, but it should always come before <em>rotateX/Y</em>.</p>
@@ -161,37 +213,6 @@ Hover on a demo box to see it in action.
 </div>
 <div class='field'>
 <div class='box' style='left: 180px; top: 20px;'></div>
-</div>
-</article>
-<h2>Skew</h2>
-<article>
-<div class='hover'></div>
-<div class='code'>
-<h3>Skew X</h3>
-<pre>$('.box').transition({ <b>skewX: '30deg'</b> });</pre>
-</div>
-<div class='field'>
-<div class='box' style='left: 180px; top: 20px;'></div>
-</div>
-</article>
-<article>
-<div class='hover'></div>
-<div class='code'>
-<h3>Skew Y</h3>
-<pre>$('.box').transition({ <b>skewY: '30deg'</b> });</pre>
-</div>
-<div class='field'>
-<div class='box' style='left: 180px; top: 20px;'></div>
-</div>
-</article>
-<article>
-<div class='hover'></div>
-<div class='code'>
-<h3>Skew X and Y</h3>
-<pre>$('.box').transition({<br />    <b>skewX: '30deg',</b><br />    <b>skewY: '-30deg'</b><br />});</pre>
-</div>
-<div class='field' style='height: 150px'>
-<div class='box' style='left: 180px; top: 45px;'></div>
 </div>
 </article>
 <h2>Transitions for other properties</h2>
