@@ -36,6 +36,68 @@ title: Your new Proton site
       %article
         .hover
         .code
+          %h3 Zero durations - should not flicker (1)
+          %pre
+            != "$('.box')."
+            %br<>
+            != "    transition({ x: '-200px' }, <b>0</b>)."
+            %br<>
+            != "    transition({ x: '-100px' }, <b>0</b>)."
+            %br<>
+            != "    transition({ x: '40px' }, <b>0</b>)."
+            %br<>
+            != "    transition({ x: 0 }, <b>0</b>);"
+
+        .field{style: 'height: 150px; overflow: hidden;'}
+          .box{style: 'left: 10px; top: 10px; width: 380px; height: 130px;'}
+
+      %article
+        .hover
+        .code
+          %h3 Zero durations with non-zeros
+          %pre
+            != "$('.box')."
+            %br<>
+            != "    transition({ x: '-200px' }, <b>0</b>)."
+            %br<>
+            != "    transition({ x: '0' }, <b>200</b>)."
+            %br<>
+            != "    transition({ y: 10 }, <b>0</b>)."
+            %br<>
+            != "    transition({ x: 200 }, <b>0</b>)."
+            %br<>
+            != "    transition({ x: 0 }, <b>200</b>)."
+            %br<>
+            != "    transition({ y: 0 }, <b>0</b>);"
+
+        .field{style: 'height: 150px; overflow: hidden;'}
+          .box{style: 'left: 10px; top: 10px; width: 380px; height: 130px;'}
+
+      %article
+        .hover
+        .code
+          %h3 Zero durations with non-zeros -- baseline
+          %pre
+            != "$('.box')."
+            %br<>
+            != "    animate({ left: -200 }, <b>0</b>)."
+            %br<>
+            != "    animate({ left: 10 }, <b>200</b>)."
+            %br<>
+            != "    animate({ top: 20 }, <b>0</b>)."
+            %br<>
+            != "    animate({ left: 200 }, <b>0</b>)."
+            %br<>
+            != "    animate({ left: 10 }, <b>200</b>)."
+            %br<>
+            != "    animate({ top: 10 }, <b>0</b>);"
+
+        .field{style: 'height: 150px; overflow: hidden;'}
+          .box{style: 'left: 10px; top: 10px; width: 380px; height: 130px;'}
+
+      %article
+        .hover
+        .code
           %h3 Transition with CSS
           %pre
             != "$('.box')."

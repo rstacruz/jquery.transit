@@ -404,12 +404,28 @@
       delete properties.delay;
     }
 
-    // True if transit should work using transitions.
-    var work = $.transit.enabled && support.transition;
-
     // Compute delay until callback.
     // If this becomes 0, don't bother setting the transition property.
+    var work = $.transit.enabled && support.transition;
     var i = work ? (parseInt(duration) + parseInt(delay)) : 0;
+
+    // If there's nothing to do...
+    if (i === 0) {
+      var fn = function(next) {
+        self.css(properties);
+        if (callback) callback();
+        next();
+      };
+
+      if (queue === true)
+        self.queue(fn);
+      else if (queue)
+        self.queue(queue, fn)
+      else
+        fn();
+
+      return self;
+    }
 
     // Save the old transitions of each element so we can restore it later.
     var oldTransitions = {};
