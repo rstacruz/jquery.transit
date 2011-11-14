@@ -509,6 +509,7 @@ title: Your new Proton site
     // Super simple test framework.
     var T = {
       test: null,
+      alerted: false,
 
       run: function(tests) {
         var self = this;
@@ -519,15 +520,16 @@ title: Your new Proton site
             var fn    = tests[test];
             var obj   = {};
             if (tests._setup) tests._setup.apply(obj);
-            fn.apply(obj, [ function(val) { self.assert(val, test); } ]);
+            fn.apply(obj, [ function(val) { self.assert(val, test, this); } ]);
           }
         }
       },
 
-      assert: function(value, test) {
+      assert: function(value, test, T) {
         if (!value) {
           console.error(test, "- Assertion failed.");
           console.trace();
+          if (!T.alerted) alert("An assertion failed. See the console for details.");
         }
       }
     };
@@ -574,6 +576,20 @@ title: Your new Proton site
       array_args_3: function(a) {
         this.div.css('translate', ['300em', '400em']);
         a(this.div.css('translate') == ['300em','400em']);
+      },
+
+      scale_1: function(a) {
+        this.div.css('scale', [2,3]);
+        var s = this.div.css('scale');
+
+        a(s.length == 2);
+        a(s[0] == 2);
+        a(s[1] == 3);
+      },
+
+      scale_2: function(a) {
+        this.div.css('scale', [2.5, 2.5]);
+        a(this.div.css('scale') == 2.5);
       },
 
       transform_object: function(a) {
