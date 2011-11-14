@@ -441,7 +441,7 @@
       } else {
         // Durations that are too slow will get transitions mixed up. (Tested
         // on Mac/FF 7.0.1)
-        if ((isMozilla) && (i < 25)) i = 25;
+        if ((transition === 'MozTransition') && (i < 25)) i = 25;
         window.setTimeout(cb, i);
       }
     };
