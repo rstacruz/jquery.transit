@@ -1,4 +1,5 @@
 /site/_output
 /site/source.html
-/site/*.js
+/site/jquery.transit.js
+/site/jquery.transit.min.js
 /site/docco.css
