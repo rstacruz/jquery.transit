@@ -10,7 +10,22 @@
 (function($) {
   $.transit = {
     version: "0.1.0",
-    enabled: true   // Will simply transition "instantly" if false
+
+    // Map of $.css() keys to values for 'transitionProperty'.
+    // See https://developer.mozilla.org/en/CSS/CSS_transitions#Properties_that_can_be_animated
+    propertyMap: {
+      marginLeft    : 'margin',
+      marginRight   : 'margin',
+      marginBottom  : 'margin',
+      marginTop     : 'margin',
+      paddingLeft   : 'padding',
+      paddingRight  : 'padding',
+      paddingBottom : 'padding',
+      paddingTop    : 'padding'
+    },
+
+    // Will simply transition "instantly" if false
+    enabled: true   
   };
 
   var div = document.createElement('div');
@@ -34,9 +49,10 @@
   // As per [jQuery's cssHooks documentation](http://api.jquery.com/jQuery.cssHooks/),
   // we set $.support.transition to a string of the actual property name used.
   var support = {
-    transition:      getVendorPropertyName('transition'),
-    transform:       getVendorPropertyName('transform'),
-    transformOrigin: getVendorPropertyName('transformOrigin')
+    transition      : getVendorPropertyName('transition'),
+    transitionDelay : getVendorPropertyName('transitionDelay'),
+    transform       : getVendorPropertyName('transform'),
+    transformOrigin : getVendorPropertyName('transformOrigin')
   };
 
   $.extend($.support, support);
@@ -330,6 +346,54 @@
       fn();
   }
 
+  // ### getProperties(dict)
+  // Returns properties (for `transition-property`) for dictionary `props`. The
+  // value of `props` is what you would expect in `$.css(...)`.
+  function getProperties(props) {
+    var re = [];
+
+    $.each(props, function(key) {
+      key = $.camelCase(key); // Convert "text-align" => "textAlign"
+      key = $.transit.propertyMap[key] || key;
+      key = uncamel(key); // Convert back to dasherized
+
+      if (re.indexOf(key) === -1)
+        re.push(key);
+    });
+
+    return re;
+  }
+
+  // ### getTransition()
+  // Returns the transition string to be used for the `transition` CSS property.
+  //
+  // Example:
+  //
+  //     getTransition({ opacity: 1, rotate: 30 }, 500, 'ease');
+  //     //=> 'opacity 500ms ease, -webkit-transform 500ms ease'
+  //
+  function getTransition(properties, duration, easing, delay) {
+    // Get the CSS properties needed.
+    var props = getProperties(properties);
+
+    // Account for aliases (`in` => `ease-in`).
+    if ($.cssEase[easing]) easing = $.cssEase[easing];
+
+    // Build the duration/easing/delay attributes for it.
+    var attribs = '' + toMS(duration) + ' ' + easing;
+    if (parseInt(delay) > 0)
+      attribs += ' ' + toMS(delay);
+
+    // For more properties, add them this way:
+    // "margin 200ms ease, padding 200ms ease, ..."
+    var transitions = [];
+    $.each(props, function(i, name) {
+      transitions.push(name + ' ' + attribs);
+    });
+
+    return transitions.join(', ');
+  }
+
   // ## $.fn.transition
   // Works like $.fn.animate(), but uses CSS transitions.
   //
@@ -394,24 +458,19 @@
       delete properties.queue;
     }
 
+    if (properties.delay) {
+      delay = properties.delay;
+      delete properties.delay;
+    }
+
     // Set defaults. (`400` duration, `ease` easing)
     if (duration == null) duration = $.fx.speeds._default;
     if (easing == null) easing = $.cssEase._default;
 
-    // Account for aliases (`in` => `ease-in`).
-    if ($.cssEase[easing]) easing = $.cssEase[easing];
-
     duration = toMS(duration);
 
     // Build the `transition` property.
-    var transitionValue = 'all ' + duration + ' ' + easing;
-
-    // Delay may be part of the properties.
-    if (properties.delay) {
-      delay = toMS(properties.delay);
-      transitionValue += ' ' + delay;
-      delete properties.delay;
-    }
+    var transitionValue = getTransition(properties, duration, easing, delay);
 
     // Compute delay until callback.
     // If this becomes 0, don't bother setting the transition property.
@@ -491,6 +550,8 @@
     // For certain properties, the 'px' should not be implied.
     if (!isPixels) $.cssNumber[prop] = true;
 
+    $.transit.propertyMap[prop] = support.transform;
+
     $.cssHooks[prop] = {
       get: function(elem) {
         var t = $(elem).css('transform') || new Transform;
@@ -504,6 +565,13 @@
         $(elem).css({ transform: t });
       }
     };
+  }
+
+  // ### uncamel(str)
+  // Converts a camelcase string to a dasherized string.
+  // (`marginLeft` => `margin-left`)
+  function uncamel(str) {
+    return str.replace(/([A-Z])/g, function(letter) { return '-' + letter.toLowerCase(); })
   }
 
   // ### unit(number, unit)
@@ -534,4 +602,7 @@
 
     return unit(i, 'ms');
   }
+
+  // Export some functions for testable-ness.
+  $.transit.getTransitionValue = getTransition;
 })(jQuery);

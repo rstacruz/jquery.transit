@@ -596,6 +596,14 @@ title: Hello
       }
     };
 
+    function getTransition(el) {
+      return el.style[$.support.transition];
+    }
+
+    function uncamel(str) {
+      return str.replace(/([A-Z])/g, function(letter) { return '-' + letter.toLowerCase(); })
+    }
+
     // Tests yo
     T.run({
       _setup: function() {
@@ -677,4 +685,20 @@ title: Hello
           a(x == 2);
         }, 1600);
       },
+
+      transition_property: function(a) {
+        var div = $("<div>").appendTo($("body"));
+        div.transition({ left: 40, marginLeft: 10, rotate: 30 }, 400, 'ease');
+        window.setTimeout(function() {
+          var t = getTransition(div[0]);
+          a(t == 'left 400ms ease, margin 400ms ease, ' + uncamel($.support.transform) + ' 400ms ease');
+        }, 200);
+      },
+
+      get_transition_value: function(a) {
+        var t = $.transit.getTransitionValue({ opacity: 0, skewX: 30 }, 500, 'in');
+        console.log(t, '///', 'opacity 500ms ease-in, ' + uncamel($.support.transform) + ' 500ms ease-in');
+        a(t == 'opacity 500ms ease-in, ' + uncamel($.support.transform) + ' 500ms ease-in');
+      }
+
     });
