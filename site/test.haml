@@ -10,6 +10,20 @@ title: Hello
     %script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js')
     %script(src='jquery.transit.min.js')
     %script(src='script.js')
+    :javascript
+      jQuery.fn.bounceIn = function(callback) {
+        return this.
+          css({ scale: 0.9, opacity: 0 }).
+          transit({ scale: 1.03, opacity: 1 }, 120, 'out').
+          transit({ scale: 1.0 }, 200, 'in', callback);
+      };
+
+      jQuery.fn.bounceOut = function(callback) {
+        return this.
+          css({ opacity: 1 }).
+          transit({ scale: 0.97, opacity: 0 }, 120, 'in', callback);
+      };
+
   %body
     #all
       %hgroup#header
@@ -108,6 +122,44 @@ title: Hello
 
         .field{style: 'height: 150px; overflow: hidden;'}
           .box{style: 'left: 10px; top: 10px; width: 380px; height: 130px;'}
+
+      -# ============================================================================
+      %h2 Lingering test
+
+      %article
+        .hover
+        .code
+          %h3 Don't animate 'left'
+          %pre
+            != "$('.box')."
+            %br<>
+            != "    css({ position: 'absolute', left: '500px', opacity: 0 }, <b>0</b>);"
+            %br<>
+            != "window.setTimeout(function() {"
+            %br<>
+            != "    $('.box')."
+            %br<>
+            != "      css({ left: 10 })."
+            %br<>
+            != "      transition({ opacity: 1 });"
+            %br<>
+            != "}, 200);"
+
+        .field{style: 'height: 150px; overflow: hidden;'}
+          .box{style: 'left: 10px; top: 10px; width: 380px; height: 130px;'}
+
+      -# ============================================================================
+      %h2 Bounce?
+
+      %article
+        .hover
+        .code
+          %h3 In
+          %pre
+            != "$('.box').bounceIn();"
+
+        .field
+          .box{style: 'left: 180px; top: 20px;'}
 
       -# ============================================================================
       %h2 Translate (move)
@@ -691,14 +743,16 @@ title: Hello
         div.transition({ left: 40, marginLeft: 10, rotate: 30 }, 400, 'ease');
         window.setTimeout(function() {
           var t = getTransition(div[0]);
-          a(t == 'left 400ms ease, margin 400ms ease, ' + uncamel($.support.transform) + ' 400ms ease');
+          a(t.indexOf('left 400ms ease') > -1);
+          a(t.indexOf('margin 400ms ease') > -1);
+          a(t.indexOf(uncamel($.support.transform) + ' 400ms ease') > -1);
         }, 200);
       },
 
       get_transition_value: function(a) {
         var t = $.transit.getTransitionValue({ opacity: 0, skewX: 30 }, 500, 'in');
-        console.log(t, '///', 'opacity 500ms ease-in, ' + uncamel($.support.transform) + ' 500ms ease-in');
-        a(t == 'opacity 500ms ease-in, ' + uncamel($.support.transform) + ' 500ms ease-in');
+        a(t.indexOf('opacity 500ms ease-in') > -1);
+        a(t.indexOf(uncamel($.support.transform) + ' 500ms ease-in') > -1);
       }
 
     });
