@@ -8,6 +8,22 @@
 <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js'></script>
 <script src='jquery.transit.min.js'></script>
 <script src='script.js'></script>
+<script type='text/javascript'>
+  //<![CDATA[
+    jQuery.fn.bounceIn = function(callback) {
+      return this.
+        css({ scale: 0.9, opacity: 0 }).
+        transit({ scale: 1.03, opacity: 1 }, 120, 'out').
+        transit({ scale: 1.0 }, 200, 'in', callback);
+    };
+    
+    jQuery.fn.bounceOut = function(callback) {
+      return this.
+        css({ opacity: 1 }).
+        transit({ scale: 0.97, opacity: 0 }, 120, 'in', callback);
+    };
+  //]]>
+</script>
 </head>
 <body>
 <div id='all'>
@@ -65,6 +81,28 @@ jQuery Transit tests
 </div>
 <div class='field' style='height: 150px; overflow: hidden;'>
 <div class='box' style='left: 10px; top: 10px; width: 380px; height: 130px;'></div>
+</div>
+</article>
+<h2>Lingering test</h2>
+<article>
+<div class='hover'></div>
+<div class='code'>
+<h3>Don't animate 'left'</h3>
+<pre>$('.box').<br />    css({ position: 'absolute', left: '500px', opacity: 0 }, <b>0</b>);<br />window.setTimeout(function() {<br />    $('.box').<br />      css({ left: 10 }).<br />      transition({ opacity: 1 });<br />}, 200);</pre>
+</div>
+<div class='field' style='height: 150px; overflow: hidden;'>
+<div class='box' style='left: 10px; top: 10px; width: 380px; height: 130px;'></div>
+</div>
+</article>
+<h2>Bounce?</h2>
+<article>
+<div class='hover'></div>
+<div class='code'>
+<h3>In</h3>
+<pre>$('.box').bounceIn();</pre>
+</div>
+<div class='field'>
+<div class='box' style='left: 180px; top: 20px;'></div>
 </div>
 </article>
 <h2>Translate (move)</h2>
@@ -438,6 +476,14 @@ jQuery Transit tests
       }
     };
     
+    function getTransition(el) {
+      return el.style[$.support.transition];
+    }
+    
+    function uncamel(str) {
+      return str.replace(/([A-Z])/g, function(letter) { return '-' + letter.toLowerCase(); })
+    }
+    
     // Tests yo
     T.run({
       _setup: function() {
@@ -519,6 +565,24 @@ jQuery Transit tests
           a(x == 2);
         }, 1600);
       },
+    
+      transition_property: function(a) {
+        var div = $("<div>").appendTo($("body"));
+        div.transition({ left: 40, marginLeft: 10, rotate: 30 }, 400, 'ease');
+        window.setTimeout(function() {
+          var t = getTransition(div[0]);
+          a(t.indexOf('left 400ms ease') > -1);
+          a(t.indexOf('margin 400ms ease') > -1);
+          a(t.indexOf(uncamel($.support.transform) + ' 400ms ease') > -1);
+        }, 200);
+      },
+    
+      get_transition_value: function(a) {
+        var t = $.transit.getTransitionValue({ opacity: 0, skewX: 30 }, 500, 'in');
+        a(t.indexOf('opacity 500ms ease-in') > -1);
+        a(t.indexOf(uncamel($.support.transform) + ' 500ms ease-in') > -1);
+      }
+    
     });
   //]]>
 </script>
