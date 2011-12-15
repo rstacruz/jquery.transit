@@ -164,7 +164,7 @@
   function Transform(str) {
     if (typeof str === 'string') this.parse(str);
     return this;
-  };
+  }
 
   Transform.prototype = {
     // ### setFromString()
@@ -324,7 +324,7 @@
     toString: function(use3d) {
       var re = [];
 
-      for (i in this) {
+      for (var i in this) {
         if ((this.hasOwnProperty(i)) && (i[0] !== '_')) {
           if ((use3d) && ((i === 'scale') || (i === 'translate')))
             re.push(i + "3d(" + this[i] + ",0)");
@@ -341,7 +341,7 @@
     if (queue === true)
       self.queue(fn);
     else if (queue)
-      self.queue(queue, fn)
+      self.queue(queue, fn);
     else
       fn();
   }
@@ -381,7 +381,7 @@
 
     // Build the duration/easing/delay attributes for it.
     var attribs = '' + toMS(duration) + ' ' + easing;
-    if (parseInt(delay) > 0)
+    if (parseInt(delay, 10) > 0)
       attribs += ' ' + toMS(delay);
 
     // For more properties, add them this way:
@@ -464,8 +464,8 @@
     }
 
     // Set defaults. (`400` duration, `ease` easing)
-    if (duration == null) duration = $.fx.speeds._default;
-    if (easing == null) easing = $.cssEase._default;
+    if (duration === null) duration = $.fx.speeds._default;
+    if (easing === null) easing = $.cssEase._default;
 
     duration = toMS(duration);
 
@@ -475,7 +475,7 @@
     // Compute delay until callback.
     // If this becomes 0, don't bother setting the transition property.
     var work = $.transit.enabled && support.transition;
-    var i = work ? (parseInt(duration) + parseInt(delay)) : 0;
+    var i = work ? (parseInt(duration, 10) + parseInt(delay, 10)) : 0;
 
     // If there's nothing to do...
     if (i === 0) {
@@ -554,12 +554,12 @@
 
     $.cssHooks[prop] = {
       get: function(elem) {
-        var t = $(elem).css('transform') || new Transform;
+        var t = $(elem).css('transform') || new Transform();
         return t.get(prop);
       },
 
       set: function(elem, value) {
-        var t = $(elem).css('transform') || new Transform;
+        var t = $(elem).css('transform') || new Transform();
         t.setFromString(prop, value);
 
         $(elem).css({ transform: t });
@@ -571,7 +571,7 @@
   // Converts a camelcase string to a dasherized string.
   // (`marginLeft` => `margin-left`)
   function uncamel(str) {
-    return str.replace(/([A-Z])/g, function(letter) { return '-' + letter.toLowerCase(); })
+    return str.replace(/([A-Z])/g, function(letter) { return '-' + letter.toLowerCase(); });
   }
 
   // ### unit(number, unit)
@@ -581,11 +581,11 @@
   //     unit(2, 'px')          //=> "2px"
   //     unit("30deg", 'rad')   //=> "30deg"
   //
-  function unit(i, unit) {
+  function unit(i, units) {
     if ((typeof i === "string") && (!i.match(/^[\-0-9\.]+$/)))
       return i;
     else
-      return "" + i + unit;
+      return "" + i + units;
   }
 
   // ### toMS(duration)
