@@ -25,7 +25,7 @@
     },
 
     // Will simply transition "instantly" if false
-    enabled: true   
+    enabled: true
   };
 
   var div = document.createElement('div');
@@ -430,13 +430,13 @@
     // Account for `.transition(properties, callback)`.
     if (typeof duration === 'function') {
       callback = duration;
-      duration = null;
+      duration = undefined;
     }
 
     // Account for `.transition(properties, duration, callback)`.
     if (typeof easing === 'function') {
       callback = easing;
-      easing = null;
+      easing = undefined;
     }
 
     // Alternate syntax.
@@ -466,8 +466,8 @@
     }
 
     // Set defaults. (`400` duration, `ease` easing)
-    if (duration === null) duration = $.fx.speeds._default;
-    if (easing === null) easing = $.cssEase._default;
+    if (typeof duration === 'undefined') duration = $.fx.speeds._default;
+    if (typeof easing === 'undefined') easing = $.cssEase._default;
 
     duration = toMS(duration);
 
