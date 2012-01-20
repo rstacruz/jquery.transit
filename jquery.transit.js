@@ -455,7 +455,7 @@
       delete properties.complete;
     }
 
-    if (properties.queue) {
+    if (properties.queue !== undefined) {
       queue = properties.queue;
       delete properties.queue;
     }
