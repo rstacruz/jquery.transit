@@ -85,6 +85,20 @@ title: Hello
           .box{style: 'left: 10px; top: 10px; width: 380px; height: 130px;'}
 
       -# ============================================================================
+      %h2 Queue reliability
+
+      %article.mini
+        .hover
+        .code
+          %pre
+            != "var $el = $('.box');"
+            %br<>
+            != "for (var i=0; i<30; ++i) { $el.transit({ x: (i%2==0)?350:0 }, 200); }"
+
+        .field{style: 'height: 53px'}
+          .box{style: 'left: 10px; top: 10px; height: 30px;'}
+
+      -# ============================================================================
       %h2 Transitioning from one style to another
 
       %article
