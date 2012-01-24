@@ -511,7 +511,7 @@
 
         if (i > 0) {
           self.each(function() {
-            this.style[support.transition] = oldTransitions[this];
+            this.style[support.transition] = (oldTransitions[this] || null);
           });
         }
 
