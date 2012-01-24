@@ -155,11 +155,11 @@
   //     t.set('rotate', 4)
   //     t.rotate             //=> "4deg"
   //
-  // Convert it to a CSS string using the `toString()` and `toWebkitString()`
+  // Convert it to a CSS string using the `toString()` and `toString(true)` (for WebKit)
   // functions.
   //
   //     t.toString()         //=> "rotate(90deg) scale(4,4)"
-  //     t.toWebkitString()   //=> "rotate(90deg) scale3d(4,4,0)"
+  //     t.toString(true)     //=> "rotate(90deg) scale3d(4,4,0)" (WebKit version)
   //
   function Transform(str) {
     if (typeof str === 'string') this.parse(str);
@@ -495,14 +495,6 @@
     var oldTransitions = {};
 
     var run = function(nextCall) {
-      // Apply transitions.
-      self.each(function() {
-        if (i > 0) {
-          this.style[support.transition] = transitionValue;
-        }
-        $(this).css(properties);
-      });
-
       var bound = false;
 
       // Prepare the callback.
@@ -527,6 +519,14 @@
         // Fallback to timers if the 'transitionend' event isn't supported.
         window.setTimeout(cb, i);
       }
+
+      // Apply transitions.
+      self.each(function() {
+        if (i > 0) {
+          this.style[support.transition] = transitionValue;
+        }
+        $(this).css(properties);
+      });
     };
 
     // Defer running. This allows the browser to paint any pending CSS it hasn't
