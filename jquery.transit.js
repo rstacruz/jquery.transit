@@ -8,6 +8,8 @@
  */
 
 (function($) {
+  "use strict";
+
   $.transit = {
     version: "0.1.1",
 
@@ -36,11 +38,11 @@
     var prefixes = ['Moz', 'Webkit', 'O', 'ms'];
     var prop_ = prop.charAt(0).toUpperCase() + prop.substr(1);
 
-    if (prop in div.style) return prop;
+    if (prop in div.style) { return prop; }
 
     for (var i=0; i<prefixes.length; ++i) {
       var vendorProp = prefixes[i] + prop_;
-      if (vendorProp in div.style) return vendorProp;
+      if (vendorProp in div.style) { return vendorProp; }
     }
   }
 
@@ -99,18 +101,21 @@
     // The setter accepts a `Transform` object or a string.
     set: function(elem, v) {
       var value = v;
-      if (!(value instanceof Transform))
+
+      if (!(value instanceof Transform)) {
         value = new Transform(value);
+      }
 
       // We've seen the 3D version of Scale() not work in Chrome when the
       // element being scaled extends outside of the viewport.  Thus, we're
       // forcing Chrome to not use the 3d transforms as well.  Not sure if
       // translate is affectede, but not risking it.  Detection code from
       // http://davidwalsh.name/detecting-google-chrome-javascript
-      if (support.transform == 'WebkitTransform' && !isChrome)
+      if (support.transform === 'WebkitTransform' && !isChrome) {
         elem.style[support.transform] = value.toString(true);
-      else
+      } else {
         elem.style[support.transform] = value.toString();
+      }
 
       $(elem).data('transform', value);
     }
@@ -169,7 +174,7 @@
   //     t.toString(true)     //=> "rotate(90deg) scale3d(4,4,0)" (WebKit version)
   //
   function Transform(str) {
-    if (typeof str === 'string') this.parse(str);
+    if (typeof str === 'string') { this.parse(str); }
     return this;
   }
 
@@ -183,7 +188,7 @@
     setFromString: function(prop, val) {
       var args =
         (typeof val === 'string')  ? val.split(',') :
-        (val.constructor == Array) ? val :
+        (val.constructor === Array) ? val :
         [ val ];
 
       args.unshift(prop);
@@ -239,7 +244,7 @@
       //     .css({ scale: '3,2' })  //=> "scale(3,2)"
       //
       scale: function(x, y) {
-        if (y === undefined) y = x;
+        if (y === undefined) { y = x; }
         this.scale = x + "," + y;
       },
 
@@ -277,11 +282,11 @@
       //     .css({ translate: '2, 5' })    //=> "translate(2px, 5px)"
       //
       translate: function(x, y) {
-        if (this._translateX === undefined) this._translateX = 0;
-        if (this._translateY === undefined) this._translateY = 0;
+        if (this._translateX === undefined) { this._translateX = 0; }
+        if (this._translateY === undefined) { this._translateY = 0; }
 
-        if (x !== null) this._translateX = unit(x, 'px');
-        if (y !== null) this._translateY = unit(y, 'px');
+        if (x !== null) { this._translateX = unit(x, 'px'); }
+        if (y !== null) { this._translateY = unit(y, 'px'); }
 
         this.translate = this._translateX + "," + this._translateY;
       }
@@ -298,19 +303,20 @@
 
       scale: function() {
         var s = (this.scale || "1,1").split(',');
-        if (s[0]) s[0] = parseFloat(s[0]);
-        if (s[1]) s[1] = parseFloat(s[1]);
+        if (s[0]) { s[0] = parseFloat(s[0]); }
+        if (s[1]) { s[1] = parseFloat(s[1]); }
 
         // "2.5,2.5" => 2.5
         // "2.5,1" => [2.5,1]
-        return (s[0] == s[1]) ? s[0] : s;
+        return (s[0] === s[1]) ? s[0] : s;
       },
-      
+
       rotate3d: function() {
         var s = (this.rotate3d || "0,0,0,0deg").split(',');
-        for (i=0; i<=3; ++i)
-          if (s[i]) s[i] = parseFloat(s[i]);
-        if (s[3]) s[3] = unit(s[3], 'deg');
+        for (var i=0; i<=3; ++i) {
+          if (s[i]) { s[i] = parseFloat(s[i]); }
+        }
+        if (s[3]) { s[3] = unit(s[3], 'deg'); }
 
         return s;
       }
@@ -333,12 +339,13 @@
 
       for (var i in this) {
         if ((this.hasOwnProperty(i)) && (i[0] !== '_')) {
-          if (use3d && (i === 'scale'))
+          if (use3d && (i === 'scale')) {
             re.push(i + "3d(" + this[i] + ",1)");
-          if (use3d && (i === 'translate'))
+          } else if (use3d && (i === 'translate')) {
             re.push(i + "3d(" + this[i] + ",0)");
-          else
+          } else {
             re.push(i + "(" + this[i] + ")");
+          }
         }
       }
 
@@ -347,12 +354,13 @@
   };
 
   function callOrQueue(self, queue, fn) {
-    if (queue === true)
+    if (queue === true) {
       self.queue(fn);
-    else if (queue)
+    } else if (queue) {
       self.queue(queue, fn);
-    else
+    } else {
       fn();
+    }
   }
 
   // ### getProperties(dict)
@@ -366,7 +374,7 @@
       key = $.transit.propertyMap[key] || key;
       key = uncamel(key); // Convert back to dasherized
 
-      if ($.inArray(key, re) === -1) re.push(key);
+      if ($.inArray(key, re) === -1) { re.push(key); }
     });
 
     return re;
@@ -385,12 +393,11 @@
     var props = getProperties(properties);
 
     // Account for aliases (`in` => `ease-in`).
-    if ($.cssEase[easing]) easing = $.cssEase[easing];
+    if ($.cssEase[easing]) { easing = $.cssEase[easing]; }
 
     // Build the duration/easing/delay attributes for it.
     var attribs = '' + toMS(duration) + ' ' + easing;
-    if (parseInt(delay, 10) > 0)
-      attribs += ' ' + toMS(delay);
+    if (parseInt(delay, 10) > 0) { attribs += ' ' + toMS(delay); }
 
     // For more properties, add them this way:
     // "margin 200ms ease, padding 200ms ease, ..."
@@ -472,8 +479,8 @@
     }
 
     // Set defaults. (`400` duration, `ease` easing)
-    if (typeof duration === 'undefined') duration = $.fx.speeds._default;
-    if (typeof easing === 'undefined') easing = $.cssEase._default;
+    if (typeof duration === 'undefined') { duration = $.fx.speeds._default; }
+    if (typeof easing === 'undefined')   { easing = $.cssEase._default; }
 
     duration = toMS(duration);
 
@@ -489,7 +496,7 @@
     if (i === 0) {
       var fn = function(next) {
         self.css(properties);
-        if (callback) callback();
+        if (callback) { callback(); }
         next();
       };
 
@@ -505,7 +512,7 @@
 
       // Prepare the callback.
       var cb = function() {
-        if (bound) self.unbind(transitionEnd, cb);
+        if (bound) { self.unbind(transitionEnd, cb); }
 
         if (i > 0) {
           self.each(function() {
@@ -513,8 +520,8 @@
           });
         }
 
-        if (typeof callback === 'function') callback.apply(self);
-        if (typeof nextCall === 'function') nextCall();
+        if (typeof callback === 'function') { callback.apply(self); }
+        if (typeof nextCall === 'function') { nextCall(); }
       };
 
       if ((i > 0) && (transitionEnd)) {
@@ -542,7 +549,7 @@
 
       // Durations that are too slow will get transitions mixed up.
       // (Tested on Mac/FF 7.0.1)
-      if ((support.transition === 'MozTransition') && (i < 25)) i = 25;
+      if ((support.transition === 'MozTransition') && (i < 25)) { i = 25; }
 
       window.setTimeout(function() { run(next); }, i);
     };
@@ -556,7 +563,7 @@
 
   function registerCssHook(prop, isPixels) {
     // For certain properties, the 'px' should not be implied.
-    if (!isPixels) $.cssNumber[prop] = true;
+    if (!isPixels) { $.cssNumber[prop] = true; }
 
     $.transit.propertyMap[prop] = support.transform;
 
@@ -590,10 +597,11 @@
   //     unit("30deg", 'rad')   //=> "30deg"
   //
   function unit(i, units) {
-    if ((typeof i === "string") && (!i.match(/^[\-0-9\.]+$/)))
+    if ((typeof i === "string") && (!i.match(/^[\-0-9\.]+$/))) {
       return i;
-    else
+    } else {
       return "" + i + units;
+    }
   }
 
   // ### toMS(duration)
@@ -606,7 +614,7 @@
     var i = duration;
 
     // Allow for string durations like 'fast'.
-    if ($.fx.speeds[i]) i = $.fx.speeds[i];
+    if ($.fx.speeds[i]) { i = $.fx.speeds[i]; }
 
     return unit(i, 'ms');
   }
