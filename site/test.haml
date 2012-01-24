@@ -93,7 +93,11 @@ title: Hello
           %pre
             != "var $el = $('.box');"
             %br<>
-            != "for (var i=0; i<30; ++i) { $el.transit({ x: (i%2==0)?350:0 }, 200); }"
+            != "$el.css({ transitionOrigin: '50% 0' });"
+            %br<>
+            != "for (var i=0; i<30; ++i) { $el.transit({ perspective: 100, rotateX: (i%2==0)?40:-40 }, 200); }"
+            %br<>
+            != "$el.transit({ rotateX: 0 });"
 
         .field{style: 'height: 53px'}
           .box{style: 'left: 10px; top: 10px; height: 30px;'}
