@@ -44,6 +44,8 @@
     }
   }
 
+	var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+
   // Check for the browser's transitions support.
   // You can access this in jQuery's `$.support.transition`.
   // As per [jQuery's cssHooks documentation](http://api.jquery.com/jQuery.cssHooks/),
@@ -100,11 +102,12 @@
       if (!(value instanceof Transform))
         value = new Transform(value);
 
-     	// We've seen the 3D version of Scale() not work in Chrome when the element being scaled extends outside of
-			// the viewport.  Thus, we're forcing Chrome to not use the 3d transforms as well.  Not sure if translate is
-			// affectede, but not risking it.  Detection code from http://davidwalsh.name/detecting-google-chrome-javascript
-			var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
-      if (support.transform == 'WebkitTransform' && !is_chrome)
+      // We've seen the 3D version of Scale() not work in Chrome when the
+      // element being scaled extends outside of the viewport.  Thus, we're
+      // forcing Chrome to not use the 3d transforms as well.  Not sure if
+      // translate is affectede, but not risking it.  Detection code from
+      // http://davidwalsh.name/detecting-google-chrome-javascript
+      if (support.transform == 'WebkitTransform' && !isChrome)
         elem.style[support.transform] = value.toString(true);
       else
         elem.style[support.transform] = value.toString();
