@@ -31,6 +31,39 @@ title: Hello
           jQuery Transit tests
 
       -# ============================================================================
+      %h2 Callback tests
+
+      %article.mini
+        .hover
+        .code
+          %h3 2nd param
+          %pre
+            != "$('.box').transition({ x: 330 }, <b>function() { $(this).html('OK'); }</b>);"
+
+        .field{style: 'height: 53px'}
+          .box{style: 'left: 10px; top: 10px; height: 30px;'}
+
+      %article.mini
+        .hover
+        .code
+          %h3 3rd param
+          %pre
+            != "$('.box').transition({ x: 330 }, 500, <b>function() { $(this).html('OK'); }</b>);"
+
+        .field{style: 'height: 53px'}
+          .box{style: 'left: 10px; top: 10px; height: 30px;'}
+
+      %article.mini
+        .hover
+        .code
+          %h3 as 'complete'
+          %pre
+            != "$('.box').transition({ x: 330, complete: <b>function() { $(this).html('OK'); }</b>});"
+
+        .field{style: 'height: 53px'}
+          .box{style: 'left: 10px; top: 10px; height: 30px;'}
+
+      -# ============================================================================
       %h2 Transitioning from one style to another
 
       %article
