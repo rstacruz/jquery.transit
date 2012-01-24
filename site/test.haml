@@ -64,6 +64,27 @@ title: Hello
           .box{style: 'left: 10px; top: 10px; height: 30px;'}
 
       -# ============================================================================
+      %h2 Property cleanup test
+
+      %article
+        .hover
+        .code
+          %h3 Clean up transformations
+          %pre
+            != "$('.box')."
+            %br<>
+            != "    transition({ x: '-200px' }, function() {"
+            %br<>
+            != "     if ($(this).attr('style').indexOf('transition') > -1)"
+            %br<>
+            != "        alert('fail');"
+            %br<>
+            != "});"
+
+        .field{style: 'height: 150px; overflow: hidden;'}
+          .box{style: 'left: 10px; top: 10px; width: 380px; height: 130px;'}
+
+      -# ============================================================================
       %h2 Transitioning from one style to another
 
       %article
