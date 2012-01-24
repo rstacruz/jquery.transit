@@ -440,22 +440,22 @@
     }
 
     // Alternate syntax.
-    if (properties.easing) {
+    if (typeof properties.easing !== 'undefined') {
       easing = properties.easing;
       delete properties.easing;
     }
 
-    if (properties.duration) {
+    if (typeof properties.duration !== 'undefined') {
       duration = properties.duration;
       delete properties.duration;
     }
 
-    if (properties.complete) {
+    if (typeof properties.complete !== 'undefined') {
       callback = properties.complete;
       delete properties.complete;
     }
 
-    if (properties.queue !== undefined) {
+    if (typeof properties.queue !== 'undefined') {
       queue = properties.queue;
       delete properties.queue;
     }
