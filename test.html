@@ -32,6 +32,58 @@
 jQuery Transit tests
 </h1>
 </hgroup>
+<h2>Callback tests</h2>
+<article class='mini'>
+<div class='hover'></div>
+<div class='code'>
+<h3>2nd param</h3>
+<pre>$('.box').transition({ x: 330 }, <b>function() { $(this).html('OK'); }</b>);</pre>
+</div>
+<div class='field' style='height: 53px'>
+<div class='box' style='left: 10px; top: 10px; height: 30px;'></div>
+</div>
+</article>
+<article class='mini'>
+<div class='hover'></div>
+<div class='code'>
+<h3>3rd param</h3>
+<pre>$('.box').transition({ x: 330 }, 500, <b>function() { $(this).html('OK'); }</b>);</pre>
+</div>
+<div class='field' style='height: 53px'>
+<div class='box' style='left: 10px; top: 10px; height: 30px;'></div>
+</div>
+</article>
+<article class='mini'>
+<div class='hover'></div>
+<div class='code'>
+<h3>as 'complete'</h3>
+<pre>$('.box').transition({ x: 330, complete: <b>function() { $(this).html('OK'); }</b>});</pre>
+</div>
+<div class='field' style='height: 53px'>
+<div class='box' style='left: 10px; top: 10px; height: 30px;'></div>
+</div>
+</article>
+<h2>Property cleanup test</h2>
+<article>
+<div class='hover'></div>
+<div class='code'>
+<h3>Clean up transformations</h3>
+<pre>$('.box').<br />    transition({ x: '-200px' }, function() {<br />     if ($(this).attr('style').indexOf('transition') > -1)<br />        alert('fail');<br />});</pre>
+</div>
+<div class='field' style='height: 150px; overflow: hidden;'>
+<div class='box' style='left: 10px; top: 10px; width: 380px; height: 130px;'></div>
+</div>
+</article>
+<h2>Queue reliability</h2>
+<article class='mini'>
+<div class='hover'></div>
+<div class='code'>
+<pre>var $el = $('.box');<br />$el.css({ transitionOrigin: '50% 0' });<br />for (var i=0; i<30; ++i) { $el.transit({ perspective: 100, rotateX: (i%2==0)?40:-40 }, 200); }<br />$el.transit({ rotateX: 0 });</pre>
+</div>
+<div class='field' style='height: 53px'>
+<div class='box' style='left: 10px; top: 10px; height: 30px;'></div>
+</div>
+</article>
 <h2>Transitioning from one style to another</h2>
 <article>
 <div class='hover'></div>
