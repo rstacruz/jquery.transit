@@ -366,7 +366,7 @@
       key = $.transit.propertyMap[key] || key;
       key = uncamel(key); // Convert back to dasherized
 
-      if (re.indexOf(key) === -1)
+      if (!$.inArray(key, re))
         re.push(key);
     });
 
