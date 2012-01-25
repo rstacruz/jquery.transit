@@ -11,7 +11,7 @@
   "use strict";
 
   $.transit = {
-    version: "0.1.2",
+    version: "0.1.2+",
 
     // Map of $.css() keys to values for 'transitionProperty'.
     // See https://developer.mozilla.org/en/CSS/CSS_transitions#Properties_that_can_be_animated
@@ -27,7 +27,10 @@
     },
 
     // Will simply transition "instantly" if false
-    enabled: true
+    enabled: true,
+
+    // Set this to false if you don't want to use the transition end property.
+    useTransitionEnd: true
   };
 
   var div = document.createElement('div');
@@ -69,7 +72,7 @@
   };
 
   // Detect the 'transitionend' event needed.
-  var transitionEnd = eventNames[support.transition] || null;
+  var transitionEnd = support.transitionEnd = eventNames[support.transition] || null;
 
   // Avoid memory leak in IE.
   div = null;
@@ -524,7 +527,7 @@
         if (typeof nextCall === 'function') { nextCall(); }
       };
 
-      if ((i > 0) && (transitionEnd)) {
+      if ((i > 0) && (transitionEnd) && ($.transit.useTransitionEnd)) {
         // Use the 'transitionend' event if it's available.
         bound = true;
         self.bind(transitionEnd, cb);
