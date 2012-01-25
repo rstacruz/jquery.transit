@@ -29,8 +29,7 @@
     // Will simply transition "instantly" if false
     enabled: true,
 
-    // Set this to true if you want to use the transition end property instead
-    // of timers.
+    // Set this to false if you don't want to use the transition end property.
     useTransitionEnd: true
   };
 
@@ -56,11 +55,13 @@
   // You can access this in jQuery's `$.support.transition`.
   // As per [jQuery's cssHooks documentation](http://api.jquery.com/jQuery.cssHooks/),
   // we set $.support.transition to a string of the actual property name used.
+  var t;
   var support = {
-    transition      : getVendorPropertyName('transition'),
+    transition      : t = getVendorPropertyName('transition'),
     transitionDelay : getVendorPropertyName('transitionDelay'),
     transform       : getVendorPropertyName('transform'),
-    transformOrigin : getVendorPropertyName('transformOrigin')
+    transformOrigin : getVendorPropertyName('transformOrigin'),
+    transform3d     : t === 'WebkitTransition'
   };
 
   $.extend($.support, support);
@@ -342,6 +343,13 @@
       var re = [];
 
       for (var i in this) {
+        // Don't use 3D transformations if the browser can't support it.
+        if ((!support.transform3d) && (
+          (i === 'rotateX') ||
+          (i === 'rotateY') ||
+          (i === 'perspective') ||
+          (i === 'transformOrigin'))) { continue; }
+
         if ((this.hasOwnProperty(i)) && (i[0] !== '_')) {
           if (use3d && (i === 'scale')) {
             re.push(i + "3d(" + this[i] + ",1)");
