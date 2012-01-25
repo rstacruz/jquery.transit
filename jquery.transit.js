@@ -29,7 +29,8 @@
     // Will simply transition "instantly" if false
     enabled: true,
 
-    // Set this to false if you don't want to use the transition end property.
+    // Set this to true if you want to use the transition end property instead
+    // of timers.
     useTransitionEnd: true
   };
 
