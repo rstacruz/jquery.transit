@@ -509,7 +509,7 @@
       var fn = function(next) {
         self.css(properties);
         if (callback) { callback(); }
-        next();
+        if (typeof next === 'function') { next(); }
       };
 
       callOrQueue(self, queue, fn);
