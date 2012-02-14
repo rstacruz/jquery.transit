@@ -34,6 +34,7 @@
   };
 
   var div = document.createElement('div');
+  var support = {};
 
   // Helper function to get the proper vendor property name.
   // (`transition` => `WebkitTransition`)
@@ -49,20 +50,25 @@
     }
   }
 
-	var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+  // Helper function to check if transform3D is supported.
+  // Should return true for Webkits and Firefox 10+.
+  function checkTransform3dSupport() {
+    div.style[support.transform] = '';
+    div.style[support.transform] = 'rotateY(90deg)';
+    return div.style[support.transform] !== '';
+  }
+
+  var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
 
   // Check for the browser's transitions support.
   // You can access this in jQuery's `$.support.transition`.
   // As per [jQuery's cssHooks documentation](http://api.jquery.com/jQuery.cssHooks/),
   // we set $.support.transition to a string of the actual property name used.
-  var t;
-  var support = {
-    transition      : t = getVendorPropertyName('transition'),
-    transitionDelay : getVendorPropertyName('transitionDelay'),
-    transform       : getVendorPropertyName('transform'),
-    transformOrigin : getVendorPropertyName('transformOrigin'),
-    transform3d     : t === 'WebkitTransition'
-  };
+  support.transition      = getVendorPropertyName('transition');
+  support.transitionDelay = getVendorPropertyName('transitionDelay');
+  support.transform       = getVendorPropertyName('transform');
+  support.transformOrigin = getVendorPropertyName('transformOrigin');
+  support.transform3d     = checkTransform3dSupport();
 
   $.extend($.support, support);
 
@@ -509,7 +515,7 @@
       var fn = function(next) {
         self.css(properties);
         if (callback) { callback(); }
-        if (typeof next === 'function') { next(); }
+        next();
       };
 
       callOrQueue(self, queue, fn);
