@@ -1,3 +1,22 @@
+v0.1.3 - Feb 14, 2012
+---------------------
+
+### Fixed:
+  * Fix JS error with undefined `next` function. (#21)
+  * Using `delay: 0` now works. Closes (#20)
+  * More robust checking of 3D transition support. (#19)
+  * Stop rotateX/rotateY/etc from stopping other transitions when it's not
+    supported.  (#15)
+
+### Added:
+  * Support Firefox 10 3D transitions. (#19)
+
+### Changed:
+  * Allow disabling using the transitionEnd property.
+  (`$.transit.useTransitionEnd = true`)
+  * Use the more reliable timers by default. (`useTransitionEnd` now defaults to
+      `false`)
+
 v0.1.2 - Jan 24, 2012
 ---------------------
 
