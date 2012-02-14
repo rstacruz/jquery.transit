@@ -349,20 +349,22 @@
       var re = [];
 
       for (var i in this) {
-        // Don't use 3D transformations if the browser can't support it.
-        if ((!support.transform3d) && (
-          (i === 'rotateX') ||
-          (i === 'rotateY') ||
-          (i === 'perspective') ||
-          (i === 'transformOrigin'))) { continue; }
+        if (this.hasOwnProperty(i)) {
+          // Don't use 3D transformations if the browser can't support it.
+          if ((!support.transform3d) && (
+            (i === 'rotateX') ||
+            (i === 'rotateY') ||
+            (i === 'perspective') ||
+            (i === 'transformOrigin'))) { continue; }
 
-        if ((this.hasOwnProperty(i)) && (i[0] !== '_')) {
-          if (use3d && (i === 'scale')) {
-            re.push(i + "3d(" + this[i] + ",1)");
-          } else if (use3d && (i === 'translate')) {
-            re.push(i + "3d(" + this[i] + ",0)");
-          } else {
-            re.push(i + "(" + this[i] + ")");
+          if (i[0] !== '_') {
+            if (use3d && (i === 'scale')) {
+              re.push(i + "3d(" + this[i] + ",1)");
+            } else if (use3d && (i === 'translate')) {
+              re.push(i + "3d(" + this[i] + ",0)");
+            } else {
+              re.push(i + "(" + this[i] + ")");
+            }
           }
         }
       }
