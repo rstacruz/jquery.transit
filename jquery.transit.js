@@ -485,7 +485,7 @@
       delete properties.queue;
     }
 
-    if (properties.delay) {
+    if (typeof properties.delay !== 'undefined') {
       delay = properties.delay;
       delete properties.delay;
     }

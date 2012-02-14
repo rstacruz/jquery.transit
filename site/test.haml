@@ -31,6 +31,19 @@ title: Hello
           jQuery Transit tests
 
       -# ============================================================================
+      %h2 Delay zero
+
+      %article.mini
+        .hover
+        .code
+          %h3 Delay zero
+          %pre
+            != "$('.box').transition({ x: 330, delay: 0 }).transition({ x: 0 });"
+
+        .field{style: 'height: 53px'}
+          .box{style: 'left: 10px; top: 10px; height: 30px;'}
+
+      -# ============================================================================
       %h2 Callback tests
 
       %article.mini
