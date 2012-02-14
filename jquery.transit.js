@@ -30,7 +30,7 @@
     enabled: true,
 
     // Set this to false if you don't want to use the transition end property.
-    useTransitionEnd: true
+    useTransitionEnd: false
   };
 
   var div = document.createElement('div');
