@@ -126,7 +126,10 @@
       // forcing Chrome to not use the 3d transforms as well.  Not sure if
       // translate is affectede, but not risking it.  Detection code from
       // http://davidwalsh.name/detecting-google-chrome-javascript
-      if (support.transform === 'WebkitTransform' && !isChrome) {
+      //
+      // Also eliminate WebKit-browsers withouth 3d transforms support
+      // such as Android < 4 default browser. Fixes #34
+      if (support.transform === 'WebkitTransform' && support.transform3d && !isChrome) {
         elem.style[support.transform] = value.toString(true);
       } else {
         elem.style[support.transform] = value.toString();
