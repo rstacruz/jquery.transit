@@ -97,7 +97,7 @@
 
   // ## 'transform' CSS hook
   // Allows you to use the `transform` property in CSS.
-  // 
+  //
   //     $("#hello").css({ transform: "rotate(90deg)" });
   //
   //     $("#hello").css('transform');
@@ -502,7 +502,7 @@
     if (typeof duration === 'undefined') { duration = $.fx.speeds._default; }
     if (typeof easing === 'undefined')   { easing = $.cssEase._default; }
 
-    duration = toMS(duration);
+    duration = $.fx.off ? 0 : toMS(duration);
 
     // Build the `transition` property.
     var transitionValue = getTransition(properties, duration, easing, delay);
