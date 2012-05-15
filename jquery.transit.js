@@ -50,14 +50,60 @@
     }
   }
 
+  /*
+  * matchMedia() polyfill - test whether a CSS media type or media query applies
+  * primary author: Scott Jehl
+  * Copyright (c) 2010 Filament Group, Inc
+  * MIT license
+  * adapted by Paul Irish to use the matchMedia API
+  * http://dev.w3.org/csswg/cssom-view/#dom-window-matchmedia
+  * which webkit now supports: http://trac.webkit.org/changeset/72552
+  *
+  * Doesn't implement media.type as there's no way for crossbrowser property
+  * getters. instead of media.type == 'tv' just use media.matchMedium('tv')
+  */
+  if ( !(window.matchMedia) ){
+    window.matchMedia = (function(doc,undefined){
+
+      var cache = {},
+          docElem = doc.documentElement,
+          fakeBody = doc.createElement('body'),
+          testDiv = doc.createElement('div');
+
+      testDiv.setAttribute('id','ejs-qtest');
+      fakeBody.appendChild(testDiv);
+
+      return function(q){
+        if (cache[q] === undefined) {
+          var styleBlock = doc.createElement('style'),
+            cssrule = '@media '+q+' { #ejs-qtest { position: absolute; } }';
+          //must set type for IE!
+          styleBlock.type = "text/css";
+          if (styleBlock.styleSheet){
+            styleBlock.styleSheet.cssText = cssrule;
+          }
+          else {
+            styleBlock.appendChild(doc.createTextNode(cssrule));
+          }
+          docElem.insertBefore(fakeBody, docElem.firstChild);
+          docElem.insertBefore(styleBlock, docElem.firstChild);
+          cache[q] = ((window.getComputedStyle ? window.getComputedStyle(testDiv,null) : testDiv.currentStyle)['position'] == 'absolute');
+          docElem.removeChild(fakeBody);
+          docElem.removeChild(styleBlock);
+        }
+        return cache[q];
+      };
+
+    })(document);
+  }
+
   // Helper function to check if transform3D is supported.
   // Should return true for Webkits and Firefox 10+.
   function checkTransform3dSupport() {
-    var ret = !!getVendorPropertyName('perspective'); // Fixes #33
-    if (ret) {
-      div.style[support.transform] = '';
-      div.style[support.transform] = 'rotateY(90deg)';
-      return div.style[support.transform] !== '';
+    // Borrowed Modernizr implementation which detects support for 3D transforms on Android < 4
+    var ret = !!getVendorPropertyName('perspective');
+    if (ret && 'WebkitPerspective' in div.style) {
+      return matchMedia("(-webkit-transform-3d)").matches;
     }
     return ret;
   }
