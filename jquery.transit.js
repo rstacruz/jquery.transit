@@ -175,7 +175,7 @@
       //
       // Also eliminate WebKit-browsers withouth 3d transforms support
       // such as Android < 4 default browser. Fixes #34
-      if (support.transform === 'WebkitTransform' && support.transform3d && !isChrome) {
+      if (support.transform3d && !isChrome) {
         elem.style[support.transform] = value.toString(true);
       } else {
         elem.style[support.transform] = value.toString();
