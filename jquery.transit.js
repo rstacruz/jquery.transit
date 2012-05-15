@@ -53,7 +53,7 @@
   // Helper function to check if transform3D is supported.
   // Should return true for Webkits and Firefox 10+.
   function checkTransform3dSupport() {
-    var ret = !!getVendorPropertyName('perspective') in div.style; // Fixes #33
+    var ret = !!getVendorPropertyName('perspective'); // Fixes #33
     if (ret) {
       div.style[support.transform] = '';
       div.style[support.transform] = 'rotateY(90deg)';
