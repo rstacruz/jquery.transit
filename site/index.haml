@@ -185,12 +185,14 @@ title: Hello
           .box{style: 'left: 180px; top: 25px;'}
 
       -# ============================================================================
-      %h2 3D rotation (Webkit only)
+      %h2 3D rotation
 
       .info
         :markdown
           You may rotate using *rotateX* and *rotateY*. Using *perspective* is optional,
           but it should always come before *rotateX/Y*.
+
+          Note that not all browsers support this yet. Try it in Firefox 10+ or Webkit browsers!
 
       %article
         .hover
