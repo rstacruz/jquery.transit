@@ -97,7 +97,7 @@
 
   // ## 'transform' CSS hook
   // Allows you to use the `transform` property in CSS.
-  // 
+  //
   //     $("#hello").css({ transform: "rotate(90deg)" });
   //
   //     $("#hello").css('transform');
@@ -516,7 +516,7 @@
     if (i === 0) {
       var fn = function(next) {
         self.css(properties);
-        if (callback) { callback(); }
+        if (callback) { callback.apply(self); }
         next();
       };
 
