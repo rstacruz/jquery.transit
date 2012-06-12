@@ -517,7 +517,7 @@
       var fn = function(next) {
         self.css(properties);
         if (callback) { callback.apply(self); }
-        next();
+        if (next) { next(); }
       };
 
       callOrQueue(self, queue, fn);
