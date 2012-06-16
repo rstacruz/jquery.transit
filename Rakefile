@@ -58,7 +58,7 @@ task :release => :compress do
 end
 
 task :check_deps do
-  die "Error: You need Docco. Try `gem install docco`."  unless can_run?('docco')
+  die "Error: You need Rocco. Try `gem install rocco`."  unless can_run?('rocco')
   begin
     require 'proton'
   rescue LoadError => e
@@ -78,7 +78,7 @@ end
 # Prepare
 task :prebuild => [:check_deps, :compress] do
   puts "==> Generating annotated source..."
-  system "docco jquery.transit.js > /dev/null"
+  system "rocco jquery.transit.js > /dev/null"
   system "mv docs/docco.css site/docco.css"
   system "mv docs/jquery.transit.html site/source.html"
   system "rm -rf docs"
