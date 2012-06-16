@@ -61,7 +61,7 @@ task :check_deps do
   die "Error: You need Docco. Try `gem install docco`."  unless can_run?('docco')
   begin
     require 'proton'
-  rescue => e
+  rescue LoadError => e
     die "Error: You need Proton. Try `gem install proton`."
   end
 end
