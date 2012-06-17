@@ -58,7 +58,7 @@ task :release => :compress do
 end
 
 task :check_deps do
-  die "Error: You need Rocco. Try `gem install rocco`."  unless can_run?('rocco')
+  die "Error: You need Rocco. Try `gem install fl-rocco`."  unless can_run?('rocco')
   begin
     require 'proton'
   rescue LoadError => e
