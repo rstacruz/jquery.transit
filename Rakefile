@@ -79,8 +79,7 @@ end
 task :prebuild => [:check_deps, :compress] do
   puts "==> Generating annotated source..."
   system "rocco jquery.transit.js > /dev/null"
-  system "mv docs/docco.css site/docco.css"
-  system "mv docs/jquery.transit.html site/source.html"
+  system "mv ./jquery.transit.html site/source.html"
   system "rm -rf docs"
 end
 
