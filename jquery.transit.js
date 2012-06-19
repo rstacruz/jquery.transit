@@ -147,6 +147,20 @@
     }
   };
 
+  // ## 'transition' CSS hook
+  // Allows you to use the `transition` property in CSS.
+  //
+  //     $("#hello").css({ transition: 'all 0 ease 0' }); 
+  //
+  $.cssHooks.transition = {
+    get: function(elem) {
+      return elem.style[support.transition];
+    },
+    set: function(elem, value) {
+      elem.style[support.transition] = value;
+    }
+  };
+
   // ## Other CSS hooks
   // Allows you to rotate, scale and translate.
   registerCssHook('scale');
