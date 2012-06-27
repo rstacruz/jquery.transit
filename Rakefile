@@ -93,3 +93,9 @@ desc "Deploys the website"
 task :deploy => :build do
   system "git update-ghpages rstacruz/jquery.transit -i site/_output -b gh-pages"
 end
+
+desc "Starts the preview site"
+task :preview => [:check_deps] do
+  port = ENV['port'] || 4833
+  exec "cd site && proton start -p #{port}"
+end
