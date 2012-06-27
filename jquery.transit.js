@@ -97,7 +97,7 @@
 
   // ## 'transform' CSS hook
   // Allows you to use the `transform` property in CSS.
-  // 
+  //
   //     $("#hello").css({ transform: "rotate(90deg)" });
   //
   //     $("#hello").css('transform');
@@ -144,6 +144,20 @@
     },
     set: function(elem, value) {
       elem.style[support.transformOrigin] = value;
+    }
+  };
+
+  // ## 'transition' CSS hook
+  // Allows you to use the `transition` property in CSS.
+  //
+  //     $("#hello").css({ transition: 'all 0 ease 0' }); 
+  //
+  $.cssHooks.transition = {
+    get: function(elem) {
+      return elem.style[support.transition];
+    },
+    set: function(elem, value) {
+      elem.style[support.transition] = value;
     }
   };
 
@@ -516,8 +530,8 @@
     if (i === 0) {
       var fn = function(next) {
         self.css(properties);
-        if (callback) { callback(); }
-        next();
+        if (callback) { callback.apply(self); }
+        if (next) { next(); }
       };
 
       callOrQueue(self, queue, fn);

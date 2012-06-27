@@ -12,23 +12,11 @@
 <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js'></script>
 <script src='jquery.transit.min.js'></script>
 <script src='script.js'></script>
-<script type='text/javascript'>
-  //<![CDATA[
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-20473929-1']);
-    _gaq.push(['_trackPageview']);
-    
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  //]]>
-</script>
-
 </head>
 <body>
-<a href="http://github.com/rstacruz/jquery.transit"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://d3nwyuy0nl342s.cloudfront.net/img/7afbc8b248c68eb468279e8c17986ad46549fb71/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"></a>
+<a class='forkme' href='http://github.com/rstacruz/jquery.transit'>
+<img alt='Fork me on Github' src='https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png' />
+</a>
 <div id='all'>
 <hgroup id='header'>
 <h1>
@@ -95,30 +83,21 @@ Hover on a demo box to see it in action.
 </article>
 <h2>Available transformations</h2>
 <div class='info'>
-<p>The following transformations are available. Refer to the <a href='https://github.com/rstacruz/jquery.transit#readme'>README</a> for more information.</p>
+<p>The following transformations are available.
+Refer to the <a href="https://github.com/rstacruz/jquery.transit#readme">README</a> for more information.</p>
 </div>
 <div class='info more transformations'>
 <ul>
 <li>x<em>(px)</em></li>
-
 <li>y<em>(px)</em></li>
-
 <li>translate<em>(x, y)</em></li>
-
 <li>rotate<em>(deg)</em></li>
-
 <li>rotateX<em>(deg)</em></li>
-
 <li>rotateY<em>(deg)</em></li>
-
 <li>rotate3d<em>(x, y, z, deg)</em></li>
-
 <li>scale<em>(x, [y])</em></li>
-
 <li>perspective<em>(px)</em></li>
-
 <li>skewX<em>(deg)</em></li>
-
 <li>skewY<em>(deg)</em></li>
 </ul>
 </div>
@@ -187,7 +166,8 @@ Hover on a demo box to see it in action.
 </article>
 <h2>3D rotation</h2>
 <div class='info'>
-<p>You may rotate using <em>rotateX</em> and <em>rotateY</em>. Using <em>perspective</em> is optional, but it should always come before <em>rotateX/Y</em>.</p>
+<p>You may rotate using <em>rotateX</em> and <em>rotateY</em>. Using <em>perspective</em> is optional,
+but it should always come before <em>rotateX/Y</em>.</p>
 
 <p>Note that not all browsers support this yet. Try it in Firefox 10+ or Webkit browsers!</p>
 </div>
@@ -244,7 +224,8 @@ Hover on a demo box to see it in action.
 </article>
 <h2>Callbacks</h2>
 <div class='info'>
-<p>$.fn.transition(<em>options, [duration], [easing], [callback]</em>);<br />$.fn.transition works just like $.fn.animate. You can pass a <em>duration</em>, <em>easing</em>, and <em>callback</em>.</p>
+<p>$.fn.transition(<em>options, [duration], [easing], [callback]</em>);<br/>
+$.fn.transition works just like $.fn.animate. You can pass a <em>duration</em>, <em>easing</em>, and <em>callback</em>.</p>
 </div>
 <article>
 <div class='hover'></div>
@@ -364,7 +345,8 @@ Hover on a demo box to see it in action.
 </article>
 <h2>Alternate easing/duration syntax</h2>
 <div class='info'>
-<p>You can provide <em>easing</em> and <em>duration</em> in the options instead Great for CoffeeScript.</p>
+<p>You can provide <em>easing</em> and <em>duration</em> in the options instead
+Great for CoffeeScript.</p>
 </div>
 <article>
 <div class='hover'></div>
@@ -436,7 +418,8 @@ Hover on a demo box to see it in action.
 </article>
 <h2>Setting transform origins</h2>
 <div class='info'>
-<p>You can provide transformation origins via <em>$.fn.css</em>. The format is <em>&#8220;x y&#8221;</em>, where <em>x</em> and <em>y</em> are coordinates in the given element.</p>
+<p>You can provide transformation origins via <em>$.fn.css</em>. The format is
+<em>"x y"</em>, where <em>x</em> and <em>y</em> are coordinates in the given element.</p>
 </div>
 <article>
 <div class='hover'></div>
@@ -449,7 +432,9 @@ Hover on a demo box to see it in action.
 </article>
 <h2>Chaining / effect queue</h2>
 <div class='info'>
-<p>Transit uses jQuery&#8217;s <a href='http://api.jquery.com/queue/'>effect queue</a> by default, exactly like <em>$.fn.animate</em>. This means that transitions will never run in parallel.</p>
+<p>Transit uses jQuery's <a href="http://api.jquery.com/queue/">effect queue</a> by default,
+exactly like <em>$.fn.animate</em>. This means that transitions will never
+run in parallel.</p>
 </div>
 <article>
 <div class='hover'></div>
@@ -477,28 +462,29 @@ Hover on a demo box to see it in action.
 <div class='info'>
 <ul>
 <li>IE <em>10+</em></li>
-
 <li>Firefox <em>4+</em></li>
-
 <li>Safari <em>5+</em></li>
-
 <li>Chrome <em>10+</em></li>
-
 <li>Opera <em>11+</em></li>
-
 <li>Mobile Safari</li>
 </ul>
 </div>
 <div class='more info'>
-<p>See <a href='http://caniuse.com/#search=transition'>caniuse.com&#8217;s report</a> on CSS transitions. To support Mobile Safari, jQuery Transit uses <em>translate3d</em> and <em>scale3d</em>.</p>
+<p>See <a href="http://caniuse.com/#search=transition">caniuse.com's report</a> on CSS transitions.
+To support Mobile Safari, jQuery Transit uses <em>translate3d</em> and <em>scale3d</em>.</p>
 </div>
 <h2>What about older browsers?</h2>
 <div class='more info'>
-<p>jQuery Transit degrades older browsers by simply not doing the transformations (<em>rotate</em>, <em>scale</em>, etc) while still doing standard CSS (<em>opacity</em>, <em>marginLeft</em>, etc) without any animation.<br />Delays and durations will be ignored.</p>
+<p>jQuery Transit degrades older browsers by simply not doing the
+transformations (<em>rotate</em>, <em>scale</em>, etc) while still doing standard CSS
+(<em>opacity</em>, <em>marginLeft</em>, etc) without any animation.<br/>
+Delays and durations will be ignored.</p>
 </div>
 <h2>Fallback to frame-based animation</h2>
 <div class='more info'>
-<p>If you would like to fallback to classic animation when transitions aren&#8217;t supported<br />(usually not recommended, may be slow):</p>
+<p>If you would like to fallback to classic animation when transitions
+aren't supported<br/>
+(usually not recommended, may be slow):</p>
 <pre><b>// Delegate .transition() calls to .animate()</b><br /><b>// if the browser can't do CSS transitions.</b><br />if (!$.support.transition)<br />    $.fn.transition = $.fn.animate;</pre>
 </div>
 <h2>Setting defaults</h2>
@@ -537,18 +523,17 @@ for info on what's changed.
 </div>
 <h2>Credits</h2>
 <div class='credits'>
-<p>Copyright 2011, Rico Sta. Cruz. Released under the <a href='http://www.opensource.org/licenses/mit-license.php'>MIT License</a>.</p>
+<p>Copyright 2011, Rico Sta. Cruz. Released under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT
+License</a>.</p>
 
-<p>jQuery Transit is authored and maintained by <a href='http://ricostacruz.com'>Rico Sta. Cruz</a> with help from it&#8217;s <a href='http://github.com/rstacruz/jquery.transit/contributors'>contributors</a>. It is sponsored by my startup, <a href='http://sinefunc.com'>Sinefunc, Inc</a>.</p>
+<p>jQuery Transit is authored and maintained by <a href="http://ricostacruz.com">Rico Sta. Cruz</a> with help from it's
+<a href="http://github.com/rstacruz/jquery.transit/contributors">contributors</a>. It is sponsored by my startup, <a href="http://sinefunc.com">Sinefunc, Inc</a>.</p>
 
 <ul>
-<li><a href='http://ricostacruz.com'>My website</a> (ricostacruz.com)</li>
-
-<li><a href='http://sinefunc.com'>Sinefunc, Inc.</a> (sinefunc.com)</li>
-
-<li><a href='http://github.com/rstacruz'>Github</a> (@rstacruz)</li>
-
-<li><a href='http://twitter.com/rstacruz'>Twitter</a> (@rstacruz)</li>
+<li><a href="http://ricostacruz.com">My website</a> (ricostacruz.com)</li>
+<li><a href="http://sinefunc.com">Sinefunc, Inc.</a> (sinefunc.com)</li>
+<li><a href="http://github.com/rstacruz">Github</a> (@rstacruz)</li>
+<li><a href="http://twitter.com/rstacruz">Twitter</a> (@rstacruz)</li>
 </ul>
 </div>
 </div>
