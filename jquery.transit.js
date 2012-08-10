@@ -611,12 +611,12 @@
 
     $.cssHooks[prop] = {
       get: function(elem) {
-        var t = $(elem).css('transform') || new Transform();
+        var t = $(elem).css('transit:transform') || new Transform();
         return t.get(prop);
       },
 
       set: function(elem, value) {
-        var t = $(elem).css('transform') || new Transform();
+        var t = $(elem).css('transit:transform') || new Transform();
         t.setFromString(prop, value);
 
         $(elem).css({ transform: t });
