@@ -103,7 +103,7 @@
   //     $("#hello").css('transform');
   //     //=> { rotate: '90deg' }
   //
-  $.cssHooks.transform = {
+  $.cssHooks["transit:transform"] = {
     // The getter returns a `Transform` object.
     get: function(elem) {
       return $(elem).data('transform');
@@ -132,34 +132,37 @@
     }
   };
 
-  // ## 'transformOrigin' CSS hook
-  // Allows the use for `transformOrigin` to define where scaling and rotation
-  // is pivoted.
-  //
-  //     $("#hello").css({ transformOrigin: '0 0' });
-  //
-  $.cssHooks.transformOrigin = {
-    get: function(elem) {
-      return elem.style[support.transformOrigin];
-    },
-    set: function(elem, value) {
-      elem.style[support.transformOrigin] = value;
-    }
-  };
+  // jQuery 1.8 unprefixes for us automatically.
+  if($.fn.jquery < "1.8.0") {
+    // ## 'transformOrigin' CSS hook
+    // Allows the use for `transformOrigin` to define where scaling and rotation
+    // is pivoted.
+    //
+    //     $("#hello").css({ transformOrigin: '0 0' });
+    //
+    $.cssHooks.transformOrigin = {
+      get: function(elem) {
+        return elem.style[support.transformOrigin];
+      },
+      set: function(elem, value) {
+        elem.style[support.transformOrigin] = value;
+      }
+    };
 
-  // ## 'transition' CSS hook
-  // Allows you to use the `transition` property in CSS.
-  //
-  //     $("#hello").css({ transition: 'all 0 ease 0' }); 
-  //
-  $.cssHooks.transition = {
-    get: function(elem) {
-      return elem.style[support.transition];
-    },
-    set: function(elem, value) {
-      elem.style[support.transition] = value;
-    }
-  };
+    // ## 'transition' CSS hook
+    // Allows you to use the `transition` property in CSS.
+    //
+    //     $("#hello").css({ transition: 'all 0 ease 0' });
+    //
+    $.cssHooks.transition = {
+      get: function(elem) {
+        return elem.style[support.transition];
+      },
+      set: function(elem, value) {
+        elem.style[support.transition] = value;
+      }
+    };
+  }
 
   // ## Other CSS hooks
   // Allows you to rotate, scale and translate.
@@ -403,13 +406,14 @@
   function getProperties(props) {
     var re = [];
 
-    $.each(props, function(key) {
-      key = $.camelCase(key); // Convert "text-align" => "textAlign"
-      key = $.transit.propertyMap[key] || key;
-      key = uncamel(key); // Convert back to dasherized
-
+    for(var key in props) {
+      if(props.hasOwnProperty(key)) {
+        key = $.camelCase(key); // Convert "text-align" => "textAlign"
+        key = $.transit.propertyMap[key] || key;
+        key = uncamel(key); // Convert back to dasherized
+      }
       if ($.inArray(key, re) === -1) { re.push(key); }
-    });
+    }
 
     return re;
   }
@@ -436,9 +440,10 @@
     // For more properties, add them this way:
     // "margin 200ms ease, padding 200ms ease, ..."
     var transitions = [];
-    $.each(props, function(i, name) {
+    for(var i = 0; i < props.length; i++) {
+      var name = props[i];
       transitions.push(name + ' ' + attribs);
-    });
+    }
 
     return transitions.join(', ');
   }
@@ -549,9 +554,10 @@
         if (bound) { self.unbind(transitionEnd, cb); }
 
         if (i > 0) {
-          self.each(function() {
-            this.style[support.transition] = (oldTransitions[this] || null);
-          });
+          for(var e = 0; e < self.length; e++) {
+            var elem = self[e];
+            elem.style[support.transition] = (oldTransitions[elem] || null);
+          }
         }
 
         if (typeof callback === 'function') { callback.apply(self); }
@@ -568,13 +574,14 @@
       }
 
       // Apply transitions.
-      self.each(function() {
+      for(var e = 0; e < self.length; e++) {
+        var elem = self[e];
         if (i > 0) {
-          this.style[support.transition] = transitionValue;
+          elem.style[support.transition] = transitionValue;
         }
-        $(this).css(properties);
-      });
-    };
+        $(elem).css(properties);
+      }
+    }
 
     // Defer running. This allows the browser to paint any pending CSS it hasn't
     // painted yet before doing the transitions.
@@ -603,15 +610,15 @@
 
     $.cssHooks[prop] = {
       get: function(elem) {
-        var t = $(elem).css('transform') || new Transform();
+        var t = $(elem).css('transit:transform') || new Transform();
         return t.get(prop);
       },
 
       set: function(elem, value) {
-        var t = $(elem).css('transform') || new Transform();
+        var $elem = $(elem)
+        var t = $elem.css('transit:transform') || new Transform();
         t.setFromString(prop, value);
-
-        $(elem).css({ transform: t });
+        $elem.css("transit:transform", t)
       }
     };
   }
