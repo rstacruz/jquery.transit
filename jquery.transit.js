@@ -7,7 +7,15 @@
  * http://github.com/rstacruz/jquery.transit
  */
 
-(function($) {
+(function (factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['jquery'], factory);
+    } else {
+        // Browser globals
+        factory(jQuery);
+    }
+}(function($) {
   "use strict";
 
   $.transit = {
@@ -655,4 +663,4 @@
 
   // Export some functions for testable-ness.
   $.transit.getTransitionValue = getTransition;
-})(jQuery);
+}));
