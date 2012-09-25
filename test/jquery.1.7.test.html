@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+    <script src="../jquery.transit.js"></script>
+    <style>
+      .transformer {
+        width: 100px;
+        height: 100px;
+        background: #abc;
+        -webkit-transform: translateX(50px) scale(0.5);
+        -moz-transform: translateX(50px) scale(0.5);
+        -ms-transform: translateX(50px) scale(0.5);
+      }
+    </style>
+
+    <script>
+      $(function() {
+        $(".transformer").on("click", function() {
+          var $this = $(this);
+          $this.
+            html("Running").
+            transition({x: 100, y: 100, scale: 2.0, backgroundColor: '#f00'}).
+            transition({x: 200, y: 200, scale: 0.2, backgroundColor: '#0f0'}, function() {
+              $this.css({transform: ''}).html("Finished!")
+            })
+        })
+      })
+    </script>
+  </head>
+  <body>
+    <div class="transformer">
+    </div>
+  </body>
+</html>
