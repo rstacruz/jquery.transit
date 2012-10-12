@@ -69,6 +69,8 @@
   support.transform       = getVendorPropertyName('transform');
   support.transformOrigin = getVendorPropertyName('transformOrigin');
   support.transform3d     = checkTransform3dSupport();
+  support.backfaceVisibility = getVendorPropertyName('backfaceVisibility');
+  support.transitionTimingFunction = getVendorPropertyName('transitionTimingFunction');
 
   $.extend($.support, support);
 
@@ -150,7 +152,7 @@
   // ## 'transition' CSS hook
   // Allows you to use the `transition` property in CSS.
   //
-  //     $("#hello").css({ transition: 'all 0 ease 0' }); 
+  //     $("#hello").css({ transition: 'all 0 ease 0' });
   //
   $.cssHooks.transition = {
     get: function(elem) {
@@ -158,6 +160,34 @@
     },
     set: function(elem, value) {
       elem.style[support.transition] = value;
+    }
+  };
+
+  // ## 'backfaceVisibility' CSS hook
+  // Allows the use for `backfaceVisibilty` to hide back of transormed elements
+  //
+  //     $("#hello").css({ backfaceVisibilty: 'hidden' });
+
+  $.cssHooks.backfaceVisibility = {
+    get: function(elem) {
+      return elem.style[support.backfaceVisibility];
+    },
+    set: function(elem, value) {
+      elem.style[support.backfaceVisibility] = value;
+    }
+  };
+
+ // ## 'transition-timing-function' CSS hook
+  // Allows the use for `transition-timing-function` to fine tune animation
+  //
+  //     $("#hello").css({ transitionTimingFunction: 'cubic-bezier(0,0.4,0.4,0)' });
+  //
+  $.cssHooks.transitionTimingFunction = {
+    get: function(elem) {
+      return elem.style[support.transitionTimingFunction];
+    },
+    set: function(elem, value) {
+      elem.style[support.transitionTimingFunction] = value;
     }
   };
 
