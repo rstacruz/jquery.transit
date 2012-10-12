@@ -69,6 +69,8 @@
   support.transform       = getVendorPropertyName('transform');
   support.transformOrigin = getVendorPropertyName('transformOrigin');
   support.transform3d     = checkTransform3dSupport();
+  support.backfaceVisibility = getVendorPropertyName('backfaceVisibility');
+  support.transitionTimingFunction = getVendorPropertyName('transitionTimingFunction');
 
   $.extend($.support, support);
 
@@ -150,7 +152,7 @@
   // ## 'transition' CSS hook
   // Allows you to use the `transition` property in CSS.
   //
-  //     $("#hello").css({ transition: 'all 0 ease 0' }); 
+  //     $("#hello").css({ transition: 'all 0 ease 0' });
   //
   $.cssHooks.transition = {
     get: function(elem) {
@@ -158,6 +160,34 @@
     },
     set: function(elem, value) {
       elem.style[support.transition] = value;
+    }
+  };
+
+  // ## 'backfaceVisibility' CSS hook
+  // Allows the use for `backfaceVisibilty` to hide back of transormed elements
+  //
+  //     $("#hello").css({ backfaceVisibilty: 'hidden' });
+
+  $.cssHooks.backfaceVisibility = {
+    get: function(elem) {
+      return elem.style[support.backfaceVisibility];
+    },
+    set: function(elem, value) {
+      elem.style[support.backfaceVisibility] = value;
+    }
+  };
+
+ // ## 'transition-timing-function' CSS hook
+  // Allows the use for `transition-timing-function` to fine tune animation
+  //
+  //     $("#hello").css({ transitionTimingFunction: 'cubic-bezier(0,0.4,0.4,0)' });
+  //
+  $.cssHooks.transitionTimingFunction = {
+    get: function(elem) {
+      return elem.style[support.transitionTimingFunction];
+    },
+    set: function(elem, value) {
+      elem.style[support.transitionTimingFunction] = value;
     }
   };
 
@@ -310,8 +340,8 @@
         if (this._translateX === undefined) { this._translateX = 0; }
         if (this._translateY === undefined) { this._translateY = 0; }
 
-        if (x !== null) { this._translateX = unit(x, 'px'); }
-        if (y !== null) { this._translateY = unit(y, 'px'); }
+        if (x !== null && x !== undefined) { this._translateX = unit(x, 'px'); }
+        if (y !== null && y !== undefined) { this._translateY = unit(y, 'px'); }
 
         this.translate = this._translateX + "," + this._translateY;
       }
@@ -405,7 +435,7 @@
 
     $.each(props, function(key) {
       key = $.camelCase(key); // Convert "text-align" => "textAlign"
-      key = $.transit.propertyMap[key] || key;
+      key = $.transit.propertyMap[key] || $.cssProps[key] || key;
       key = uncamel(key); // Convert back to dasherized
 
       if ($.inArray(key, re) === -1) { re.push(key); }
@@ -579,13 +609,8 @@
     // Defer running. This allows the browser to paint any pending CSS it hasn't
     // painted yet before doing the transitions.
     var deferredRun = function(next) {
-      var i = 0;
-
-      // Durations that are too slow will get transitions mixed up.
-      // (Tested on Mac/FF 7.0.1)
-      if ((support.transition === 'MozTransition') && (i < 25)) { i = 25; }
-
-      window.setTimeout(function() { run(next); }, i);
+      this.offsetWidth; // force a repaint
+      run(next);
     };
 
     // Use jQuery's fx queue.
