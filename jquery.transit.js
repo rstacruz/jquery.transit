@@ -50,12 +50,62 @@
     }
   }
 
+  /*
+  * matchMedia() polyfill - test whether a CSS media type or media query applies
+  * primary author: Scott Jehl
+  * Copyright (c) 2010 Filament Group, Inc
+  * MIT license
+  * adapted by Paul Irish to use the matchMedia API
+  * http://dev.w3.org/csswg/cssom-view/#dom-window-matchmedia
+  * which webkit now supports: http://trac.webkit.org/changeset/72552
+  *
+  * Doesn't implement media.type as there's no way for crossbrowser property
+  * getters. instead of media.type == 'tv' just use media.matchMedium('tv')
+  */
+  if ( !(window.matchMedia) ){
+    window.matchMedia = (function(doc,undefined){
+
+      var cache = {},
+          docElem = doc.documentElement,
+          fakeBody = doc.createElement('body'),
+          testDiv = doc.createElement('div');
+
+      testDiv.setAttribute('id','ejs-qtest');
+      fakeBody.appendChild(testDiv);
+
+      return function(q){
+        if (cache[q] === undefined) {
+          var styleBlock = doc.createElement('style'),
+            cssrule = '@media '+q+' { #ejs-qtest { position: absolute; } }';
+          //must set type for IE!
+          styleBlock.type = "text/css";
+          if (styleBlock.styleSheet){
+            styleBlock.styleSheet.cssText = cssrule;
+          }
+          else {
+            styleBlock.appendChild(doc.createTextNode(cssrule));
+          }
+          docElem.insertBefore(fakeBody, docElem.firstChild);
+          docElem.insertBefore(styleBlock, docElem.firstChild);
+          cache[q] = ((window.getComputedStyle ? window.getComputedStyle(testDiv,null) : testDiv.currentStyle)['position'] == 'absolute');
+          docElem.removeChild(fakeBody);
+          docElem.removeChild(styleBlock);
+        }
+        return cache[q];
+      };
+
+    })(document);
+  }
+
   // Helper function to check if transform3D is supported.
   // Should return true for Webkits and Firefox 10+.
   function checkTransform3dSupport() {
-    div.style[support.transform] = '';
-    div.style[support.transform] = 'rotateY(90deg)';
-    return div.style[support.transform] !== '';
+    // Borrowed Modernizr implementation which detects support for 3D transforms on Android < 4
+    var ret = !!getVendorPropertyName('perspective');
+    if (ret && 'WebkitPerspective' in div.style) {
+      return matchMedia("(-webkit-transform-3d)").matches;
+    }
+    return ret;
   }
 
   var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
@@ -106,7 +156,7 @@
   $.cssHooks.transform = {
     // The getter returns a `Transform` object.
     get: function(elem) {
-      return $(elem).data('transform');
+      return $(elem).data('transform') || new Transform();
     },
 
     // The setter accepts a `Transform` object or a string.
@@ -122,7 +172,10 @@
       // forcing Chrome to not use the 3d transforms as well.  Not sure if
       // translate is affectede, but not risking it.  Detection code from
       // http://davidwalsh.name/detecting-google-chrome-javascript
-      if (support.transform === 'WebkitTransform' && !isChrome) {
+      //
+      // Also eliminate WebKit-browsers withouth 3d transforms support
+      // such as Android < 4 default browser. Fixes #34
+      if (support.transform3d && !isChrome) {
         elem.style[support.transform] = value.toString(true);
       } else {
         elem.style[support.transform] = value.toString();
@@ -516,7 +569,7 @@
     if (typeof duration === 'undefined') { duration = $.fx.speeds._default; }
     if (typeof easing === 'undefined')   { easing = $.cssEase._default; }
 
-    duration = toMS(duration);
+    duration = $.fx.off ? 0 : toMS(duration);
 
     // Build the `transition` property.
     var transitionValue = getTransition(properties, duration, easing, delay);
@@ -603,12 +656,12 @@
 
     $.cssHooks[prop] = {
       get: function(elem) {
-        var t = $(elem).css('transform') || new Transform();
+        var t = $(elem).css('transform');
         return t.get(prop);
       },
 
       set: function(elem, value) {
-        var t = $(elem).css('transform') || new Transform();
+        var t = $(elem).css('transform');
         t.setFromString(prop, value);
 
         $(elem).css({ transform: t });
