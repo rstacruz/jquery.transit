@@ -609,7 +609,7 @@
 
       set: function(elem, value) {
         var t = $(elem).css('transform') || new Transform();
-        t.setFromString(prop, value);
+        t.setFromString && t.setFromString(prop, value);
 
         $(elem).css({ transform: t });
       }
