@@ -73,7 +73,7 @@
   $.extend($.support, support);
 
   var eventNames = {
-    'transition':       'transitionEnd',
+    'transition':       'transitionend',
     'MozTransition':    'transitionend',
     'OTransition':      'oTransitionEnd',
     'WebkitTransition': 'webkitTransitionEnd',
