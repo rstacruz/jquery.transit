@@ -73,6 +73,7 @@
   $.extend($.support, support);
 
   var eventNames = {
+    'transition':       'transitionEnd',
     'MozTransition':    'transitionend',
     'OTransition':      'oTransitionEnd',
     'WebkitTransition': 'webkitTransitionEnd',
@@ -150,7 +151,7 @@
   // ## 'transition' CSS hook
   // Allows you to use the `transition` property in CSS.
   //
-  //     $("#hello").css({ transition: 'all 0 ease 0' }); 
+  //     $("#hello").css({ transition: 'all 0 ease 0' });
   //
   $.cssHooks.transition = {
     get: function(elem) {
