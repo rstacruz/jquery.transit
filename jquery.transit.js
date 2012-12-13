@@ -62,16 +62,16 @@
   var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
 
   // Check for the browser's transitions support.
-  // You can access this in jQuery's `$.support.transition`.
-  // As per [jQuery's cssHooks documentation](http://api.jquery.com/jQuery.cssHooks/),
-  // we set $.support.transition to a string of the actual property name used.
   support.transition      = getVendorPropertyName('transition');
   support.transitionDelay = getVendorPropertyName('transitionDelay');
   support.transform       = getVendorPropertyName('transform');
   support.transformOrigin = getVendorPropertyName('transformOrigin');
   support.transform3d     = checkTransform3dSupport();
 
-  $.extend($.support, support);
+  // Populate jQuery's `$.support` with the vendor prefixes we know.
+  // As per [jQuery's cssHooks documentation](http://api.jquery.com/jQuery.cssHooks/),
+  // we set $.support.transition to a string of the actual property name used.
+  $.support = $.extend({}, support, $.support);
 
   var eventNames = {
     'transition':       'transitionEnd',
