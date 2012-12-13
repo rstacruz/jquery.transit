@@ -107,7 +107,7 @@
   $.cssHooks.transform = {
     // The getter returns a `Transform` object.
     get: function(elem) {
-      return $(elem).data('transform');
+      return $(elem).data('transform') || new Transform();
     },
 
     // The setter accepts a `Transform` object or a string.
@@ -605,20 +605,11 @@
     $.cssHooks[prop] = {
       get: function(elem) {
         var t = $(elem).css('transform');
-        
-        if (!t || t === "none") {
-          t = new Transform();
-        }
         return t.get(prop);
       },
 
       set: function(elem, value) {
         var t = $(elem).css('transform');
-
-        if (!t || t === "none") {
-          t = new Transform();
-        }
-
         t.setFromString(prop, value);
 
         $(elem).css({ transform: t });
