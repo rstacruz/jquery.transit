@@ -11,7 +11,7 @@
   "use strict";
 
   $.transit = {
-    version: "0.1.3",
+    version: "0.1.3-fork-ThomasR",
 
     // Map of $.css() keys to values for 'transitionProperty'.
     // See https://developer.mozilla.org/en/CSS/CSS_transitions#Properties_that_can_be_animated
@@ -30,7 +30,7 @@
     enabled: true,
 
     // Set this to false if you don't want to use the transition end property.
-    useTransitionEnd: false
+    useTransitionEnd: true
   };
 
   var div = document.createElement('div');
@@ -73,6 +73,7 @@
   $.extend($.support, support);
 
   var eventNames = {
+    'transition':       'transitionend',
     'MozTransition':    'transitionend',
     'OTransition':      'oTransitionEnd',
     'WebkitTransition': 'webkitTransitionEnd',
@@ -150,7 +151,7 @@
   // ## 'transition' CSS hook
   // Allows you to use the `transition` property in CSS.
   //
-  //     $("#hello").css({ transition: 'all 0 ease 0' }); 
+  //     $("#hello").css({ transition: 'all 0 ease 0' });
   //
   $.cssHooks.transition = {
     get: function(elem) {
