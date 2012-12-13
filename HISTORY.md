@@ -3,12 +3,14 @@ v1.0.0 - Dec 14, 2012
 
 Many, many thanks to the many [contributors] who made this release happen!
 
-### Fixes:
+### Fixes and additions:
 
   * Fix support for jQuery 1.8, IE 10, Firefox 16. (#93, #82, #85, #81, #76, #77, #70, #92)
   * Unprefixed CSS properties are now used if your browser supports them.
   * Account for prefix-free transition end for Mozilla. (#97)
   * Callbacks should now be called even if duration is `0`. (#37)
+  * Doing `.css('transition', 'transform 1s')` should now properly vendor-prefix 'transform'. (#84)
+  * Added Penner easing splines. (#44)
 
 ### Internal fixes:
 
