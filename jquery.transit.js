@@ -102,7 +102,7 @@
   //     $("#hello").css('transform');
   //     //=> { rotate: '90deg' }
   //
-  $.cssHooks.transform = {
+  $.cssHooks['transit:transform'] = {
     // The getter returns a `Transform` object.
     get: function(elem) {
       return $(elem).data('transform') || new Transform();
@@ -129,6 +129,13 @@
 
       $(elem).data('transform', value);
     }
+  };
+
+  // Add a CSS hook for `.css({ transform: '...' })`.
+  // In jQuery 1.8+, this will intentionally override the default `transform`
+  // CSS hook so it'll play well with Transit. (see issue #62)
+  $.cssHooks.transform = {
+    set: $.cssHooks['transit:transform'].set
   };
 
   // ## 'transformOrigin' CSS hook
@@ -602,17 +609,18 @@
 
     $.cssHooks[prop] = {
       get: function(elem) {
-        var t = $(elem).css('transform');
+        var t = $(elem).css('transit:transform');
         return t.get(prop);
       },
 
       set: function(elem, value) {
-        var t = $(elem).css('transform');
+        var t = $(elem).css('transit:transform');
         t.setFromString(prop, value);
 
-        $(elem).css({ transform: t });
+        $(elem).css({ 'transit:transform': t });
       }
     };
+
   }
 
   // ### uncamel(str)
