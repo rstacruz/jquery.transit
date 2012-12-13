@@ -1,7 +1,8 @@
-v1.0.0 - Dec 14, 2012
+v0.9.9 - Dec 14, 2012
 ---------------------
 
-Many, many thanks to the many [contributors] who made this release happen!
+Many, many thanks to the many [contributors] who made this release happen! This 
+is a pre-release of 1.0.
 
 ### Fixes and additions:
 
