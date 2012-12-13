@@ -8,8 +8,6 @@
  */
 
 (function($) {
-  "use strict";
-
   $.transit = {
     version: "0.1.3",
 
