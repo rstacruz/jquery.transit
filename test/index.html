@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>jQuery Transit tests</title>
+  <script>
+    (function() {
+      var m = location.search.match(/jquery=([^&$]*)/);
+      var jQueryVersion = m ? m[1] : "1.8.1";
+
+      var js, fjs = document.getElementsByTagName('script')[0];
+      function addScript(src) {
+        document.write("<scr"+"ipt src='"+src+"'></scr"+"ipt>");
+      }
+
+      // Dynamically load jQuery depending on what's passed on get params.
+      addScript("http://ajax.googleapis.com/ajax/libs/jquery/"+jQueryVersion+"/jquery.min.js");
+      addScript("../jquery.transit.js");
+
+    })();
+  </script>
+  
+  <script>
+    /* Simple test framework of sorts */
+    $('.test').live('mouseenter play', function() {
+      var $test = $(this).closest('.test');
+      $test.trigger('reset');
+      var $box = $test.find('.box:not(.ghost)');
+      var $ghost = $box.clone().addClass('ghost').appendTo($test.find('.area'));
+
+      $test.data('code')($box, $test);
+    });
+
+    $('.test').live('mouseleave reset', function() {
+      var $test = $(this).closest('.test');
+      var $ghost = $test.find('.ghost');
+      if ($ghost.length) {
+        $test.find('.box:not(.ghost)').remove();
+        $test.find('.ghost').removeClass('ghost');
+      }
+    }); 
+
+    $('.play-all').live('click', function() {
+      $('.test').trigger('play');
+    });
+
+    function test(name, fn) {
+      var i = $('.tests .test').length;
+      var $test = $('<div class="test"><h3></h3><div class="area"><div class="box"></div></div><pre class="code"></pre></div>');
+
+      var m = fn.toString().match(/\{([\s\S]*)\}$/);
+      var code = m[1];
+      code = code.replace(/^\s*|\s*$/g, '');
+      code = code.replace(/\n {4}/g, "\n");
+      name = name.replace(/\(.*\)/, function(n) { return "<em>"+n.substr(1,n.length-2)+"</em>"; });
+
+      $test.attr('id', 'test-'+i);
+      $test.find('h3').html(name);
+      $test.find('pre').text(code);
+      $test.data('code', fn);
+
+      $('.tests').append($test);
+    }
+
+    function group(name) {
+      $('.tests').append($('<h4 class="group-heading">').text(name));
+    }
+
+    $(function() {
+      $('#jquery-version').text('Using jQuery v' + $.fn.jquery);
+    });
+  </script>
+
+  <style>
+    * { margin: 0; padding: 0; font-size: 1em; }
+    html { padding: 40px; background: #e3e3e7; }
+    body, td, input, textarea { font-family: helvetica neue, sans-serif; font-size: 9pt; color: #444; line-height: 1.4; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
+    body { padding-top: 50px; }
+    .use { position: fixed; top: 0; left: 0; right: 0; padding: 20px; border-bottom: solid 1px rgba(0, 0, 0, 0.1); background: rgba(250, 250, 250, 0.9); z-index: 10; }
+    .test { width: 220px; padding: 20px; float: left; margin: 0 20px 20px 0; background: white; border-radius: 2px; box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.05), -1px 1px 0 rgba(0, 0, 0, 0.05), 0 1px 5px rgba(0, 0, 0, 0.05); }
+    .test .area { width: auto; height: 100px; margin: 10px 0; position: relative; }
+    .test:hover { box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.05), -1px 1px 0 rgba(0, 0, 0, 0.05), 0 1px 5px rgba(0, 0, 0, 0.05), 0 0 0 4px rgba(0, 0, 0, 0.15); }
+    .test h3 { font-size: 1.2em; margin-bottom: 2px; overflow: hidden; line-height: 24px; }
+    .test h3 em { font-style: normal; font-weight: 200; float: right; color: #37a; font-size: 0.8em; }
+    .test .box { position: absolute; top: 50%; left: 50%; margin: -16px 0 0 -16px; width: 32px; height: 32px; line-height: 32px; text-align: center; background: #505070; border-radius: 2px; z-index: 2; color: #ddd; }
+    .test .ghost { background: #ddd; z-index: 1; box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.07), inset 0 0 0 1px rgba(0, 0, 0, 0.03); }
+    .test pre { font-family: menlo, monospace; font-size: 7pt; padding: 10px; background: #eee; margin: 20px -20px -20px -20px; border-top: solid 1px #ddd; white-space: pre-wrap; line-height: 1.5; }
+    .group-heading { margin: 20px 0 20px 0; padding-bottom: 10px; border-bottom: dotted 1px #ccc; font-size: 1.6em; clear: both; color: #70a0c0; font-weight: 200; }
+
+    .use button { padding: 0 10px; }
+    .use a, .use button { margin: 0 5px; }
+
+    .description { padding-bottom: 20px; border-bottom: dotted 1px #ccc; }
+    .description h1 { font-size: 2.5em; font-weight: 200; color: #707090; }
+    .description p { font-size: 1.2em; color: #707090; width: 500px; }
+    .description .version { margin-bottom: 20px; font-size: 1.2em; font-weight: bold; }
+  </style>
+
+</head>
+<body>
+  <div class='use'>
+    Use:
+    <a href='index.html?jquery=1.8.1'>jQ 1.8.1</a>
+    <a href='index.html?jquery=1.7.0'>jQ 1.7</a>
+    <a href='index.html?jquery=1.6.0'>jQ 1.6</a>
+    <a href='index.html?jquery=1.5.0'>jQ 1.5</a>
+    <button class='play-all'>Play all</button>
+  </div>
+
+  <div class='description'>
+    <h1>jQuery transit tests</h1>
+    <p class='version' id='jquery-version'></p>
+    <p>Since there's no reliable programmatic way to test for transitions, this
+    is a simple page set up so you can visually inspect effects
+    conveniently.</p>
+  </div>
+
+  <div class='tests'></div>
+  <script>
+    group('Transformations');
+
+    test('Translation', function($box) { $box.transition({ x: 20, y: 20 }); });
+    test('Rotate', function($box) { $box.transition({ rotate: 45 }); });
+    test('Rotate via string', function($box) { $box.transition({ rotate: '45deg' }); });
+    test('Skew X', function($box) { $box.transition({ skewX: 30 }); });
+    test('Skew Y', function($box) { $box.transition({ skewY: 30 }); });
+    test('Skew XY', function($box) { $box.transition({ skewY: 30, skewX: 30 }); });
+    test('Scale up', function($box) { $box.transition({ scale: 2 }); });
+    test('Scale down', function($box) { $box.transition({ scale: 0.5 }); });
+
+    group('3D transformations');
+
+    test('Rotate X', function($box) {
+      $box.transition({
+        perspective: '500px',
+        rotateX: 180
+      });
+    });
+
+    test('Rotate Y', function($box) {
+      $box.transition({
+        perspective: '500px',
+        rotateY: 180
+      });
+    });
+
+    test('Rotate X/Y', function($box) {
+      $box.transition({
+        perspective: '500px',
+        rotateX: 180,
+        rotateY: 180
+      });
+    });
+
+
+    group('Params');
+
+    test('Delay', function($box) {
+      $box.transition({ rotate: 45, delay: 150 });
+    });
+
+    test('Delay zero', function($box) {
+      $box
+        .transition({ x: 50, delay: 0 })
+        .transition({ x: 0 });
+    });
+
+    test('Ease (should be snappy)', function($box) {
+      $box.transition(
+        { x: 100 }, 500,
+        'cubic-bezier(0,0.9,0.3,1)');
+    });
+
+    group('Chaining');
+
+    test('Queueing', function($box) {
+      $box
+      .transition({ x: 50 })
+      .transition({ x: 0 })
+      .transition({ y: 50 })
+      .transition({ y: 0 });
+    });
+
+    test('Duration 0 (should not flicker)', function($box) {
+      $box
+      .transition({ x: 50 }, 0)
+      .transition({ x: 0 }, 0)
+      .transition({ y: 50 }, 0);
+    });
+
+    group('Callbacks');
+
+    test('2nd param', function($box) {
+      $box.transition(
+        { rotate: 45 },
+        function() { $box.html('OK'); });
+    });
+
+    test('3rd param', function($box) {
+      $box.transition(
+        { rotate: 45 },
+        500,
+        function() { $box.html('OK'); });
+    });
+
+    test('as "complete"', function($box) {
+      $box.transition({
+        rotate: 45,
+        complete: function() { $box.html('OK'); }
+      });
+    });
+
+    group('Misc');
+
+    test('CSS with Transition', function($box) {
+      $box
+        .css({ x: -50 })
+        .transition({ x: 50 });
+    });
+
+    test('Opacity', function($box) {
+      $box
+        .transition({ opacity: 0 });
+    });
+
+  </script>
+</body>
+</html>
