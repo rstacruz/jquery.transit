@@ -1,6 +1,6 @@
 /*!
  * jQuery Transit - CSS3 transitions and transformations
- * Copyright(c) 2011 Rico Sta. Cruz <rico@ricostacruz.com>
+ * Copyright(c) 2011-12 Rico Sta. Cruz <rico@ricostacruz.com>
  * MIT Licensed.
  *
  * http://ricostacruz.com/jquery.transit
@@ -9,7 +9,7 @@
 
 (function($) {
   $.transit = {
-    version: "0.1.3",
+    version: "1.0.0",
 
     // Map of $.css() keys to values for 'transitionProperty'.
     // See https://developer.mozilla.org/en/CSS/CSS_transitions#Properties_that_can_be_animated
@@ -141,34 +141,38 @@
     set: $.cssHooks['transit:transform'].set
   };
 
-  // ## 'transformOrigin' CSS hook
-  // Allows the use for `transformOrigin` to define where scaling and rotation
-  // is pivoted.
-  //
-  //     $("#hello").css({ transformOrigin: '0 0' });
-  //
-  $.cssHooks.transformOrigin = {
-    get: function(elem) {
-      return elem.style[support.transformOrigin];
-    },
-    set: function(elem, value) {
-      elem.style[support.transformOrigin] = value;
-    }
-  };
+  // jQuery 1.8+ supports prefix-free transitions, so these polyfills will not
+  // be necessary.
+  if ($.fn.jquery < "1.8") {
+    // ## 'transformOrigin' CSS hook
+    // Allows the use for `transformOrigin` to define where scaling and rotation
+    // is pivoted.
+    //
+    //     $("#hello").css({ transformOrigin: '0 0' });
+    //
+    $.cssHooks.transformOrigin = {
+      get: function(elem) {
+        return elem.style[support.transformOrigin];
+      },
+      set: function(elem, value) {
+        elem.style[support.transformOrigin] = value;
+      }
+    };
 
-  // ## 'transition' CSS hook
-  // Allows you to use the `transition` property in CSS.
-  //
-  //     $("#hello").css({ transition: 'all 0 ease 0' });
-  //
-  $.cssHooks.transition = {
-    get: function(elem) {
-      return elem.style[support.transition];
-    },
-    set: function(elem, value) {
-      elem.style[support.transition] = value;
-    }
-  };
+    // ## 'transition' CSS hook
+    // Allows you to use the `transition` property in CSS.
+    //
+    //     $("#hello").css({ transition: 'all 0 ease 0' });
+    //
+    $.cssHooks.transition = {
+      get: function(elem) {
+        return elem.style[support.transition];
+      },
+      set: function(elem, value) {
+        elem.style[support.transition] = value;
+      }
+    };
+  }
 
   // ## Other CSS hooks
   // Allows you to rotate, scale and translate.
