@@ -6,7 +6,7 @@ Many, many thanks to the many [contributors] who made this release happen!
 ### Fixes and additions:
 
   * Fix support for jQuery 1.8, IE 10, Firefox 16, Android Jellybean.
-  (#48, ,#70, #71, #76, #77, #80, #81, #82, #85, #90, #92, #93)
+  (#48, #62, #63, #70, #71, #76, #77, #80, #81, #82, #85, #90, #92, #93)
   * Compatibility with Twitter Bootstrap has been fixed. (#67)
   * Unprefixed CSS properties are now used if your browser supports them.
   * Account for prefix-free transition end for Mozilla. (#97)

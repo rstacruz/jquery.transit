@@ -98,12 +98,9 @@ $("#box").transition({
 Tests
 -----
 
-Since you can't easily programatically test transitions, you'll need to build 
-the site, open the test suite in your browser, and visually inspect if all 
-transitions work as they should.
-
-Build the site using `rake build`, then open `site/_output/test.html`. This 
-builds the minified JS and tests it.
+Transit has a unique test suite. Open `test/index.html` to see it. When 
+contibuting fixes, be sure to test this out with different jQuery versions and 
+different browsers.
 
 Alternatives
 ------------
