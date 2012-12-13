@@ -68,11 +68,6 @@
   support.transformOrigin = getVendorPropertyName('transformOrigin');
   support.transform3d     = checkTransform3dSupport();
 
-  // Populate jQuery's `$.support` with the vendor prefixes we know.
-  // As per [jQuery's cssHooks documentation](http://api.jquery.com/jQuery.cssHooks/),
-  // we set $.support.transition to a string of the actual property name used.
-  $.support = $.extend({}, support, $.support);
-
   var eventNames = {
     'transition':       'transitionEnd',
     'MozTransition':    'transitionend',
@@ -83,6 +78,15 @@
 
   // Detect the 'transitionend' event needed.
   var transitionEnd = support.transitionEnd = eventNames[support.transition] || null;
+
+  // Populate jQuery's `$.support` with the vendor prefixes we know.
+  // As per [jQuery's cssHooks documentation](http://api.jquery.com/jQuery.cssHooks/),
+  // we set $.support.transition to a string of the actual property name used.
+  for (var key in support) {
+    if (support.hasOwnProperty(key) && typeof $.support[key] === 'undefined') {
+      $.support[key] = support[key];
+    }
+  }
 
   // Avoid memory leak in IE.
   div = null;
