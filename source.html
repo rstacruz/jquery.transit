@@ -26,7 +26,7 @@
       <td class=code>
         <div class='highlight'><pre><span class="cm">/*!</span>
 <span class="cm"> * jQuery Transit - CSS3 transitions and transformations</span>
-<span class="cm"> * Copyright(c) 2011 Rico Sta. Cruz &lt;rico@ricostacruz.com&gt;</span>
+<span class="cm"> * (c) 2011-2012 Rico Sta. Cruz &lt;rico@ricostacruz.com&gt;</span>
 <span class="cm"> * MIT Licensed.</span>
 <span class="cm"> *</span>
 <span class="cm"> * http://ricostacruz.com/jquery.transit</span>
@@ -34,10 +34,8 @@
 <span class="cm"> */</span>
 
 <span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$</span><span class="p">)</span> <span class="p">{</span>
-  <span class="s2">&quot;use strict&quot;</span><span class="p">;</span>
-
   <span class="nx">$</span><span class="p">.</span><span class="nx">transit</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">version</span><span class="o">:</span> <span class="s2">&quot;0.1.3&quot;</span><span class="p">,</span></pre></div>
+    <span class="nx">version</span><span class="o">:</span> <span class="s2">&quot;0.9.9&quot;</span><span class="p">,</span></pre></div>
       </td>
     </tr>
     <tr id='section-2'>
@@ -96,7 +94,19 @@ See https://developer.mozilla.org/en/CSS/CSS<em>transitions#Properties</em>that<
 (<code>transition</code> =&gt; <code>WebkitTransition</code>)</p>
       </td>
       <td class=code>
-        <div class='highlight'><pre>  <span class="kd">function</span> <span class="nx">getVendorPropertyName</span><span class="p">(</span><span class="nx">prop</span><span class="p">)</span> <span class="p">{</span>
+        <div class='highlight'><pre>  <span class="kd">function</span> <span class="nx">getVendorPropertyName</span><span class="p">(</span><span class="nx">prop</span><span class="p">)</span> <span class="p">{</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-6'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-6">&#182;</a>
+        </div>
+        <p>Handle unprefixed versions (FF16+, for example)</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="k">if</span> <span class="p">(</span><span class="nx">prop</span> <span class="k">in</span> <span class="nx">div</span><span class="p">.</span><span class="nx">style</span><span class="p">)</span> <span class="k">return</span> <span class="nx">prop</span><span class="p">;</span>
+
     <span class="kd">var</span> <span class="nx">prefixes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Moz&#39;</span><span class="p">,</span> <span class="s1">&#39;Webkit&#39;</span><span class="p">,</span> <span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="s1">&#39;ms&#39;</span><span class="p">];</span>
     <span class="kd">var</span> <span class="nx">prop_</span> <span class="o">=</span> <span class="nx">prop</span><span class="p">.</span><span class="nx">charAt</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">toUpperCase</span><span class="p">()</span> <span class="o">+</span> <span class="nx">prop</span><span class="p">.</span><span class="nx">substr</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
 
@@ -109,10 +119,10 @@ See https://developer.mozilla.org/en/CSS/CSS<em>transitions#Properties</em>that<
   <span class="p">}</span></pre></div>
       </td>
     </tr>
-    <tr id='section-6'>
+    <tr id='section-7'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-6">&#182;</a>
+          <a class="pilcrow" href="#section-7">&#182;</a>
         </div>
         <p>Helper function to check if transform3D is supported.
 Should return true for Webkits and Firefox 10+.</p>
@@ -127,15 +137,12 @@ Should return true for Webkits and Firefox 10+.</p>
   <span class="kd">var</span> <span class="nx">isChrome</span> <span class="o">=</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">userAgent</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">().</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;chrome&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span></pre></div>
       </td>
     </tr>
-    <tr id='section-7'>
+    <tr id='section-8'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-7">&#182;</a>
+          <a class="pilcrow" href="#section-8">&#182;</a>
         </div>
-        <p>Check for the browser&rsquo;s transitions support.
-You can access this in jQuery&rsquo;s <code>$.support.transition</code>.
-As per <a href="http://api.jquery.com/jQuery.cssHooks/">jQuery&rsquo;s cssHooks documentation</a>,
-we set $.support.transition to a string of the actual property name used.</p>
+        <p>Check for the browser&rsquo;s transitions support.</p>
       </td>
       <td class=code>
         <div class='highlight'><pre>  <span class="nx">support</span><span class="p">.</span><span class="nx">transition</span>      <span class="o">=</span> <span class="nx">getVendorPropertyName</span><span class="p">(</span><span class="s1">&#39;transition&#39;</span><span class="p">);</span>
@@ -144,9 +151,8 @@ we set $.support.transition to a string of the actual property name used.</p>
   <span class="nx">support</span><span class="p">.</span><span class="nx">transformOrigin</span> <span class="o">=</span> <span class="nx">getVendorPropertyName</span><span class="p">(</span><span class="s1">&#39;transformOrigin&#39;</span><span class="p">);</span>
   <span class="nx">support</span><span class="p">.</span><span class="nx">transform3d</span>     <span class="o">=</span> <span class="nx">checkTransform3dSupport</span><span class="p">();</span>
 
-  <span class="nx">$</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">support</span><span class="p">,</span> <span class="nx">support</span><span class="p">);</span>
-
   <span class="kd">var</span> <span class="nx">eventNames</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;transition&#39;</span><span class="o">:</span>       <span class="s1">&#39;transitionEnd&#39;</span><span class="p">,</span>
     <span class="s1">&#39;MozTransition&#39;</span><span class="o">:</span>    <span class="s1">&#39;transitionend&#39;</span><span class="p">,</span>
     <span class="s1">&#39;OTransition&#39;</span><span class="o">:</span>      <span class="s1">&#39;oTransitionEnd&#39;</span><span class="p">,</span>
     <span class="s1">&#39;WebkitTransition&#39;</span><span class="o">:</span> <span class="s1">&#39;webkitTransitionEnd&#39;</span><span class="p">,</span>
@@ -154,10 +160,10 @@ we set $.support.transition to a string of the actual property name used.</p>
   <span class="p">};</span></pre></div>
       </td>
     </tr>
-    <tr id='section-8'>
+    <tr id='section-9'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-8">&#182;</a>
+          <a class="pilcrow" href="#section-9">&#182;</a>
         </div>
         <p>Detect the &lsquo;transitionend&rsquo; event needed.</p>
       </td>
@@ -165,10 +171,27 @@ we set $.support.transition to a string of the actual property name used.</p>
         <div class='highlight'><pre>  <span class="kd">var</span> <span class="nx">transitionEnd</span> <span class="o">=</span> <span class="nx">support</span><span class="p">.</span><span class="nx">transitionEnd</span> <span class="o">=</span> <span class="nx">eventNames</span><span class="p">[</span><span class="nx">support</span><span class="p">.</span><span class="nx">transition</span><span class="p">]</span> <span class="o">||</span> <span class="kc">null</span><span class="p">;</span></pre></div>
       </td>
     </tr>
-    <tr id='section-9'>
+    <tr id='section-10'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-9">&#182;</a>
+          <a class="pilcrow" href="#section-10">&#182;</a>
+        </div>
+        <p>Populate jQuery&rsquo;s <code>$.support</code> with the vendor prefixes we know.
+As per <a href="http://api.jquery.com/jQuery.cssHooks/">jQuery&rsquo;s cssHooks documentation</a>,
+we set $.support.transition to a string of the actual property name used.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">support</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">support</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">$</span><span class="p">.</span><span class="nx">support</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">$</span><span class="p">.</span><span class="nx">support</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nx">support</span><span class="p">[</span><span class="nx">key</span><span class="p">];</span>
+    <span class="p">}</span>
+  <span class="p">}</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-11'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-11">&#182;</a>
         </div>
         <p>Avoid memory leak in IE.</p>
       </td>
@@ -187,11 +210,44 @@ we set $.support.transition to a string of the actual property name used.</p>
       </td>
       <td class=code>
         <div class='highlight'><pre>  <span class="nx">$</span><span class="p">.</span><span class="nx">cssEase</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;_default&#39;</span><span class="o">:</span> <span class="s1">&#39;ease&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;in&#39;</span><span class="o">:</span>       <span class="s1">&#39;ease-in&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;out&#39;</span><span class="o">:</span>      <span class="s1">&#39;ease-out&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;in-out&#39;</span><span class="o">:</span>   <span class="s1">&#39;ease-in-out&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;snap&#39;</span><span class="o">:</span>     <span class="s1">&#39;cubic-bezier(0,1,.5,1)&#39;</span>
+    <span class="s1">&#39;_default&#39;</span><span class="o">:</span>       <span class="s1">&#39;ease&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;in&#39;</span><span class="o">:</span>             <span class="s1">&#39;ease-in&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;out&#39;</span><span class="o">:</span>            <span class="s1">&#39;ease-out&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;in-out&#39;</span><span class="o">:</span>         <span class="s1">&#39;ease-in-out&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;snap&#39;</span><span class="o">:</span>           <span class="s1">&#39;cubic-bezier(0,1,.5,1)&#39;</span><span class="p">,</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-13'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-13">&#182;</a>
+        </div>
+        <p>Penner equations</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="s1">&#39;easeOutCubic&#39;</span><span class="o">:</span>   <span class="s1">&#39;cubic-bezier(.215,.61,.355,1)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInOutCubic&#39;</span><span class="o">:</span> <span class="s1">&#39;cubic-bezier(.645,.045,.355,1)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInCirc&#39;</span><span class="o">:</span>     <span class="s1">&#39;cubic-bezier(.6,.04,.98,.335)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeOutCirc&#39;</span><span class="o">:</span>    <span class="s1">&#39;cubic-bezier(.075,.82,.165,1)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInOutCirc&#39;</span><span class="o">:</span>  <span class="s1">&#39;cubic-bezier(.785,.135,.15,.86)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInExpo&#39;</span><span class="o">:</span>     <span class="s1">&#39;cubic-bezier(.95,.05,.795,.035)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeOutExpo&#39;</span><span class="o">:</span>    <span class="s1">&#39;cubic-bezier(.19,1,.22,1)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInOutExpo&#39;</span><span class="o">:</span>  <span class="s1">&#39;cubic-bezier(1,0,0,1)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInQuad&#39;</span><span class="o">:</span>     <span class="s1">&#39;cubic-bezier(.55,.085,.68,.53)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeOutQuad&#39;</span><span class="o">:</span>    <span class="s1">&#39;cubic-bezier(.25,.46,.45,.94)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInOutQuad&#39;</span><span class="o">:</span>  <span class="s1">&#39;cubic-bezier(.455,.03,.515,.955)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInQuart&#39;</span><span class="o">:</span>    <span class="s1">&#39;cubic-bezier(.895,.03,.685,.22)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeOutQuart&#39;</span><span class="o">:</span>   <span class="s1">&#39;cubic-bezier(.165,.84,.44,1)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInOutQuart&#39;</span><span class="o">:</span> <span class="s1">&#39;cubic-bezier(.77,0,.175,1)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInQuint&#39;</span><span class="o">:</span>    <span class="s1">&#39;cubic-bezier(.755,.05,.855,.06)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeOutQuint&#39;</span><span class="o">:</span>   <span class="s1">&#39;cubic-bezier(.23,1,.32,1)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInOutQuint&#39;</span><span class="o">:</span> <span class="s1">&#39;cubic-bezier(.86,0,.07,1)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInSine&#39;</span><span class="o">:</span>     <span class="s1">&#39;cubic-bezier(.47,0,.745,.715)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeOutSine&#39;</span><span class="o">:</span>    <span class="s1">&#39;cubic-bezier(.39,.575,.565,1)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInOutSine&#39;</span><span class="o">:</span>  <span class="s1">&#39;cubic-bezier(.445,.05,.55,.95)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInBack&#39;</span><span class="o">:</span>     <span class="s1">&#39;cubic-bezier(.6,-.28,.735,.045)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeOutBack&#39;</span><span class="o">:</span>    <span class="s1">&#39;cubic-bezier(.175, .885,.32,1.275)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInOutBack&#39;</span><span class="o">:</span>  <span class="s1">&#39;cubic-bezier(.68,-.55,.265,1.55)&#39;</span>
   <span class="p">};</span></pre></div>
       </td>
     </tr>
@@ -211,26 +267,26 @@ $(&ldquo;#hello&rdquo;).css(&lsquo;transform&rsquo;);
 </code></pre>
       </td>
       <td class=code>
-        <div class='highlight'><pre>  <span class="nx">$</span><span class="p">.</span><span class="nx">cssHooks</span><span class="p">.</span><span class="nx">transform</span> <span class="o">=</span> <span class="p">{</span></pre></div>
+        <div class='highlight'><pre>  <span class="nx">$</span><span class="p">.</span><span class="nx">cssHooks</span><span class="p">[</span><span class="s1">&#39;transit:transform&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span></pre></div>
       </td>
     </tr>
-    <tr id='section-12'>
+    <tr id='section-15'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-12">&#182;</a>
+          <a class="pilcrow" href="#section-15">&#182;</a>
         </div>
         <p>The getter returns a <code>Transform</code> object.</p>
       </td>
       <td class=code>
         <div class='highlight'><pre>    <span class="nx">get</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elem</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="nx">$</span><span class="p">(</span><span class="nx">elem</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s1">&#39;transform&#39;</span><span class="p">);</span>
+      <span class="k">return</span> <span class="nx">$</span><span class="p">(</span><span class="nx">elem</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s1">&#39;transform&#39;</span><span class="p">)</span> <span class="o">||</span> <span class="k">new</span> <span class="nx">Transform</span><span class="p">();</span>
     <span class="p">},</span></pre></div>
       </td>
     </tr>
-    <tr id='section-13'>
+    <tr id='section-16'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-13">&#182;</a>
+          <a class="pilcrow" href="#section-16">&#182;</a>
         </div>
         <p>The setter accepts a <code>Transform</code> object or a string.</p>
       </td>
@@ -243,10 +299,10 @@ $(&ldquo;#hello&rdquo;).css(&lsquo;transform&rsquo;);
       <span class="p">}</span></pre></div>
       </td>
     </tr>
-    <tr id='section-14'>
+    <tr id='section-17'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-14">&#182;</a>
+          <a class="pilcrow" href="#section-17">&#182;</a>
         </div>
         <p>We&rsquo;ve seen the 3D version of Scale() not work in Chrome when the
 element being scaled extends outside of the viewport.  Thus, we&rsquo;re
@@ -266,6 +322,33 @@ http://davidwalsh.name/detecting-google-chrome-javascript</p>
   <span class="p">};</span></pre></div>
       </td>
     </tr>
+    <tr id='section-18'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-18">&#182;</a>
+        </div>
+        <p>Add a CSS hook for <code>.css({ transform: &lsquo;&hellip;&rsquo; })</code>.
+In jQuery 1.8+, this will intentionally override the default <code>transform</code>
+CSS hook so it&rsquo;ll play well with Transit. (see issue #62)</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="nx">$</span><span class="p">.</span><span class="nx">cssHooks</span><span class="p">.</span><span class="nx">transform</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">set</span><span class="o">:</span> <span class="nx">$</span><span class="p">.</span><span class="nx">cssHooks</span><span class="p">[</span><span class="s1">&#39;transit:transform&#39;</span><span class="p">].</span><span class="nx">set</span>
+  <span class="p">};</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-19'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-19">&#182;</a>
+        </div>
+        <p>jQuery 1.8+ supports prefix-free transitions, so these polyfills will not
+be necessary.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">jquery</span> <span class="o">&lt;</span> <span class="s2">&quot;1.8&quot;</span><span class="p">)</span> <span class="p">{</span></pre></div>
+      </td>
+    </tr>
     <tr id='section-&amp;lsquo;transformOrigin&amp;rsquo;_CSS_hook'>
       <td class=docs>
         <div class="pilwrap">
@@ -280,14 +363,14 @@ is pivoted.</p>
 </code></pre>
       </td>
       <td class=code>
-        <div class='highlight'><pre>  <span class="nx">$</span><span class="p">.</span><span class="nx">cssHooks</span><span class="p">.</span><span class="nx">transformOrigin</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">get</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elem</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span><span class="nx">support</span><span class="p">.</span><span class="nx">transformOrigin</span><span class="p">];</span>
-    <span class="p">},</span>
-    <span class="nx">set</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elem</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span><span class="nx">support</span><span class="p">.</span><span class="nx">transformOrigin</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="p">};</span></pre></div>
+        <div class='highlight'><pre>    <span class="nx">$</span><span class="p">.</span><span class="nx">cssHooks</span><span class="p">.</span><span class="nx">transformOrigin</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">get</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elem</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span><span class="nx">support</span><span class="p">.</span><span class="nx">transformOrigin</span><span class="p">];</span>
+      <span class="p">},</span>
+      <span class="nx">set</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elem</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span><span class="nx">support</span><span class="p">.</span><span class="nx">transformOrigin</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">};</span></pre></div>
       </td>
     </tr>
     <tr id='section-&amp;lsquo;transition&amp;rsquo;_CSS_hook'>
@@ -299,18 +382,19 @@ is pivoted.</p>
 
 <p>Allows you to use the <code>transition</code> property in CSS.</p>
 
-<pre><code>$(&ldquo;#hello&rdquo;).css({ transition: &lsquo;all 0 ease 0&rsquo; }); 
+<pre><code>$(&ldquo;#hello&rdquo;).css({ transition: &lsquo;all 0 ease 0&rsquo; });
 </code></pre>
       </td>
       <td class=code>
-        <div class='highlight'><pre>  <span class="nx">$</span><span class="p">.</span><span class="nx">cssHooks</span><span class="p">.</span><span class="nx">transition</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">get</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elem</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span><span class="nx">support</span><span class="p">.</span><span class="nx">transition</span><span class="p">];</span>
-    <span class="p">},</span>
-    <span class="nx">set</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elem</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span><span class="nx">support</span><span class="p">.</span><span class="nx">transition</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="p">};</span></pre></div>
+        <div class='highlight'><pre>    <span class="nx">$</span><span class="p">.</span><span class="nx">cssHooks</span><span class="p">.</span><span class="nx">transition</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">get</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elem</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span><span class="nx">support</span><span class="p">.</span><span class="nx">transition</span><span class="p">];</span>
+      <span class="p">},</span>
+      <span class="nx">set</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elem</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span><span class="nx">support</span><span class="p">.</span><span class="nx">transition</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">};</span>
+  <span class="p">}</span></pre></div>
       </td>
     </tr>
     <tr id='section-Other_CSS_hooks'>
@@ -551,8 +635,8 @@ t.toString(true)     //=&gt; &ldquo;rotate(90deg) scale3d(4,4,0)&rdquo; (WebKit 
         <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_translateX</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">_translateX</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
         <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_translateY</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">_translateY</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
 
-        <span class="k">if</span> <span class="p">(</span><span class="nx">x</span> <span class="o">!==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">_translateX</span> <span class="o">=</span> <span class="nx">unit</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="s1">&#39;px&#39;</span><span class="p">);</span> <span class="p">}</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">y</span> <span class="o">!==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">_translateY</span> <span class="o">=</span> <span class="nx">unit</span><span class="p">(</span><span class="nx">y</span><span class="p">,</span> <span class="s1">&#39;px&#39;</span><span class="p">);</span> <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">x</span> <span class="o">!==</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="nx">x</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">_translateX</span> <span class="o">=</span> <span class="nx">unit</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="s1">&#39;px&#39;</span><span class="p">);</span> <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">y</span> <span class="o">!==</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="nx">y</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">_translateY</span> <span class="o">=</span> <span class="nx">unit</span><span class="p">(</span><span class="nx">y</span><span class="p">,</span> <span class="s1">&#39;px&#39;</span><span class="p">);</span> <span class="p">}</span>
 
         <span class="k">this</span><span class="p">.</span><span class="nx">translate</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_translateX</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">_translateY</span><span class="p">;</span>
       <span class="p">}</span>
@@ -573,10 +657,10 @@ t.toString(true)     //=&gt; &ldquo;rotate(90deg) scale3d(4,4,0)&rdquo; (WebKit 
         <span class="k">if</span> <span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="p">{</span> <span class="nx">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">parseFloat</span><span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span> <span class="p">}</span></pre></div>
       </td>
     </tr>
-    <tr id='section-27'>
+    <tr id='section-32'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-27">&#182;</a>
+          <a class="pilcrow" href="#section-32">&#182;</a>
         </div>
         <p>&ldquo;2.5,2.5&rdquo; =&gt; 2.5
 &ldquo;2.5,1&rdquo; =&gt; [2.5,1]</p>
@@ -633,10 +717,10 @@ it converts to a <code>-webkit-transition</code> CSS property string instead.</p
         <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span> <span class="p">{</span></pre></div>
       </td>
     </tr>
-    <tr id='section-30'>
+    <tr id='section-35'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-30">&#182;</a>
+          <a class="pilcrow" href="#section-35">&#182;</a>
         </div>
         <p>Don&rsquo;t use 3D transformations if the browser can&rsquo;t support it.</p>
       </td>
@@ -690,7 +774,7 @@ value of <code>props</code> is what you would expect in <code>$.css(&hellip;)</c
 
     <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">props</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
       <span class="nx">key</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">camelCase</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span> <span class="c1">// Convert &quot;text-align&quot; =&gt; &quot;textAlign&quot;</span>
-      <span class="nx">key</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">transit</span><span class="p">.</span><span class="nx">propertyMap</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">||</span> <span class="nx">key</span><span class="p">;</span>
+      <span class="nx">key</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">transit</span><span class="p">.</span><span class="nx">propertyMap</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">||</span> <span class="nx">$</span><span class="p">.</span><span class="nx">cssProps</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">||</span> <span class="nx">key</span><span class="p">;</span>
       <span class="nx">key</span> <span class="o">=</span> <span class="nx">uncamel</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span> <span class="c1">// Convert back to dasherized</span>
 
       <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">inArray</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">re</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="nx">re</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span> <span class="p">}</span>
@@ -719,10 +803,10 @@ value of <code>props</code> is what you would expect in <code>$.css(&hellip;)</c
         <div class='highlight'><pre>  <span class="kd">function</span> <span class="nx">getTransition</span><span class="p">(</span><span class="nx">properties</span><span class="p">,</span> <span class="nx">duration</span><span class="p">,</span> <span class="nx">easing</span><span class="p">,</span> <span class="nx">delay</span><span class="p">)</span> <span class="p">{</span></pre></div>
       </td>
     </tr>
-    <tr id='section-33'>
+    <tr id='section-38'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-33">&#182;</a>
+          <a class="pilcrow" href="#section-38">&#182;</a>
         </div>
         <p>Get the CSS properties needed.</p>
       </td>
@@ -730,10 +814,10 @@ value of <code>props</code> is what you would expect in <code>$.css(&hellip;)</c
         <div class='highlight'><pre>    <span class="kd">var</span> <span class="nx">props</span> <span class="o">=</span> <span class="nx">getProperties</span><span class="p">(</span><span class="nx">properties</span><span class="p">);</span></pre></div>
       </td>
     </tr>
-    <tr id='section-34'>
+    <tr id='section-39'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-34">&#182;</a>
+          <a class="pilcrow" href="#section-39">&#182;</a>
         </div>
         <p>Account for aliases (<code>in</code> =&gt; <code>ease-in</code>).</p>
       </td>
@@ -741,10 +825,10 @@ value of <code>props</code> is what you would expect in <code>$.css(&hellip;)</c
         <div class='highlight'><pre>    <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cssEase</span><span class="p">[</span><span class="nx">easing</span><span class="p">])</span> <span class="p">{</span> <span class="nx">easing</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">cssEase</span><span class="p">[</span><span class="nx">easing</span><span class="p">];</span> <span class="p">}</span></pre></div>
       </td>
     </tr>
-    <tr id='section-35'>
+    <tr id='section-40'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-35">&#182;</a>
+          <a class="pilcrow" href="#section-40">&#182;</a>
         </div>
         <p>Build the duration/easing/delay attributes for it.</p>
       </td>
@@ -753,10 +837,10 @@ value of <code>props</code> is what you would expect in <code>$.css(&hellip;)</c
     <span class="k">if</span> <span class="p">(</span><span class="nb">parseInt</span><span class="p">(</span><span class="nx">delay</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span> <span class="nx">attribs</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="nx">toMS</span><span class="p">(</span><span class="nx">delay</span><span class="p">);</span> <span class="p">}</span></pre></div>
       </td>
     </tr>
-    <tr id='section-36'>
+    <tr id='section-41'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-36">&#182;</a>
+          <a class="pilcrow" href="#section-41">&#182;</a>
         </div>
         <p>For more properties, add them this way:
 &ldquo;margin 200ms ease, padding 200ms ease, &hellip;&rdquo;</p>
@@ -811,10 +895,10 @@ $(&ldquo;&hellip;&rdquo;).transition({
     <span class="kd">var</span> <span class="nx">queue</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span></pre></div>
       </td>
     </tr>
-    <tr id='section-38'>
+    <tr id='section-43'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-38">&#182;</a>
+          <a class="pilcrow" href="#section-43">&#182;</a>
         </div>
         <p>Account for <code>.transition(properties, callback)</code>.</p>
       </td>
@@ -825,10 +909,10 @@ $(&ldquo;&hellip;&rdquo;).transition({
     <span class="p">}</span></pre></div>
       </td>
     </tr>
-    <tr id='section-39'>
+    <tr id='section-44'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-39">&#182;</a>
+          <a class="pilcrow" href="#section-44">&#182;</a>
         </div>
         <p>Account for <code>.transition(properties, duration, callback)</code>.</p>
       </td>
@@ -839,10 +923,10 @@ $(&ldquo;&hellip;&rdquo;).transition({
     <span class="p">}</span></pre></div>
       </td>
     </tr>
-    <tr id='section-40'>
+    <tr id='section-45'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-40">&#182;</a>
+          <a class="pilcrow" href="#section-45">&#182;</a>
         </div>
         <p>Alternate syntax.</p>
       </td>
@@ -873,10 +957,10 @@ $(&ldquo;&hellip;&rdquo;).transition({
     <span class="p">}</span></pre></div>
       </td>
     </tr>
-    <tr id='section-41'>
+    <tr id='section-46'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-41">&#182;</a>
+          <a class="pilcrow" href="#section-46">&#182;</a>
         </div>
         <p>Set defaults. (<code>400</code> duration, <code>ease</code> easing)</p>
       </td>
@@ -887,10 +971,10 @@ $(&ldquo;&hellip;&rdquo;).transition({
     <span class="nx">duration</span> <span class="o">=</span> <span class="nx">toMS</span><span class="p">(</span><span class="nx">duration</span><span class="p">);</span></pre></div>
       </td>
     </tr>
-    <tr id='section-42'>
+    <tr id='section-47'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-42">&#182;</a>
+          <a class="pilcrow" href="#section-47">&#182;</a>
         </div>
         <p>Build the <code>transition</code> property.</p>
       </td>
@@ -898,10 +982,10 @@ $(&ldquo;&hellip;&rdquo;).transition({
         <div class='highlight'><pre>    <span class="kd">var</span> <span class="nx">transitionValue</span> <span class="o">=</span> <span class="nx">getTransition</span><span class="p">(</span><span class="nx">properties</span><span class="p">,</span> <span class="nx">duration</span><span class="p">,</span> <span class="nx">easing</span><span class="p">,</span> <span class="nx">delay</span><span class="p">);</span></pre></div>
       </td>
     </tr>
-    <tr id='section-43'>
+    <tr id='section-48'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-43">&#182;</a>
+          <a class="pilcrow" href="#section-48">&#182;</a>
         </div>
         <p>Compute delay until callback.
 If this becomes 0, don&rsquo;t bother setting the transition property.</p>
@@ -911,10 +995,10 @@ If this becomes 0, don&rsquo;t bother setting the transition property.</p>
     <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">work</span> <span class="o">?</span> <span class="p">(</span><span class="nb">parseInt</span><span class="p">(</span><span class="nx">duration</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">delay</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span></pre></div>
       </td>
     </tr>
-    <tr id='section-44'>
+    <tr id='section-49'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-44">&#182;</a>
+          <a class="pilcrow" href="#section-49">&#182;</a>
         </div>
         <p>If there&rsquo;s nothing to do&hellip;</p>
       </td>
@@ -931,10 +1015,10 @@ If this becomes 0, don&rsquo;t bother setting the transition property.</p>
     <span class="p">}</span></pre></div>
       </td>
     </tr>
-    <tr id='section-45'>
+    <tr id='section-50'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-45">&#182;</a>
+          <a class="pilcrow" href="#section-50">&#182;</a>
         </div>
         <p>Save the old transitions of each element so we can restore it later.</p>
       </td>
@@ -945,10 +1029,10 @@ If this becomes 0, don&rsquo;t bother setting the transition property.</p>
       <span class="kd">var</span> <span class="nx">bound</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span></pre></div>
       </td>
     </tr>
-    <tr id='section-46'>
+    <tr id='section-51'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-46">&#182;</a>
+          <a class="pilcrow" href="#section-51">&#182;</a>
         </div>
         <p>Prepare the callback.</p>
       </td>
@@ -969,10 +1053,10 @@ If this becomes 0, don&rsquo;t bother setting the transition property.</p>
       <span class="k">if</span> <span class="p">((</span><span class="nx">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">transitionEnd</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">transit</span><span class="p">.</span><span class="nx">useTransitionEnd</span><span class="p">))</span> <span class="p">{</span></pre></div>
       </td>
     </tr>
-    <tr id='section-47'>
+    <tr id='section-52'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-47">&#182;</a>
+          <a class="pilcrow" href="#section-52">&#182;</a>
         </div>
         <p>Use the &lsquo;transitionend&rsquo; event if it&rsquo;s available.</p>
       </td>
@@ -982,10 +1066,10 @@ If this becomes 0, don&rsquo;t bother setting the transition property.</p>
       <span class="p">}</span> <span class="k">else</span> <span class="p">{</span></pre></div>
       </td>
     </tr>
-    <tr id='section-48'>
+    <tr id='section-53'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-48">&#182;</a>
+          <a class="pilcrow" href="#section-53">&#182;</a>
         </div>
         <p>Fallback to timers if the &lsquo;transitionend&rsquo; event isn&rsquo;t supported.</p>
       </td>
@@ -994,10 +1078,10 @@ If this becomes 0, don&rsquo;t bother setting the transition property.</p>
       <span class="p">}</span></pre></div>
       </td>
     </tr>
-    <tr id='section-49'>
+    <tr id='section-54'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-49">&#182;</a>
+          <a class="pilcrow" href="#section-54">&#182;</a>
         </div>
         <p>Apply transitions.</p>
       </td>
@@ -1011,10 +1095,10 @@ If this becomes 0, don&rsquo;t bother setting the transition property.</p>
     <span class="p">};</span></pre></div>
       </td>
     </tr>
-    <tr id='section-50'>
+    <tr id='section-55'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-50">&#182;</a>
+          <a class="pilcrow" href="#section-55">&#182;</a>
         </div>
         <p>Defer running. This allows the browser to paint any pending CSS it hasn&rsquo;t
 painted yet before doing the transitions.</p>
@@ -1024,10 +1108,10 @@ painted yet before doing the transitions.</p>
       <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span></pre></div>
       </td>
     </tr>
-    <tr id='section-51'>
+    <tr id='section-56'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-51">&#182;</a>
+          <a class="pilcrow" href="#section-56">&#182;</a>
         </div>
         <p>Durations that are too slow will get transitions mixed up.
 (Tested on Mac/FF 7.0.1)</p>
@@ -1039,10 +1123,10 @@ painted yet before doing the transitions.</p>
     <span class="p">};</span></pre></div>
       </td>
     </tr>
-    <tr id='section-52'>
+    <tr id='section-57'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-52">&#182;</a>
+          <a class="pilcrow" href="#section-57">&#182;</a>
         </div>
         <p>Use jQuery&rsquo;s fx queue.</p>
       </td>
@@ -1050,10 +1134,10 @@ painted yet before doing the transitions.</p>
         <div class='highlight'><pre>    <span class="nx">callOrQueue</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="nx">queue</span><span class="p">,</span> <span class="nx">deferredRun</span><span class="p">);</span></pre></div>
       </td>
     </tr>
-    <tr id='section-53'>
+    <tr id='section-58'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-53">&#182;</a>
+          <a class="pilcrow" href="#section-58">&#182;</a>
         </div>
         <p>Chainability.</p>
       </td>
@@ -1064,10 +1148,10 @@ painted yet before doing the transitions.</p>
   <span class="kd">function</span> <span class="nx">registerCssHook</span><span class="p">(</span><span class="nx">prop</span><span class="p">,</span> <span class="nx">isPixels</span><span class="p">)</span> <span class="p">{</span></pre></div>
       </td>
     </tr>
-    <tr id='section-54'>
+    <tr id='section-59'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-54">&#182;</a>
+          <a class="pilcrow" href="#section-59">&#182;</a>
         </div>
         <p>For certain properties, the &lsquo;px&rsquo; should not be implied.</p>
       </td>
@@ -1078,17 +1162,18 @@ painted yet before doing the transitions.</p>
 
     <span class="nx">$</span><span class="p">.</span><span class="nx">cssHooks</span><span class="p">[</span><span class="nx">prop</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
       <span class="nx">get</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elem</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">t</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">elem</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;transform&#39;</span><span class="p">)</span> <span class="o">||</span> <span class="k">new</span> <span class="nx">Transform</span><span class="p">();</span>
+        <span class="kd">var</span> <span class="nx">t</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">elem</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;transit:transform&#39;</span><span class="p">);</span>
         <span class="k">return</span> <span class="nx">t</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">prop</span><span class="p">);</span>
       <span class="p">},</span>
 
       <span class="nx">set</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elem</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">t</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">elem</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;transform&#39;</span><span class="p">)</span> <span class="o">||</span> <span class="k">new</span> <span class="nx">Transform</span><span class="p">();</span>
+        <span class="kd">var</span> <span class="nx">t</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">elem</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;transit:transform&#39;</span><span class="p">);</span>
         <span class="nx">t</span><span class="p">.</span><span class="nx">setFromString</span><span class="p">(</span><span class="nx">prop</span><span class="p">,</span> <span class="nx">value</span><span class="p">);</span>
 
-        <span class="nx">$</span><span class="p">(</span><span class="nx">elem</span><span class="p">).</span><span class="nx">css</span><span class="p">({</span> <span class="nx">transform</span><span class="o">:</span> <span class="nx">t</span> <span class="p">});</span>
+        <span class="nx">$</span><span class="p">(</span><span class="nx">elem</span><span class="p">).</span><span class="nx">css</span><span class="p">({</span> <span class="s1">&#39;transit:transform&#39;</span><span class="o">:</span> <span class="nx">t</span> <span class="p">});</span>
       <span class="p">}</span>
     <span class="p">};</span>
+
   <span class="p">}</span></pre></div>
       </td>
     </tr>
@@ -1150,10 +1235,10 @@ toMS(10)       //=&gt; &lsquo;10ms&rsquo;
     <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">duration</span><span class="p">;</span></pre></div>
       </td>
     </tr>
-    <tr id='section-58'>
+    <tr id='section-63'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-58">&#182;</a>
+          <a class="pilcrow" href="#section-63">&#182;</a>
         </div>
         <p>Allow for string durations like &lsquo;fast&rsquo;.</p>
       </td>
@@ -1164,10 +1249,10 @@ toMS(10)       //=&gt; &lsquo;10ms&rsquo;
   <span class="p">}</span></pre></div>
       </td>
     </tr>
-    <tr id='section-59'>
+    <tr id='section-64'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-59">&#182;</a>
+          <a class="pilcrow" href="#section-64">&#182;</a>
         </div>
         <p>Export some functions for testable-ness.</p>
 
