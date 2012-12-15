@@ -136,10 +136,10 @@ span.amp {
 
   line-height: 1.3;
 
-  background:
-    linear-gradient(top, rgba(255, 255, 255, 0.9), rgba(220, 255, 255, 0.9)),
-    url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/shattered.png);
-  background-attachment: fixed, fixed;
+  /* background: */
+  /*   linear-gradient(top, rgba(255, 255, 255, 0.9), rgba(220, 255, 255, 0.9)), */
+  /*   url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/shattered.png); */
+  /* background-attachment: fixed, fixed; */
 
   padding: 50px 40px 94px 40px; }
 
@@ -264,7 +264,7 @@ span.amp {
 /* ---------------------------------------------------------------------------- */
 
 .section {
-  box-shadow: inset 0 1px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 1px rgba(0, 0, 0, 0.1), inset 0 5px 3px -3px rgba(0, 0, 0, 0.1);
   background-attachment: fixed, fixed;
   overflow: hidden;
   padding: 60px 20px;
@@ -276,7 +276,7 @@ span.amp {
     padding-right: 10px; } }
 
 .section.top {
-  box-shadow: 0;
+  box-shadow: none;
   padding-top: 0; }
 
 /* ---------------------------------------------------------------------------- */
@@ -400,10 +400,50 @@ span.amp {
 
 /* ---------------------------------------------------------------------------- */
 
-.section.duration {
+.section.easing {
   background:
     linear-gradient(top left, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.6)),
     url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/shattered.png); }
+
+.section.easing .heading h2 {
+  font-size: 40pt;
+  color: #5ad; }
+
+.section.easing .examples {
+  background-color: rgba(0, 0, 0, 0.05); }
+
+
+/* -- */
+
+.supported-easing {
+  text-align: center;
+  padding: 20px 40px; }
+
+.supported-easing h4 {
+  margin: 40px 0 20px 0;
+  font-family: exo, sans-serif;
+  font-size: 1.3em;
+  font-weight: 400; }
+
+.supported-easing li:before {
+  content: '\2219';
+  display: inline-block;
+  margin-right: 10px;
+  color: #aaa;
+}
+
+.supported-easing ul {
+  line-height: 1.8;
+  font-size: 0; }
+
+.supported-easing li {
+  display: inline-block;
+
+  font-size: 8pt;
+  color: #555;
+
+  padding: 0 0 0 10px;
+  border-radius: 20px; }
 
 /* ---------------------------------------------------------------------------- */
 
@@ -422,8 +462,7 @@ span.amp {
   position: relative;
   z-index: 1;
 
-  transition: all 100ms ease;
-  transform: scale(1.0) translate3d(0, 0, 0); }
+  transition: all 100ms ease; }
 
 .download a .in {
   display: table-cell;
@@ -719,3 +758,32 @@ span.amp {
   margin-top: 10px;
   padding-top: 10px; }
 
+
+/* ---------------------------------------------------------------------------- */
+
+.section.credits {
+  margin-top: -1px;
+  padding-top: 80px;
+  background-color: #111;
+  background:
+    linear-gradient(top left, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)),
+    url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/noisy_grid.png);
+  background-attachment: fixed, fixed;
+
+  font-size: 0.9em;
+  color: #777; }
+
+.section.credits a {
+  color: #ccc; }
+
+.section.credits .subcontent {
+  overflow: hidden; }
+
+.section.credits ul,
+.section.credits p {
+  width: 33%;
+  float: left;
+  padding-right: 20px;
+  box-shadow: border-box;
+  padding-bottom: 20px;
+}
