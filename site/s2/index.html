@@ -69,13 +69,13 @@
     <!-- ============================================================================ -->
 
     <div class="heading l-page">
-      <h2>Transformations</h2>
-      <p>Hover to see it work.</p>
+      <h2>Transitions <span class="amp">&amp;</span> transformations</h2>
+      <p>Here are some basic transformations. Hover to see them work.</p>
     </div>
 
     <div class="examples trio l-page">
 
-      <div class="example">
+      <div class="example normal">
         <div class="in">
           <h3>Translate X</h3>
           <div class="area">
@@ -87,7 +87,7 @@
         </div>
       </div>
 
-      <div class="example">
+      <div class="example normal">
         <div class="in">
           <h3>Translate Y</h3>
           <div class="area">
@@ -99,7 +99,7 @@
         </div>
       </div>
 
-      <div class="example">
+      <div class="example normal">
         <div class="in">
           <h3>Translate X/Y</h3>
           <div class="area">
@@ -169,7 +169,7 @@
 
     <div class="examples trio l-page">
 
-      <div class="example">
+      <div class="example normal">
         <div class="in">
           <h3>Rotate</h3>
           <div class="area">
@@ -181,7 +181,7 @@
         </div>
       </div>
 
-      <div class="example">
+      <div class="example normal">
         <div class="in">
           <h3>Scale</h3>
           <div class="area">
@@ -193,7 +193,7 @@
         </div>
       </div>
 
-      <div class="example">
+      <div class="example normal">
         <div class="in">
           <h3>Scale independently</h3>
           <div class="area">
@@ -205,7 +205,7 @@
         </div>
       </div>
 
-      <div class="example">
+      <div class="example normal">
         <div class="in">
           <h3>Skew X</h3>
           <div class="area">
@@ -217,7 +217,7 @@
         </div>
       </div>
 
-      <div class="example">
+      <div class="example normal">
         <div class="in">
           <h3>Skew Y</h3>
           <div class="area">
@@ -240,7 +240,7 @@
 
     <div class="examples trio l-page">
 
-      <div class="example">
+      <div class="example normal">
         <div class="in">
           <h3>Rotate X</h3>
           <div class="area">
@@ -252,7 +252,7 @@
         </div>
       </div>
 
-      <div class="example">
+      <div class="example normal">
         <div class="in">
           <h3>Rotate Y</h3>
           <div class="area">
@@ -264,7 +264,7 @@
         </div>
       </div>
 
-      <div class="example">
+      <div class="example normal">
         <div class="in">
           <h3>Rotate 3D</h3>
           <div class="area">
@@ -285,24 +285,26 @@
 
     <div class="examples l-page duo">
 
-      <div class="example slim white">
+      <div class="example slim">
         <div class="in">
           <div class="area">
             <div class="box"></div>
           </div>
+          <h3>Example one</h3>
           <div class="code">
             <pre>$('.box').transition({ <b>opacity: 0</b> });</pre>
           </div>
         </div>
       </div>
 
-      <div class="example slim white">
+      <div class="example slim">
         <div class="in">
           <div class="area">
             <div class="box"></div>
           </div>
+          <h3>Example two</h3>
           <div class="code">
-            <pre>$('.box').transition({ <b>marginLeft: '20px'</b>, <b>height: '50px'</b> });</pre>
+            <pre>$('.box').transition({ <b>marginTop: '10px'</b>, <b>height: '22px'</b> });</pre>
           </div>
         </div>
       </div>
@@ -321,50 +323,50 @@
 
     <div class="examples duo l-page">
 
-      <div class="example slim white start-from-left">
+      <div class="example slim easing">
         <div class="in">
           <div class="area">
             <div class="box"></div>
           </div>
+          <h3>Linear</h3>
           <div class="code">
-            <h4>Linear</h4>
-            <pre>$('.box').transition({ x: 210 }, 500, <b>'linear'</b>);</pre>
+            <pre>$('.box').transition(<br>  { x: 210 }, 500, <b>'linear'</b>);</pre>
           </div>
         </div>
       </div>
 
-      <div class="example slim white start-from-left">
+      <div class="example slim easing">
         <div class="in">
           <div class="area">
             <div class="box"></div>
           </div>
+          <h3>Ease</h3>
           <div class="code">
-            <h4>Ease</h4>
-            <pre>$('.box').transition({ x: 210 }, 500, <b>'ease'</b>);</pre>
+            <pre>$('.box').transition(<br>  { x: 210 }, 500, <b>'ease'</b>);</pre>
           </div>
         </div>
       </div>
 
-      <div class="example slim white start-from-left">
+      <div class="example slim easing">
         <div class="in">
           <div class="area">
             <div class="box"></div>
           </div>
+          <h3>Snap</h3>
           <div class="code">
-            <h4>Snap</h4>
-            <pre>$('.box').transition({ x: 210 }, 500, <b>'snap'</b>);</pre>
+            <pre>$('.box').transition(<br>  { x: 210 }, 500, <b>'snap'</b>);</pre>
           </div>
         </div>
       </div>
 
-      <div class="example slim white start-from-left">
+      <div class="example slim easing">
         <div class="in">
           <div class="area">
             <div class="box"></div>
           </div>
+          <h3>Custom</h3>
           <div class="code">
-            <h4>Custom</h4>
-            <pre>$('.box').transition({ x: 210 }, 500, <b>'cubic-bezier(0,0.9,0.3,1)'</b>);</pre>
+            <pre>$('.box').transition(<br>  { x: 210 }, 500, <b>'cubic-bezier(0,0.9,0.3,1)'</b>);</pre>
           </div>
         </div>
       </div>
@@ -381,51 +383,165 @@
       <h2>More features</h2>
     </div>
 
-    <div class="examples card trio l-page">
-      <div class="fit">
+    <div class="examples duo l-page">
 
-        <div class="example nano">
-          <div class="in">
-            <div class="area">
-              <div class="box"></div>
-            </div>
-            <h3>Delay</h3>
-            <p>You can specify a delay.</p>
-            <div class="code">
-              <pre>$('.box').transition({ scale: 0, <b>delay: 500</b> });</pre>
-            </div>
+      <div class="example slim">
+        <div class="in">
+          <div class="area">
+            <div class="box"></div>
           </div>
-        </div>
-
-        <div class="example nano">
-          <div class="in">
-            <div class="area">
-              <div class="box"></div>
-            </div>
-            <h3>Optional units</h3>
-            <p>All units (eg, <code>px</em>, <em>deg</em>, <em>ms</em>) are optional.</p>
-            <div class="code">
-              <pre>$('.box').transition({ <b>y: 30</b> });</pre>
-            </div>
-          </div>
-        </div>
-
-        <div class="example nano">
-          <div class="in">
-            <div class="area">
-              <div class="box"></div>
-            </div>
-            <h3>Relative values</h3>
-            <p>Start your values with either <code>+=</code> or <code>-=</code> to add/subtract to current values.</p>
-            <div class="code">
-              <pre>$('.box').transition({ <b>rotate: '+=30deg'</b> });</pre>
-            </div>
+          <h3>Delay</h3>
+          <p>You can specify a delay.</p>
+          <div class="code">
+            <pre>$('.box').transition({ scale: 0, <b>delay: 500</b> });</pre>
           </div>
         </div>
       </div>
 
+      <div class="example slim">
+        <div class="in">
+          <div class="area">
+            <div class="box"></div>
+          </div>
+          <h3>Optional units</h3>
+          <p>All units (eg, <code>px</em>, <em>deg</em>, <em>ms</em>) are optional.</p>
+          <div class="code">
+            <pre>$('.box').transition({ <b>y: 30</b> });</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="example slim">
+        <div class="in">
+          <div class="area">
+            <div class="box"></div>
+          </div>
+          <h3>$.fn.css</h3>
+          <p>Transform properties work with <code>.css()</code> as well.</p>
+          <div class="code">
+            <pre>$('.box')<b>.css</b>({ rotate: '30deg' });</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="example slim">
+        <div class="in">
+          <div class="area">
+            <div class="box"></div>
+          </div>
+          <h3>Vendor prefixes</h3>
+          <p>Vendor prefixes are auto-added for <code>transform</code>, <code>transition</code>, and others.</p>
+          <div class="code">
+            <pre>$('.box').css({ <b>transform: 'scale(0.2)'</b> });</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="example slim">
+        <div class="in">
+          <div class="area">
+            <div class="box"></div>
+          </div>
+          <h3>Alternate easing/duration syntax</h3>
+          <p>You can provide <code>easing</code> and <code>duration</code> in the options.</p>
+          <div class="code">
+            <pre>$('.box').transition({<br>  y: 32, <b>easing: 'snap'</b>, <b>duration: 200</b><br>});</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="example slim">
+        <div class="in">
+          <div class="area">
+            <div class="box"></div>
+          </div>
+          <h3>Relative values</h3>
+          <p>Start your values with either <code>+=</code> or <code>-=</code> to add/subtract to current values.</p>
+          <div class="code">
+            <pre>$('.box').transition({<br>  <b>rotate: '+=30deg'</b>, <b>x: '+= 10'</b><br>  });</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="example nano">
+      </div>
+
     </div>
   </div>
+
+  <!-- ============================================================================ -->
+
+  <div class="section usage">
+    <div class="heading l-page">
+      <h2>Browser support</h2>
+    </div>
+
+    <div class="subcontent card l-page">
+      <div class="info">
+        <h3>Supported browsers</h3>
+        <p>
+          See <a href="http://caniuse.com/#search=transition">caniuse.com's report on CSS transitions.</a>
+          To support iOS4 and below, Transit uses <code>translate3d</code> and <code>scale3d</code>.
+        </p>
+        <ul class="supported-browsers">
+          <li>IE 10+</li>
+          <li>Firefox 4+</li>
+          <li>Safari 5+</li>
+          <li>Chrome 10+</li>
+          <li>Opera 11+</li>
+          <li>Mobile Safari</li>
+        </ul>
+      </div>
+
+      <div class="info grey">
+        <h3>What about older browsers?</h3>
+        <p>
+          Transit degrades older browsers by simply not doing the
+          transformations (rotate, scale, etc) while still doing standard CSS
+          (opacity, marginLeft, etc) without any animation.  Delays and
+          durations will be ignored.
+        </p>
+      </div>
+
+      <div class="info">
+        <pre class="figure">// Delegate .transition() calls to .animate()<br>// if the browser can't do CSS transitions.<br>if (!$.support.transition)<br>  $.fn.transition = $.fn.animate;</pre>
+        <h3>Fallback to frame-based animation</h3>
+        <p>
+          If you would like to fallback to classic animation when transitions aren't supported,
+          just manually redefine <code>.transitition</code> to <code>.animate</code>.
+        </p>
+        <p>
+          (Note: if you're using custom easing, you may need to also use <a
+          href="http://gsgd.co.uk/sandbox/jquery/easing/">jQuery Easing</a>, and restrict
+          your use of easing options to the ones defined there.)
+        </p>
+      </div>
+    </div>
+
+    <div class="heading l-page">
+      <h2>Recipes</h2>
+    </div>
+
+    <div class="subcontent card l-page">
+      <div class='info slim'>
+        <pre class="figure">$.fx.speeds._default = 300;</pre>
+        <h3>Default duration</h3>
+        <p>
+          Transit honors jQuery's default speed, <code>$.fx.speeds._default</code>.
+        </p>
+      </div>
+
+      <div class='info grey slim'>
+        <pre class="figure">$.cssEase['bounce'] = 'cubic-bezier(0,1,0.5,1.3)';<br>$('.box').transition({ x: 0 }, 500, 'bounce');</pre>
+        <h3>Custom easing</h3>
+        <p>
+          Define custom easing aliases in <code>$.cssEase</code>.
+        </p>
+      </div>
+    </div>
+
+  </div>
+  <!-- Todo: chaining, transformOrigin ... .css.transition ... browser support -->
 
 </body>
 </html>
