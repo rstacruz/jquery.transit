@@ -13,6 +13,12 @@
     WebFontConfig={ google: { families: [ 'Exo:200,400,700', 'Open Sans:400' ] } };
     (function(d,s){var w=d.createElement(s);w.src='http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';w.async=1;var c=d.getElementsByTagName(s)[0];c.parentNode.insertBefore(w,c);})(document,'script');
   </script>
+  <script>
+    if (location.hostname.match(/ricostacruz\.com/)) {
+      _gaq=[['_setAccount','UA-20473929-1'],['_trackPageview']];
+      (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.async=1;g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s);}(document,'script'));
+    }
+  </script>
 </head>
 <body>
   <div class="section top">
@@ -121,7 +127,7 @@
 
   <div class="section usage">
     <div class="heading l-page">
-      <h2>How to use Transit</h2>
+      <h2 class="bigger">How to use Transit</h2>
     </div>
 
     <div class="subcontent card l-page">
@@ -165,9 +171,13 @@
 
   <!-- ============================================================================ -->
 
+  <div class="gap">
+    <a href="#top" class="thing"></a>
+  </div>
+
   <div class="more section">
     <div class="heading l-page">
-      <h2>More transformations</h2>
+      <h2 class="bigger">More transformations</h2>
     </div>
 
     <div class="examples trio l-page">
@@ -317,10 +327,14 @@
 
   <!-- ============================================================================ -->
 
+  <div class="gap">
+    <a href="#top" class="thing"></a>
+  </div>
+
   <div class="easing section">
 
     <div class="heading l-page">
-      <h2>Easing</h2>
+      <h2 class="bigger">Easing</h2>
       <p>Simply provide a 3rd parameter to <code>$.transition</code>.</p>
     </div>
 
@@ -416,6 +430,10 @@
 
   <!-- ============================================================================ -->
 
+  <div class="gap">
+    <a href="#top" class="thing"></a>
+  </div>
+
   <div class="section extras">
 
     <div class="heading l-page">
@@ -456,7 +474,7 @@
             <div class="box"></div>
           </div>
           <h3>$.fn.css</h3>
-          <p>Transform properties work with <code>.css()</code> as well.</p>
+          <p>Transform properties work with <code>.css()</code> as well. They're not just for animation!</p>
           <div class="code">
             <pre>$('.box')<b>.css</b>({ rotate: '30deg' });</pre>
           </div>
@@ -482,7 +500,7 @@
             <div class="box"></div>
           </div>
           <h3>Alternate easing/duration syntax</h3>
-          <p>You can provide <code>easing</code> and <code>duration</code> in the options.</p>
+          <p>You can provide <code>easing</code> and <code>duration</code> in the options. Great with CoffeeScript.</p>
           <div class="code">
             <pre>$('.box').transition({<br>  y: 32, <b>easing: 'snap'</b>, <b>duration: 200</b><br>});</pre>
           </div>
@@ -502,7 +520,48 @@
         </div>
       </div>
 
-      <div class="example nano">
+      <div class="example slim">
+        <div class="in">
+          <div class="area">
+            <div class="box"></div>
+          </div>
+          <h3>Transformation origins</h3>
+          <p>You can use <code>transformOrigin</code> to get/set where rotations and scales start from.</p>
+          <div class="code">
+            <pre>$('.box')<br>  .css({ <b>transformOrigin: '10px 10px'</b> })<br>  .transition({ rotate: '45deg' });</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="example slim">
+        <div class="in">
+          <div class="area">
+            <div class="box"></div>
+          </div>
+          <h3>Getting values</h3>
+          <p>You can <code>.css</code> to get values from any of the transformations defined by Transit.</p>
+          <div class="code">
+            <pre>$('.box').css({ rotate: '30deg' });<br>alert($('.box')<b>.css('rotate')</b>);<br>alert($('.box')<b>.css('transform')</b>);</pre>
+          </div>
+        </div>
+      </div>
+
+     </div>
+
+     <div class="examples solo l-page">
+      <div class="example slim">
+        <div class="in">
+          <div class="area">
+            <div class="box"></div>
+          </div>
+          <h3>Chaining <span class="amp">&amp;</span> queuing</h3>
+          <p>Transit uses <a href="http://api.jquery.com/queue/">jQuery's
+          effect queue</a>, exactly like <code>.animate</code>. This means transitions
+          will never run in parallel. (You can disable the queue with <code>queue: false</code>.)</p>
+          <div class="code">
+            <pre>$('.box') <b>.transition({ x: -40 })</b> <b>.transition({ y: 40 })</b> <b>.transition({ x: 0 })</b> <b>.transition({ y: 0 })</b>;</pre>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -510,9 +569,13 @@
 
   <!-- ============================================================================ -->
 
+  <div class="gap">
+    <a href="#top" class="thing"></a>
+  </div>
+
   <div class="section usage">
     <div class="heading l-page">
-      <h2>Browser support</h2>
+      <h2 class="bigger">Browser support</h2>
     </div>
 
     <div class="subcontent card l-page">
@@ -581,7 +644,11 @@
 
   </div>
 
-  <!-- Cre -->
+  <!-- ============================================================================ -->
+
+  <div class="gap">
+    <a href="#top" class="thing"></a>
+  </div>
 
   <div class="section credits">
 
@@ -603,7 +670,6 @@
       </ul>
     </div>
   </div>
-  <!-- Todo: chaining, transformOrigin ... .css.transition ... browser support -->
 
 </body>
 </html>

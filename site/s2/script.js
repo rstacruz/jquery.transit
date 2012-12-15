@@ -1,4 +1,5 @@
 (function() {
+
     var lastID = 0;
 
     $('.example').live('mouseenter play', function() {
@@ -21,7 +22,6 @@
       code = code.replace(/\$\('\.box'\)/g, '$("#'+id+' .box:not(.ghost)")');
 
       eval(code);
-
     });
 
     $('.example').live('mouseleave reset', function() {
