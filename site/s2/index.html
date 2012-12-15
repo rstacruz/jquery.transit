@@ -73,7 +73,7 @@
       <p>Hover to see it work.</p>
     </div>
 
-    <div class="examples l-page">
+    <div class="examples trio l-page">
 
       <div class="example">
         <div class="in">
@@ -167,7 +167,7 @@
       <h2>More transformations</h2>
     </div>
 
-    <div class="examples l-page">
+    <div class="examples trio l-page">
 
       <div class="example">
         <div class="in">
@@ -238,7 +238,7 @@
       before rotateX/Y. Try it in Firefox 10+ or Webkit browsers!</p>
     </div>
 
-    <div class="examples l-page">
+    <div class="examples trio l-page">
 
       <div class="example">
         <div class="in">
@@ -283,7 +283,7 @@
       <p>You can transition any property.</p>
     </div>
 
-    <div class="examples l-page">
+    <div class="examples l-page duo">
 
       <div class="example slim white">
         <div class="in">
@@ -312,13 +312,14 @@
 
   <!-- ============================================================================ -->
 
-  <div class="easing section">
+  <div class="duration section">
+
     <div class="heading l-page">
       <h2>Easing</h2>
       <p>Simply provide a 3rd parameter to <code>$.transition</code>.</p>
     </div>
 
-    <div class="examples l-page">
+    <div class="examples duo l-page">
 
       <div class="example slim white start-from-left">
         <div class="in">
@@ -364,6 +365,61 @@
           <div class="code">
             <h4>Custom</h4>
             <pre>$('.box').transition({ x: 210 }, 500, <b>'cubic-bezier(0,0.9,0.3,1)'</b>);</pre>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ============================================================================ -->
+
+  <div class="section extras">
+
+    <div class="heading l-page">
+      <h2>More features</h2>
+    </div>
+
+    <div class="examples card trio l-page">
+      <div class="fit">
+
+        <div class="example nano">
+          <div class="in">
+            <div class="area">
+              <div class="box"></div>
+            </div>
+            <h3>Delay</h3>
+            <p>You can specify a delay.</p>
+            <div class="code">
+              <pre>$('.box').transition({ scale: 0, <b>delay: 500</b> });</pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="example nano">
+          <div class="in">
+            <div class="area">
+              <div class="box"></div>
+            </div>
+            <h3>Optional units</h3>
+            <p>All units (eg, <code>px</em>, <em>deg</em>, <em>ms</em>) are optional.</p>
+            <div class="code">
+              <pre>$('.box').transition({ <b>y: 30</b> });</pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="example nano">
+          <div class="in">
+            <div class="area">
+              <div class="box"></div>
+            </div>
+            <h3>Relative values</h3>
+            <p>Start your values with either <code>+=</code> or <code>-=</code> to add/subtract to current values.</p>
+            <div class="code">
+              <pre>$('.box').transition({ <b>rotate: '+=30deg'</b> });</pre>
+            </div>
           </div>
         </div>
       </div>

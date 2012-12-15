@@ -323,7 +323,7 @@ a {
 
 /* ---------------------------------------------------------------------------- */
 
-.section.easing {
+.section.duration {
   background:
     linear-gradient(top left, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.6)),
     url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/shattered.png); }
@@ -400,7 +400,7 @@ a {
 /* ---------------------------------------------------------------------------- */
 
 .heading {
-  margin: 40px auto;
+  margin: 50px auto;
 
   color: #456;
   text-shadow: 0 1px 0 rgba(250, 250, 250, 0.2);
@@ -443,40 +443,57 @@ a {
   background: rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1);
-  padding: 10px 0 0 10px;
+  padding: 10px 10px 0 10px;
   font-size: 0; }
 
 .example {
+  box-sizing: border-box;
   display: inline-block;
   vertical-align: top;
   text-align: left;
 
   font-size: 10pt;
-  width: 33%;
   box-sizing: border-box;
   padding: 0 0 10px 0; }
 
+/* -- */
+
+.single .example {
+  width: 100%; }
+
+.trio .example {
+  width: 33.33333%; }
+
 @media (min-width: 600px) {
-  .example:last-child:nth-child(3n+1) {
-    width: 100%; padding-right: 10px; }
-  .example:last-child:nth-child(3n+2) {
-    width: 66%; }
+  .trio .example:last-child:nth-child(3n+1) {
+    width: 100%; }
+  .trio .example:last-child:nth-child(3n+2) {
+    width: 66.6666%; }
 }
 
 @media (max-width: 600px) {
   .examples {
     padding-right: 10px; }
 
-  .example:last-child:nth-child(odd) {
+  .trio .example:last-child:nth-child(2n+1) {
     width: 100%; }
 
-  .example {
+  .trio .example {
     width: 50%; } }
 
 @media (max-width: 400px) {
+  .trio .example,
+  .duo .example,
   .example {
     padding-bottom: 10px;
     width: 100%; } }
+
+/* -- */
+
+.duo .example {
+  width: 50%; }
+
+/* -- */
 
 .example .in {
   position: relative;
@@ -578,3 +595,48 @@ pre b {
   box-shadow: 1px 1px rgba(0, 0, 0, 0.1);
   padding: 1px;
   background: #fafae0; }
+
+/* -- */
+
+.example.nano h3 {
+  margin: 0;
+  float: none;
+  text-align: left; }
+
+.example.nano p {
+  padding: 0 20px; }
+
+.example.nano .area {
+  width: 32px;
+  height: 32px;
+  float: right;
+  margin: 20px; }
+
+.example.nano .code {
+  margin-top: 20px; }
+
+/* -- */
+
+.examples.card {
+  background: white;
+  padding: 0;
+  }
+.examples .fit {
+  background: transparent;
+  width: 100%;
+  display: table; }
+.examples .fit .example {
+  border-right: solid 1px #ccc;
+  padding: 0;
+  display: table-cell; }
+.examples .fit .example .in {
+  height: 100%; }
+.examples .fit .in {
+  box-shadow: none;
+  background: transparent;
+  border: 0; }
+.examples .fit .code {
+  border-top: 0;
+  padding-top: 0;
+  box-shadow: 0;
+  background: transparent; }
