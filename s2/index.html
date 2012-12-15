@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title></title>
+  <link href="style.css" rel="stylesheet" />
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.6/prefixfree.min.js"></script>
+  <!-- [if lte IE8]><script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6/html5shiv.min.js"></script><![endif] -->
+  <script src="jquery.transit.js"></script>
+  <script src="script.js"></script>
+  <script>
+    WebFontConfig={ google: { families: [ 'Exo:200,400,700', 'Open Sans:400' ] } };
+    (function(d,s){var w=d.createElement(s);w.src='http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';w.async=1;var c=d.getElementsByTagName(s)[0];c.parentNode.insertBefore(w,c);})(document,'script');
+  </script>
+</head>
+<body>
+  <div class="nav l-page">
+    <div class="watch right">
+      <iframe src="http://ghbtns.com/github-btn.html?user=rstacruz&repo=jquery.transit&type=watch&count=true"
+        allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+      <iframe src="http://ghbtns.com/github-btn.html?user=rstacruz&repo=jquery.transit&type=follow&count=true"
+        allowtransparency="true" frameborder="0" scrolling="0" width="153" height="20"></iframe>
+    </div>
+    <ul class="left aux">
+      <li>
+        <a href="#">View source</a>
+      </li>
+      <li>
+        <a href="#">Download</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="all l-page">
+    <div class="header">
+      <h1>Transit</h1>
+      <p>Super-smooth CSS transitions for jQuery</p>
+    </div>
+
+    <div class="download">
+      <a href="jquery.transit.min.js">
+        <span class="in">
+          <span class="inin">
+            <strong>v0.9.9</strong>
+            <small>Download</small>
+          </span>
+        </span>
+      </a>
+    </div>
+
+    <div class="section">
+      <p>
+        <strong>Upgrading notes</strong>
+        Upgrading from an older version? Transit should be mostly backward-compatible.
+        See the <a href="#">change log</a> for notes.
+      </p>
+
+      <p>
+        <strong>Development version</strong>
+        You may also download the <a href="jquery.transit.js">development
+        version</a> which has spaces and comments preserved.
+        Curious to see how it's made? See the <a href="source/">annotated source code</a>!
+      </p>
+    </div>
+  </div>
+
+  <div class="heading l-page">
+    <h2>Transformations</h2>
+    <p>Hover to see it work.</p>
+  </div>
+
+  <div class="examples l-page">
+
+    <div class="example">
+      <div class="in">
+        <h3>Translate X</h3>
+        <div class="area">
+          <div class="box"></div>
+        </div>
+        <div class="code">
+          <pre>$('.box').transition({ <b>x: '40px'</b> });</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="example">
+      <div class="in">
+        <h3>Translate Y</h3>
+        <div class="area">
+          <div class="box"></div>
+        </div>
+        <div class="code">
+          <pre>$('.box').transition({ <b>y: '40px'</b> });</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="example">
+      <div class="in">
+        <h3>Translate X/Y</h3>
+        <div class="area">
+          <div class="box"></div>
+        </div>
+        <div class="code">
+          <pre>$('.box').transition({ <b>x: '40px', y: '40px'</b> });</pre>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="heading l-page">
+    <h2>More transformations</h2>
+  </div>
+
+  <div class="examples l-page">
+
+    <div class="example">
+      <div class="in">
+        <h3>Rotate</h3>
+        <div class="area">
+          <div class="box"></div>
+        </div>
+        <div class="code">
+          <pre>$('.box').transition({ <b>rotate: '45deg'</b> });</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="example">
+      <div class="in">
+        <h3>Scale</h3>
+        <div class="area">
+          <div class="box"></div>
+        </div>
+        <div class="code">
+          <pre>$('.box').transition({ <b>scale: 2.2</b> });</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="example">
+      <div class="in">
+        <h3>Scale independently</h3>
+        <div class="area">
+          <div class="box"></div>
+        </div>
+        <div class="code">
+          <pre>$('.box').transition({ <b>scale: [2.0, 1.5]</b> });</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="example">
+      <div class="in">
+        <h3>Skew X</h3>
+        <div class="area">
+          <div class="box"></div>
+        </div>
+        <div class="code">
+          <pre>$('.box').transition({ <b>skewX: '30deg'</b> });</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="example">
+      <div class="in">
+        <h3>Skew Y</h3>
+        <div class="area">
+          <div class="box"></div>
+        </div>
+        <div class="code">
+          <pre>$('.box').transition({ <b>skewY: '30deg'</b> });</pre>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="heading l-page">
+    <h2>3D transformations</h2>
+    <p>You may rotate using <code>rotateX</code> and <code>rotateY</code>.
+    Using <code>perspective</code> is optional, but it should always come
+    before rotateX/Y. Try it in Firefox 10+ or Webkit browsers!</p>
+  </div>
+
+  <div class="examples l-page">
+
+    <div class="example">
+      <div class="in">
+        <h3>Rotate X</h3>
+        <div class="area">
+          <div class="box"></div>
+        </div>
+        <div class="code">
+          <pre>$('.box').transition({<br>  <b>perspective: '100px',</b><br>  <b>rotateX: '180deg'</b><br>});</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="example">
+      <div class="in">
+        <h3>Rotate Y</h3>
+        <div class="area">
+          <div class="box"></div>
+        </div>
+        <div class="code">
+          <pre>$('.box').transition({<br>  <b>perspective: '100px',</b><br>  <b>rotateY: '180deg'</b><br>});</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="example">
+      <div class="in">
+        <h3>Rotate 3D</h3>
+        <div class="area">
+          <div class="box"></div>
+        </div>
+        <div class="code">
+          <pre>$('.box').transition({<br>  <b>perspective: '100px',</b><br>  <b>rotate3d: '1,1,0,180deg'</b><br>});</pre>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
