@@ -91,6 +91,13 @@ span.amp {
 .nav .left {
   float: left; }
 
+.nav .watch {
+  height: 22px; }
+
+.nav .watch > * {
+  display: inline-block;
+  vertical-align: middle; }
+
 .nav .right {
   text-align: right;
   float: right; }
@@ -861,8 +868,12 @@ span.amp {
     url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/noisy_grid.png);
   background-attachment: fixed, fixed;
 
-  font-size: 0.9em;
+  font-size: 0.8em;
   color: #777; }
+
+.section.credits .iconish {
+  color: #555;
+  font-size: 30pt; }
 
 .section.credits a {
   color: #ccc; }
@@ -872,10 +883,10 @@ span.amp {
 
 .section.credits ul,
 .section.credits p {
-  width: 31%;
+  width: 25%;
   float: left;
   padding-right: 20px;
-  box-shadow: border-box;
+  box-sizing: border-box;
   padding-bottom: 20px; }
 
 @media (max-width: 600px) {

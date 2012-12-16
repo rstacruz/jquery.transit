@@ -14,30 +14,25 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.6/prefixfree.min.js"></script>
   <script src="jquery.transit.js"></script>
   <script src="script.js"></script>
-  <script>
-    WebFontConfig={ google: { families: [ 'Exo:200,700', 'Open Sans:400,400italic' ] } };
-    (function(d,s){var w=d.createElement(s);w.src='http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';w.async=1;var c=d.getElementsByTagName(s)[0];c.parentNode.insertBefore(w,c);})(document,'script');
-  </script>
-  <script>
-    if (location.hostname.match(/ricostacruz\.com/)) {
-      _gaq=[['_setAccount','UA-20473929-1'],['_trackPageview']];
-      (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.async=1;g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s);}(document,'script'));
-    }
-  </script>
+  <script>WebFontConfig={google:{families:["Exo:200,700","Open Sans:400,400italic"]}},function(a,b){var c=a.createElement(b);c.src="http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js",c.async=1;var d=a.getElementsByTagName(b)[0];d.parentNode.insertBefore(c,d)}(document,"script")</script>
+  <script>location.hostname.match(/ricostacruz\.com/)&&(_gaq=[["_setAccount","UA-20473929-1"],["_trackPageview"]],function(a,b){var c=a.createElement(b),d=a.getElementsByTagName(b)[0];c.async=1,c.src=("https:"==location.protocol?"//ssl":"//www")+".google-analytics.com/ga.js",d.parentNode.insertBefore(c,d)}(document,"script"))</script>
 </head>
 <body>
   <div class="section top">
     <div class="nav l-page">
       <div class="watch right">
+        <!-- <a href="http://news.ycombinator.com/submit" class="hn-share-button" data-url="http://ricostacruz.com/jquery.transit">Vote on HN</a> -->
+        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://ricostacruz.com/jquery.transit">Tweet</a>
+        &nbsp;
         <iframe src="http://ghbtns.com/github-btn.html?user=rstacruz&repo=jquery.transit&type=watch&count=true"
           allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
         <iframe src="http://ghbtns.com/github-btn.html?user=rstacruz&repo=jquery.transit&type=follow&count=true"
           allowtransparency="true" frameborder="0" scrolling="0" width="153" height="20"></iframe>
       </div>
       <ul class="left aux">
-        <li>
-          <a href="source.html">View source</a>
-        </li>
+        <!-- <li> -->
+        <!--   <a href="source.html">View source</a> -->
+        <!-- </li> -->
         <li>
           <a href="jquery.transit.min.js">Download</a>
         </li>
@@ -671,14 +666,20 @@
   <div class="section credits">
 
     <div class="subcontent l-page">
-      <p>Copyright 2011-2012, Rico Sta. Cruz. Released under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT
-      License</a>.</p>
+      <p>
+        <a href="https://twitter.com/rstacruz" class="twitter-follow-button" data-show-count="false">Follow @rstacruz</a>
+        <br>
+        <iframe src="http://ghbtns.com/github-btn.html?user=rstacruz&repo=jquery.transit&type=follow&count=true"
+          allowtransparency="true" frameborder="0" scrolling="0" width="153" height="20"></iframe>
+      </p>
 
-      <p>Transit is authored and maintained by <a
+      <p>
+      Transit is authored and maintained by <a
         href="http://ricostacruz.com">Rico Sta. Cruz</a> with help from its <a
         href="http://github.com/rstacruz/jquery.transit/contributors">contributors</a>.
       It is sponsored by my startup, <a href="http://nadarei.co">Nadarei,
-        Inc</a>.</p>
+        Inc</a>.
+      </p>
 
       <ul>
         <li><a href="http://ricostacruz.com">My website</a> (ricostacruz.com)</li>
@@ -686,8 +687,17 @@
         <li><a href="http://github.com/rstacruz">Github</a> (@rstacruz)</li>
         <li><a href="http://twitter.com/rstacruz">Twitter</a> (@rstacruz)</li>
       </ul>
+
+      <p>
+        &copy;
+        Copyright 2011-2012, Rico Sta. Cruz. Released under the <a
+          href="http://www.opensource.org/licenses/mit-license.php">MIT
+          License</a>.
+      </p>
     </div>
   </div>
 
+  <script>(function(a,b){var c=a.createElement(b),d=a.getElementsByTagName(b)[0];c.src="//hnbutton.appspot.com/static/hn.min.js",d.parentNode.insertBefore(c,d)})(document,"script")</script>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 </body>
 </html>
