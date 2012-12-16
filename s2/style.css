@@ -53,7 +53,13 @@ html {
 
   margin: 20px auto;
 
-  padding-bottom: 40px; }
+  padding-top: 40px;
+  padding-bottom: 80px; }
+
+@media (max-width: 600px) {
+  .card {
+    padding-top: 0;
+    padding-bottom: 40px; } }
 
 a {
   color: #39a;
