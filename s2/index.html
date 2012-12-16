@@ -192,12 +192,58 @@
     <a href="#top" class="thing"></a>
   </div>
 
-  <div class="more section">
+  <div class="more section darker">
     <div class="heading l-page">
-      <h2 class="bigger">More transformations</h2>
+      <h2 class="bigger">Animate anything</h2>
+      <p>Transition any CSS property. They will happen much smoother than if you were to use jQuery's default <em>.animate()</em>.</p>
+    </div>
+
+    <div class="examples l-page duo">
+
+      <div class="example normal">
+        <div class="in">
+          <div class="area">
+            <div class="box"></div>
+          </div>
+          <div class="code">
+            <pre>$('.box').transition({ <b>opacity: 0</b> });</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="example normal">
+        <div class="in">
+          <div class="area">
+            <div class="box"></div>
+          </div>
+          <div class="code">
+            <pre>$('.box').transition({ <b>marginTop: '10px'</b>, <b>height: '22px'</b> });</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="more section">
+
+    <div class="heading l-page">
+      <h2>2D transformations</h2>
+      <p>Here are some CSS3 transformations supported by Transit.</p>
     </div>
 
     <div class="examples trio l-page">
+
+      <div class="example normal">
+        <div class="in">
+          <h3>Translate</h3>
+          <div class="area">
+            <div class="box"></div>
+          </div>
+          <div class="code">
+            <pre>$('.box').transition({ <b>x: 40</b>, <b>y: 40</b> });</pre>
+          </div>
+        </div>
+      </div>
 
       <div class="example normal">
         <div class="in">
@@ -306,38 +352,6 @@
         </div>
       </div>
 
-    </div>
-
-    <div class="heading l-page">
-      <h2>Other properties</h2>
-      <p>You can transition any property.</p>
-    </div>
-
-    <div class="examples l-page duo">
-
-      <div class="example slim">
-        <div class="in">
-          <div class="area">
-            <div class="box"></div>
-          </div>
-          <h3>Example one</h3>
-          <div class="code">
-            <pre>$('.box').transition({ <b>opacity: 0</b> });</pre>
-          </div>
-        </div>
-      </div>
-
-      <div class="example slim">
-        <div class="in">
-          <div class="area">
-            <div class="box"></div>
-          </div>
-          <h3>Example two</h3>
-          <div class="code">
-            <pre>$('.box').transition({ <b>marginTop: '10px'</b>, <b>height: '22px'</b> });</pre>
-          </div>
-        </div>
-      </div>
     </div>
 
   </div>

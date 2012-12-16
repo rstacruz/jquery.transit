@@ -471,6 +471,24 @@ span.amp {
   color: #70649a;
   text-shadow: 0 1px 0 rgba(250, 250, 250, 0.8); }
 
+.section.more.darker {
+    /* linear-gradient(top left, rgba(220, 110, 10, 0.2), rgba(0, 170, 255, 0.1) 80%), */
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+  margin-top: -1px;
+  background:
+    linear-gradient(top, rgba(200, 0, 0, 0.2), rgba(200, 0, 0, 0.2)),
+    url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/shattered.png);
+  background-attachment: fixed, fixed;
+}
+
+.section.more.darker .heading p {
+  opacity: 1;
+  color: #544;
+  text-shadow: 0 1px 0 rgba(250, 250, 250, 0.2), 0 0 3px rgba(250, 250, 250, 0.2); }
+.section.more.darker .heading h2 {
+  color: white;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 3px rgba(0, 0, 0, 0.2); }
+
 /* ---------------------------------------------------------------------------- */
 
 .section.easing {
@@ -596,6 +614,8 @@ span.amp {
   text-align: center; }
 
 .heading h2 {
+  line-height: 1.2;
+  margin-bottom: 3px;
   font-size: 28pt;
   font-family: exo, sans-serif;
   font-weight: 200; }
@@ -607,8 +627,8 @@ span.amp {
 .heading p {
   font-size: 1.1em;
   opacity: 0.8;
-  line-height: 1.5;
-  padding: 0 80px; }
+  line-height: 1.6;
+  padding: 0 140px; }
 
 .heading code {
   padding: 1px 3px;
