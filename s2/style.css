@@ -37,6 +37,7 @@ html {
 
   background:
     linear-gradient(top left, rgba(0, 170, 255, 0.1), rgba(220, 110, 10, 0.2) 80%),
+    /* linear-gradient(top left, rgba(255, 255, 255, 0.1), rgba(220, 255, 255, 0.2)), */
     url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/shattered.png);
   background-attachment: fixed, fixed;
   /* background: #444 url(bg.jpg) 0 0 no-repeat fixed; */
@@ -893,8 +894,16 @@ span.amp {
 
 .gap {
   margin-top: -1px;
-  margin-bottom: -1px;
+  margin-bottom: -1px; }
+
+.gap.hard {
   border-top: solid 3px #f0f0f0; }
+
+.gap.dark {
+  border-top: solid 3px #222; }
+
+.gap.dark .thing {
+  border-color: #222; }
 
 .gap .thing {
   margin: -30px auto;

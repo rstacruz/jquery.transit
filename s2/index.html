@@ -63,7 +63,7 @@
         <p>
           <strong>Upgrading notes</strong>
           Upgrading from an older version? Transit should be mostly backward-compatible.
-          See the <a href="#">change log</a> for notes.
+          See the <a href="https://github.com/rstacruz/jquery.transit/blob/master/HISTORY.md">change log</a> for notes.
         </p>
 
         <p>
@@ -514,7 +514,7 @@
           <h3>Alternate easing/duration syntax</h3>
           <p>You can provide <code>easing</code> and <code>duration</code> in the options. Great with CoffeeScript.</p>
           <div class="code">
-            <pre>$('.box').transition({<br>  y: 32, <b>easing: 'snap'</b>, <b>duration: 200</b><br>});</pre>
+            <pre>$('.box').transition({<br>  y: 55,<br>  <b>easing: 'snap'</b>,<br>  <b>duration: 200</b> });</pre>
           </div>
         </div>
       </div>
@@ -527,7 +527,7 @@
           <h3>Relative values</h3>
           <p>Start your values with either <code>+=</code> or <code>-=</code> to add/subtract to current values.</p>
           <div class="code">
-            <pre>$('.box').transition({<br>  <b>rotate: '+=30deg'</b>, <b>x: '+= 10'</b><br>  });</pre>
+            <pre>$('.box').transition({<br>  <b>rotate: '+=30deg'</b>,<br>  <b>x: '+=10'</b><br>});</pre>
           </div>
         </div>
       </div>
@@ -551,9 +551,9 @@
             <div class="box"></div>
           </div>
           <h3>Getting values</h3>
-          <p>You can <code>.css</code> to get values from any of the transformations defined by Transit.</p>
+          <p>Use <code>.css()</code> to get values from any of the transformations defined by Transit.</p>
           <div class="code">
-            <pre>$('.box').css({ rotate: '30deg' });<br>alert($('.box')<b>.css('rotate')</b>);<br>alert($('.box')<b>.css('transform')</b>);</pre>
+            <pre>$('.box').css({ rotate: '30deg' });<br>console.log($('.box')<b>.css('rotate')</b>);<br>console.log($('.box')<b>.css('transform')</b>);</pre>
           </div>
         </div>
       </div>
@@ -581,7 +581,7 @@
 
   <!-- ============================================================================ -->
 
-  <div class="gap">
+  <div class="gap hard">
     <a href="#top" class="thing"></a>
   </div>
 
@@ -659,7 +659,7 @@
 
   <!-- ============================================================================ -->
 
-  <div class="gap">
+  <div class="gap dark">
     <a href="#top" class="thing"></a>
   </div>
 
@@ -670,7 +670,7 @@
       License</a>.</p>
 
       <p>Transit is authored and maintained by <a
-        href="http://ricostacruz.com">Rico Sta. Cruz</a> with help from it's <a
+        href="http://ricostacruz.com">Rico Sta. Cruz</a> with help from its <a
         href="http://github.com/rstacruz/jquery.transit/contributors">contributors</a>.
       It is sponsored by my startup, <a href="http://nadarei.co">Nadarei,
         Inc</a>.</p>
