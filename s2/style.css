@@ -663,7 +663,7 @@ span.amp {
   background: rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1);
-  padding: 10px 10px 0 10px;
+  padding: 10px;
   font-size: 0; }
 
 .example {
@@ -674,7 +674,7 @@ span.amp {
 
   font-size: 10pt;
   box-sizing: border-box;
-  padding: 0 0 10px 0; }
+  padding: 0; }
 
 /* -- */
 
@@ -730,10 +730,12 @@ span.amp {
 
   box-shadow: 1px 1px rgba(0, 0, 0, 0.1), -1px 1px rgba(0, 0, 0, 0.1), 0 0 1px 1px rgba(0, 0, 0, 0.1);
   border-radius: 2px;
-  background: white; }
+  background-color: white;
+
+  transition: all 100ms linear; }
 
 .example.playing .in {
-  background: #edfafa; }
+  background-color: #edfafa; }
 
 /* -- Heading -- */
 
@@ -982,3 +984,12 @@ span.amp {
 @media (max-width: 600px) {
   .gap, .gap thing {
     display: none; } }
+
+/* -- Blue -- */
+
+.gap.blue .thing {
+  color: white;
+  background-color: #5ad; }
+
+.gap.blue .thing:hover {
+  background-color: #222; }
