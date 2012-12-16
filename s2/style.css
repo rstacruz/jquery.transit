@@ -384,13 +384,15 @@ span.amp {
 
   font-family: menlo, monospace;
 
-  min-width: 250px;
+  width: 320px;
 
   color: #305060;
   padding: 10px 20px; }
 
 @media (max-width: 600px) {
   .section.usage pre.figure {
+    overflow: auto;
+    width: auto;
     margin-bottom: 20px; } }
 
 @media (min-width: 600px) {
@@ -934,7 +936,7 @@ span.amp {
   margin-bottom: -1px; }
 
 .gap.hard {
-  border-top: solid 3px #f0f0f0; }
+  border-top: solid 5px #f0f0f0; }
 
 .gap.dark {
   border-top: solid 3px #222; }
