@@ -678,6 +678,28 @@
           Define custom easing aliases in <code>$.cssEase</code>.
         </p>
       </div>
+
+      <div class='info slim'>
+        <pre class="figure">.box {<br>  -webkit-backface-visibility: hidden;<br>}</pre>
+        <h3>Webkit: prevent flickers</h3>
+        <p>
+          Having flickering problems in Webkit? Use
+          <code>-webkit-backface-visibility</code>. See <a
+          href="http://stackoverflow.com/questions/3461441/prevent-flicker-on-webkit-transition-of-webkit-transform">this
+          question</a> for some discussions on this.
+        </p>
+      </div>
+
+      <div class='info grey slim'>
+        <pre class="figure">.box {<br>  -webkit-transition: translate3d(0, 0, 0);<br>}</pre>
+        <h3>Antialias problems in Webkit?</h3>
+        <p>
+          Force hardware-acceleration in Webkits to prevent text flickering. See
+          <a href="http://davidwalsh.name/translate3d">this article</a> and
+          <a href="http://cubiq.org/you-shall-not-flicker">this article</a> for more
+          information.
+        </p>
+      </div>
     </div>
 
     <div class="o-line"></div>
