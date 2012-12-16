@@ -36,7 +36,7 @@ html {
   height: 100%;
 
   background:
-    linear-gradient(top left, rgba(0, 170, 255, 0.1), rgba(220, 110, 10, 0.2) 80%),
+    linear-gradient(315deg, rgba(0, 170, 255, 0.1), rgba(220, 110, 10, 0.2) 80%),
     /* linear-gradient(top left, rgba(255, 255, 255, 0.1), rgba(220, 255, 255, 0.2)), */
     url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/shattered.png);
   background-attachment: fixed, fixed;
@@ -330,7 +330,7 @@ span.amp {
 
 .section.usage {
   background:
-    linear-gradient(top left, rgba(0, 0, 50, 0.5), rgba(0, 0, 50, 0.5) 80%),
+    linear-gradient(315deg, rgba(0, 0, 50, 0.5), rgba(0, 0, 50, 0.5) 80%),
     url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/noisy_grid.png);
   background-attachment: fixed, fixed;
 
@@ -461,8 +461,8 @@ span.amp {
   box-shadow: none;
   margin-top: -1px;
   background:
-    linear-gradient(top left, rgba(255, 90, 200, 0.1), rgba(0, 170, 255, 0.07)),
-    linear-gradient(top, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.1)),
+    linear-gradient(315deg, rgba(255, 90, 200, 0.1), rgba(0, 170, 255, 0.07)),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.1)),
     url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/shattered.png);
   background-attachment: fixed, fixed;
 }
@@ -472,11 +472,10 @@ span.amp {
   text-shadow: 0 1px 0 rgba(250, 250, 250, 0.8); }
 
 .section.more.darker {
-    /* linear-gradient(top left, rgba(220, 110, 10, 0.2), rgba(0, 170, 255, 0.1) 80%), */
   box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1);
   margin-top: -1px;
   background:
-    linear-gradient(top, rgba(200, 0, 0, 0.2), rgba(200, 0, 0, 0.2)),
+    linear-gradient(90deg, rgba(200, 0, 0, 0.2), rgba(200, 0, 0, 0.2)),
     url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/shattered.png);
   background-attachment: fixed, fixed;
 }
@@ -494,7 +493,7 @@ span.amp {
 .section.easing {
   box-shadow: inset 0 1px rgba(0, 0, 0, 0.1);
   background:
-    linear-gradient(top left, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.6)),
+    linear-gradient(315deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.6)),
     url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/shattered.png); }
 
 .section.easing .heading h2 {
@@ -824,6 +823,7 @@ span.amp {
 
 .example.slim .in {
   position: relative;
+  box-sizing: border-box;
   padding: 20px 20px 20px 80px; }
 
 .example.slim .area {
@@ -884,7 +884,7 @@ span.amp {
   padding-top: 80px;
   background-color: #111;
   background:
-    linear-gradient(top left, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)),
+    linear-gradient(315deg, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)),
     url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/noisy_grid.png);
   background-attachment: fixed, fixed;
 
