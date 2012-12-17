@@ -471,13 +471,13 @@
     <a href="#top" class="thing"></a>
   </div>
 
-  <div class="section extras">
+  <div class="section extras" id="more-features">
 
     <div class="heading l-page">
-      <h2>More features</h2>
+      <h2><strong>More</strong> <span>features</span></h2>
     </div>
 
-    <div class="examples duo l-page">
+    <div class="examples tree l-page">
 
       <div class="example slim">
         <div class="in">
@@ -498,7 +498,7 @@
             <div class="box"></div>
           </div>
           <h3>Optional units</h3>
-          <p>All units (eg, <code>px</em>, <em>deg</em>, <em>ms</em>) are optional.</p>
+          <p>All units (eg, <code>px</code>, <code>deg</code>, <code>ms</code>) are optional.</p>
           <div class="code">
             <pre>$('.box').transition({ <b>y: 30</b> });</pre>
           </div>
@@ -527,6 +527,21 @@
           <p>Vendor prefixes are auto-added for <code>transform</code>, <code>transition</code>, and others.</p>
           <div class="code">
             <pre>$('.box').css({ <b>transform: 'scale(0.2)'</b> });</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="example slim">
+        <div class="in">
+          <div class="area">
+            <div class="box"></div>
+          </div>
+          <h3>Chaining <span class="amp">&amp;</span> queuing</h3>
+          <p>Transit uses <a href="http://api.jquery.com/queue/">jQuery's
+          effect queue</a>, exactly like <code>.animate</code>. This means transitions
+          will never run in parallel. (You can disable the queue with <code>queue: false</code>.)</p>
+          <div class="code">
+            <pre>$('.box')<br>  <b>.transition({ x: -40 })</b><br>  <b>.transition({ y: 40 })</b><br>  <b>.transition({ x: 0 })</b><br>  <b>.transition({ y: 0 })</b>;</pre>
           </div>
         </div>
       </div>
@@ -581,25 +596,7 @@
             <pre>$('.box').css({ rotate: '30deg' });<br>console.log($('.box')<b>.css('rotate')</b>);<br>console.log($('.box')<b>.css('transform')</b>);</pre>
           </div>
         </div>
-      </div>
-
-     </div>
-
-     <div class="examples solo l-page">
-      <div class="example slim">
-        <div class="in">
-          <div class="area">
-            <div class="box"></div>
-          </div>
-          <h3>Chaining <span class="amp">&amp;</span> queuing</h3>
-          <p>Transit uses <a href="http://api.jquery.com/queue/">jQuery's
-          effect queue</a>, exactly like <code>.animate</code>. This means transitions
-          will never run in parallel. (You can disable the queue with <code>queue: false</code>.)</p>
-          <div class="code">
-            <pre>$('.box') <b>.transition({ x: -40 })</b> <b>.transition({ y: 40 })</b> <b>.transition({ x: 0 })</b> <b>.transition({ y: 0 })</b>;</pre>
-          </div>
-        </div>
-      </div>
+      </div> 
 
     </div>
   </div>
