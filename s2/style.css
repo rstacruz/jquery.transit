@@ -143,6 +143,13 @@ span.amp {
   .nav .aux {
     display: none; } }
 
+@media (max-width: 600px) {
+  .nav {
+    margin: 0 -10px -5px -10px;
+    padding: 10px 10px;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
+    background: rgba(250, 250, 250, 0.8); } }
+
 /* ---------------------------------------------------------------------------- */
 
 .header {
@@ -721,12 +728,17 @@ span.amp {
 /* -- */
 
 @media (max-width: 600px) {
+  .examples.tree {
+    background: transparent;
+    box-shadow: none;
+    padding: 0; }
+
   .tree .example {
-    width: 100%;
-    margin-bottom: 10px; }
+    padding-bottom: 10px;
+    width: 100%; }
 
   .tree .example:last-child {
-    margin-bottom: 0; } }
+    padding-bottom: 0; } }
 
 @media (min-width: 600px) {
   .examples.tree {
@@ -1010,6 +1022,9 @@ span.amp {
 .section.extras .example h3 {
   font-family: exo, sans-serif;
   font-size: 1.4em;
+
+  line-height: 1.3;
+  margin-bottom: 5px;
 
   color: #5ad; }
 
