@@ -731,8 +731,6 @@ span.amp {
 @media (min-width: 600px) {
   .examples.tree {
     width: 900px;
-    overflow: visible;
-
     position: relative;
 
     background: transparent;
@@ -757,7 +755,7 @@ span.amp {
 
   .tree .example {
     position: relative;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 
     width: 50%;
     display: block; }
@@ -833,6 +831,24 @@ span.amp {
     margin-top: 1px;
     border-right-color: rgba(0, 0, 0, 0.9); }
 }
+
+@media (min-width: 600px) and (max-width: 940px) {
+  /* Max width isn't behaving right in a case like this */
+  .examples.tree {
+    width: auto; }
+
+  /* Less spacing between examples */
+  .tree .example {
+    margin-bottom: 5px; }
+
+  /* Less spacing to the stalk */
+  .tree .example:nth-child(odd) {
+    padding-right: 30px; }
+
+  .tree .example:nth-child(even) {
+    padding-left: 30px; }
+}
+
 
 /* -- */
 
