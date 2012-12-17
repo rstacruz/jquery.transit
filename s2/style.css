@@ -420,11 +420,12 @@ span.amp {
     display: block;
 
     position: absolute;
-    bottom: -8px;
+    bottom: -4px;
     right: -1px;
 
-    border: solid 4px transparent;
-    border-top-color: #c0d3d3;
+    border: solid 2px transparent;
+    border-left-color: #a0c3c3;
+    border-top-color: #a0c3c3;
 
     width: 0;
     height: 0;
@@ -842,6 +843,12 @@ span.amp {
   .tree .example:nth-child(even) .in:before {
     margin-top: 1px;
     border-right-color: rgba(0, 0, 0, 0.9); }
+
+  /* Hover */
+  .tree .example:nth-child(even).playing .in:after {
+    border-right-color: #EDFAFA; }
+  .tree .example:nth-child(odd).playing .in:after {
+    border-left-color: #EDFAFA; }
 }
 
 @media (min-width: 600px) and (max-width: 940px) {
