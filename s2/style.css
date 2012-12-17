@@ -739,6 +739,7 @@ span.amp {
     box-shadow: none;
     padding: 0; }
 
+  /* Stalk */
   .examples.tree:after {
     content: '';
     display: block;
@@ -751,6 +752,7 @@ span.amp {
     width: 8px;
     margin-left: -4px;
 
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.07);
     background: rgba(50, 164, 220, 0.3); }
 
   .tree .example {
