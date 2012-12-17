@@ -11,6 +11,7 @@ table { border-collapse: collapse; border-spacing: 0; }
 
 .clearfix,
 .example .in,
+.examples.tree,
 .section .info,
 .nav:after {
   content: '';
@@ -36,7 +37,8 @@ html {
   height: 100%;
 
   background:
-    linear-gradient(top left, rgba(0, 170, 255, 0.1), rgba(220, 110, 10, 0.2) 80%),
+    linear-gradient(315deg, rgba(0, 170, 255, 0.1), rgba(220, 110, 10, 0.2) 80%),
+    /* linear-gradient(top left, rgba(255, 255, 255, 0.1), rgba(220, 255, 255, 0.2)), */
     url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/shattered.png);
   background-attachment: fixed, fixed;
   /* background: #444 url(bg.jpg) 0 0 no-repeat fixed; */
@@ -52,7 +54,13 @@ html {
 
   margin: 20px auto;
 
-  padding-bottom: 40px; }
+  padding-top: 40px;
+  padding-bottom: 80px; }
+
+@media (max-width: 600px) {
+  .card {
+    padding-top: 0;
+    padding-bottom: 40px; } }
 
 a {
   color: #39a;
@@ -89,6 +97,13 @@ span.amp {
 
 .nav .left {
   float: left; }
+
+.nav .watch {
+  height: 22px; }
+
+.nav .watch > * {
+  display: inline-block;
+  vertical-align: middle; }
 
 .nav .right {
   text-align: right;
@@ -127,6 +142,13 @@ span.amp {
 
   .nav .aux {
     display: none; } }
+
+@media (max-width: 600px) {
+  .nav {
+    margin: 0 -10px -5px -10px;
+    padding: 10px 10px;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
+    background: rgba(250, 250, 250, 0.8); } }
 
 /* ---------------------------------------------------------------------------- */
 
@@ -322,7 +344,7 @@ span.amp {
 
 .section.usage {
   background:
-    linear-gradient(top left, rgba(0, 0, 50, 0.5), rgba(0, 0, 50, 0.5) 80%),
+    linear-gradient(315deg, rgba(0, 0, 50, 0.5), rgba(0, 0, 50, 0.5) 80%),
     url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/noisy_grid.png);
   background-attachment: fixed, fixed;
 
@@ -370,13 +392,15 @@ span.amp {
 
   font-family: menlo, monospace;
 
-  min-width: 250px;
+  width: 320px;
 
   color: #305060;
   padding: 10px 20px; }
 
 @media (max-width: 600px) {
   .section.usage pre.figure {
+    overflow: auto;
+    width: auto;
     margin-bottom: 20px; } }
 
 @media (min-width: 600px) {
@@ -396,11 +420,12 @@ span.amp {
     display: block;
 
     position: absolute;
-    bottom: -8px;
+    bottom: -4px;
     right: -1px;
 
-    border: solid 4px transparent;
-    border-top-color: #c0d3d3;
+    border: solid 2px transparent;
+    border-left-color: #a0c3c3;
+    border-top-color: #a0c3c3;
 
     width: 0;
     height: 0;
@@ -453,8 +478,8 @@ span.amp {
   box-shadow: none;
   margin-top: -1px;
   background:
-    linear-gradient(top left, rgba(255, 90, 200, 0.1), rgba(0, 170, 255, 0.07)),
-    linear-gradient(top, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.1)),
+    linear-gradient(315deg, rgba(255, 90, 200, 0.1), rgba(0, 170, 255, 0.07)),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.1)),
     url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/shattered.png);
   background-attachment: fixed, fixed;
 }
@@ -463,12 +488,29 @@ span.amp {
   color: #70649a;
   text-shadow: 0 1px 0 rgba(250, 250, 250, 0.8); }
 
+.section.more.darker {
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+  margin-top: -1px;
+  background:
+    linear-gradient(90deg, rgba(200, 0, 0, 0.2), rgba(200, 0, 0, 0.2)),
+    url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/shattered.png);
+  background-attachment: fixed, fixed;
+}
+
+.section.more.darker .heading p {
+  opacity: 1;
+  color: #544;
+  text-shadow: 0 1px 0 rgba(250, 250, 250, 0.2), 0 0 3px rgba(250, 250, 250, 0.2); }
+.section.more.darker .heading h2 {
+  color: white;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 3px rgba(0, 0, 0, 0.2); }
+
 /* ---------------------------------------------------------------------------- */
 
 .section.easing {
   box-shadow: inset 0 1px rgba(0, 0, 0, 0.1);
   background:
-    linear-gradient(top left, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.6)),
+    linear-gradient(315deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.6)),
     url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/shattered.png); }
 
 .section.easing .heading h2 {
@@ -588,6 +630,8 @@ span.amp {
   text-align: center; }
 
 .heading h2 {
+  line-height: 1.2;
+  margin-bottom: 3px;
   font-size: 28pt;
   font-family: exo, sans-serif;
   font-weight: 200; }
@@ -599,8 +643,8 @@ span.amp {
 .heading p {
   font-size: 1.1em;
   opacity: 0.8;
-  line-height: 1.5;
-  padding: 0 80px; }
+  line-height: 1.6;
+  padding: 0 140px; }
 
 .heading code {
   padding: 1px 3px;
@@ -628,7 +672,7 @@ span.amp {
   background: rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1);
-  padding: 10px 10px 0 10px;
+  padding: 10px;
   font-size: 0; }
 
 .example {
@@ -639,7 +683,7 @@ span.amp {
 
   font-size: 10pt;
   box-sizing: border-box;
-  padding: 0 0 10px 0; }
+  padding: 0; }
 
 /* -- */
 
@@ -684,6 +728,149 @@ span.amp {
 
 /* -- */
 
+@media (max-width: 600px) {
+  .examples.tree {
+    background: transparent;
+    box-shadow: none;
+    padding: 0; }
+
+  .tree .example {
+    padding-bottom: 10px;
+    width: 100%; }
+
+  .tree .example:last-child {
+    padding-bottom: 0; } }
+
+@media (min-width: 600px) {
+  .examples.tree {
+    width: 900px;
+    position: relative;
+
+    background: transparent;
+    box-shadow: none;
+    padding: 0; }
+
+  /* Stalk */
+  .examples.tree:after {
+    content: '';
+    display: block;
+
+    position: absolute;
+    left: 50%;
+    top: 50px;
+    bottom: -80px;
+
+    width: 8px;
+    margin-left: -4px;
+
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.07);
+    background: rgba(90, 184, 190, 0.3); }
+
+  .tree .example {
+    position: relative;
+    margin-bottom: 20px;
+
+    width: 50%;
+    display: block; }
+
+  .tree .example:nth-child(odd) {
+    float: left;
+    clear: both;
+    padding-right: 40px; }
+
+  .tree .example:nth-child(even) {
+    clear: right;
+    float: right;
+    margin-top: 30px;
+    padding-left: 40px; }
+
+  /* Peg */
+  .tree .example:after {
+    content: '';
+    display: block;
+
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+
+    background: #555;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1), 1px 1px 0 rgba(0, 0, 0, 0.2), inset 0 0 0 3px #fafafa;
+
+    position: absolute;
+    z-index: 1; }
+
+  .tree .example:nth-child(odd):after {
+    top: 30px;
+    right: -10px; }
+
+  .tree .example:nth-child(even):after {
+    bottom: 40px;
+    left: -10px; }
+
+  /* Notch */
+  .tree .example .in:before,
+  .tree .example .in:after {
+    content: '';
+    display: block;
+
+    width: 0;
+    height: 0;
+
+    border: solid 12px transparent;
+
+    position: absolute; }
+
+  .tree .example:nth-child(odd) .in:before,
+  .tree .example:nth-child(odd) .in:after {
+    top: 30px;
+    right: -24px; }
+
+  .tree .example:nth-child(odd) .in:after {
+    border-left-color: white; }
+
+  .tree .example:nth-child(odd) .in:before {
+    margin-top: 1px;
+    border-left-color: rgba(0, 0, 0, 0.3); }
+
+  .tree .example:nth-child(even) .in:before,
+  .tree .example:nth-child(even) .in:after {
+    bottom: 35px;
+    left: -24px; }
+
+  .tree .example:nth-child(even) .in:after {
+    border-right-color: white; }
+
+  .tree .example:nth-child(even) .in:before {
+    margin-top: 1px;
+    border-right-color: rgba(0, 0, 0, 0.9); }
+
+  /* Hover */
+  .tree .example:nth-child(even).playing .in:after {
+    border-right-color: #EDFAFA; }
+  .tree .example:nth-child(odd).playing .in:after {
+    border-left-color: #EDFAFA; }
+}
+
+@media (min-width: 600px) and (max-width: 940px) {
+  /* Max width isn't behaving right in a case like this */
+  .examples.tree {
+    width: auto; }
+
+  /* Less spacing between examples */
+  .tree .example {
+    margin-bottom: 5px; }
+
+  /* Less spacing to the stalk */
+  .tree .example:nth-child(odd) {
+    padding-right: 30px; }
+
+  .tree .example:nth-child(even) {
+    padding-left: 30px; }
+}
+
+
+/* -- */
+
 .examples.single .example {
   padding-bottom: 1px; }
 
@@ -695,10 +882,12 @@ span.amp {
 
   box-shadow: 1px 1px rgba(0, 0, 0, 0.1), -1px 1px rgba(0, 0, 0, 0.1), 0 0 1px 1px rgba(0, 0, 0, 0.1);
   border-radius: 2px;
-  background: white; }
+  background-color: white;
+
+  transition: all 100ms linear; }
 
 .example.playing .in {
-  background: #edfafa; }
+  background-color: #edfafa; }
 
 /* -- Heading -- */
 
@@ -796,6 +985,7 @@ span.amp {
 
 .example.slim .in {
   position: relative;
+  box-sizing: border-box;
   padding: 20px 20px 20px 80px; }
 
 .example.slim .area {
@@ -827,19 +1017,30 @@ span.amp {
 
 /* --- */
 
-.extras .example.slim .code {
-  margin-top: 10px;
-  padding-top: 10px; }
-
 /* ---------------------------------------------------------------------------- */
 
-.section.extras .heading h2 {
-  text-shadow: 0 1px 0 rgba(250, 250, 250, 0.7);
-  font-size: 32pt; }
+.section.extras {
+  background: rgba(230, 250, 250, 0.5); }
+
+@media (min-width: 600px) {
+  .section.extras .heading h2 {
+    font-size: 36pt; }
+}
 
 .section.extras .example h3 {
   font-family: exo, sans-serif;
-  font-size: 1.4em; }
+  font-size: 1.4em;
+
+  line-height: 1.3;
+  margin-bottom: 5px;
+
+  color: #6ab; }
+
+.extras .example .code {
+  border-top: dotted 1px #ccc;
+  box-shadow: inset 0 5px 3px -3px rgba(0, 0, 0, 0.07);
+  padding: 20px;
+  margin: 20px -80px -20px -20px; }
 
 .section.extras .example .area {
   left: auto;
@@ -856,12 +1057,16 @@ span.amp {
   padding-top: 80px;
   background-color: #111;
   background:
-    linear-gradient(top left, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)),
+    linear-gradient(315deg, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)),
     url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/noisy_grid.png);
   background-attachment: fixed, fixed;
 
-  font-size: 0.9em;
+  font-size: 0.8em;
   color: #777; }
+
+.section.credits .iconish {
+  color: #555;
+  font-size: 30pt; }
 
 .section.credits a {
   color: #ccc; }
@@ -871,10 +1076,10 @@ span.amp {
 
 .section.credits ul,
 .section.credits p {
-  width: 31%;
+  width: 25%;
   float: left;
   padding-right: 20px;
-  box-shadow: border-box;
+  box-sizing: border-box;
   padding-bottom: 20px; }
 
 @media (max-width: 600px) {
@@ -893,8 +1098,16 @@ span.amp {
 
 .gap {
   margin-top: -1px;
-  margin-bottom: -1px;
-  border-top: solid 3px #f0f0f0; }
+  margin-bottom: -1px; }
+
+.gap.hard {
+  border-top: solid 5px #f0f0f0; }
+
+.gap.dark {
+  border-top: solid 3px #222; }
+
+.gap.dark .thing {
+  border-color: #222; }
 
 .gap .thing {
   margin: -30px auto;
@@ -934,3 +1147,12 @@ span.amp {
 @media (max-width: 600px) {
   .gap, .gap thing {
     display: none; } }
+
+/* -- Blue -- */
+
+.gap.blue .thing {
+  color: white;
+  background-color: #5ad; }
+
+.gap.blue .thing:hover {
+  background-color: #222; }

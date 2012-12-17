@@ -4,35 +4,40 @@
   <meta charset="UTF-8" />
   <title>Transit - CSS transitions and transformations for jQuery</title>
   <link href="style.css" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+  <meta name="description"        content="Create super-smooth CSS transitions and do interesting transformations using jQuery.">
+  <meta property="og:description" content="Create super-smooth CSS transitions and do interesting transformations using jQuery.">
+  <meta name="keywords" content="javascript, jquery, transit, css3, css, transition, transform">
+  <meta property="og:image" content="http://ricostacruz.com/jquery.transit/preview.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://ricostacruz.com/jquery.transit/">
+  <meta property="og:site_name" content="RicoStaCruz.com">
+  <meta property="fb:admins" content="ricostacruz">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <!-- [if lte IE8]><script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6/html5shiv.min.js"></script><![endif] -->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.6/prefixfree.min.js"></script>
-  <!-- [if lte IE8]><script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6/html5shiv.min.js"></script><![endif] -->
-  <script src="jquery.transit.js"></script>
-  <script src="script.js"></script>
-  <script>
-    WebFontConfig={ google: { families: [ 'Exo:200,400,700', 'Open Sans:400' ] } };
-    (function(d,s){var w=d.createElement(s);w.src='http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';w.async=1;var c=d.getElementsByTagName(s)[0];c.parentNode.insertBefore(w,c);})(document,'script');
-  </script>
-  <script>
-    if (location.hostname.match(/ricostacruz\.com/)) {
-      _gaq=[['_setAccount','UA-20473929-1'],['_trackPageview']];
-      (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.async=1;g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s);}(document,'script'));
-    }
-  </script>
+  <script src="jquery.transit.js?31"></script>
+  <script src="script.js?31"></script>
+  <script>WebFontConfig={google:{families:["Exo:200,700","Open Sans:400,400italic"]}},function(a,b){var c=a.createElement(b);c.src="http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js",c.async=1;var d=a.getElementsByTagName(b)[0];d.parentNode.insertBefore(c,d)}(document,"script")</script>
+  <script>location.hostname.match(/ricostacruz\.com/)&&(_gaq=[["_setAccount","UA-20473929-1"],["_trackPageview"]],function(a,b){var c=a.createElement(b),d=a.getElementsByTagName(b)[0];c.async=1,c.src=("https:"==location.protocol?"//ssl":"//www")+".google-analytics.com/ga.js",d.parentNode.insertBefore(c,d)}(document,"script"))</script>
 </head>
 <body>
   <div class="section top">
     <div class="nav l-page">
       <div class="watch right">
+        <!-- <a href="http://news.ycombinator.com/submit" class="hn-share-button" data-url="http://ricostacruz.com/jquery.transit">Vote on HN</a> -->
+        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://ricostacruz.com/jquery.transit/">Tweet</a>
+        &nbsp;
         <iframe src="http://ghbtns.com/github-btn.html?user=rstacruz&repo=jquery.transit&type=watch&count=true"
           allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
         <iframe src="http://ghbtns.com/github-btn.html?user=rstacruz&repo=jquery.transit&type=follow&count=true"
           allowtransparency="true" frameborder="0" scrolling="0" width="153" height="20"></iframe>
       </div>
       <ul class="left aux">
-        <li>
-          <a href="source.html">View source</a>
-        </li>
+        <!-- <li> -->
+        <!--   <a href="source.html">View source</a> -->
+        <!-- </li> -->
         <li>
           <a href="jquery.transit.min.js">Download</a>
         </li>
@@ -63,7 +68,7 @@
         <p>
           <strong>Upgrading notes</strong>
           Upgrading from an older version? Transit should be mostly backward-compatible.
-          See the <a href="#">change log</a> for notes.
+          See the <a href="https://github.com/rstacruz/jquery.transit/blob/master/HISTORY.md">change log</a> for notes.
         </p>
 
         <p>
@@ -76,12 +81,11 @@
     </div>
 
     <div class="o-line"></div>
-
   </div>
 
   <!-- ============================================================================ -->
 
-  <div class="gap">
+  <div class="gap hard blue">
     <a href="#top" class="thing"></a>
   </div>
 
@@ -187,12 +191,65 @@
     <a href="#top" class="thing"></a>
   </div>
 
-  <div class="more section">
+  <div class="more section darker">
     <div class="heading l-page">
-      <h2 class="bigger">More transformations</h2>
+      <h2 class="bigger">Animate anything</h2>
+      <p>Transition any CSS property. They will happen much smoother than if you were to use jQuery's default <em>.animate()</em>.</p>
+    </div>
+
+    <div class="examples l-page duo">
+
+      <div class="example normal">
+        <div class="in">
+          <div class="area">
+            <div class="box"></div>
+          </div>
+          <div class="code">
+            <pre>$('.box').transition({ <b>opacity: 0</b> });</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="example normal">
+        <div class="in">
+          <div class="area">
+            <div class="box"></div>
+          </div>
+          <div class="code">
+            <pre>$('.box').transition({ <b>marginTop: '10px'</b>, <b>height: '22px'</b> });</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================================ -->
+
+  <div class="gap">
+    <a href="#top" class="thing"></a>
+  </div>
+
+  <div class="more section">
+
+    <div class="heading l-page">
+      <h2>2D transformations</h2>
+      <p>Here are some CSS3 transformations supported by Transit.</p>
     </div>
 
     <div class="examples trio l-page">
+
+      <div class="example normal">
+        <div class="in">
+          <h3>Translate</h3>
+          <div class="area">
+            <div class="box"></div>
+          </div>
+          <div class="code">
+            <pre>$('.box').transition({ <b>x: 40</b>, <b>y: 40</b> });</pre>
+          </div>
+        </div>
+      </div>
 
       <div class="example normal">
         <div class="in">
@@ -220,7 +277,7 @@
 
       <div class="example normal">
         <div class="in">
-          <h3>Scale independently</h3>
+          <h3>Scale (not in proportion)</h3>
           <div class="area">
             <div class="box"></div>
           </div>
@@ -301,38 +358,6 @@
         </div>
       </div>
 
-    </div>
-
-    <div class="heading l-page">
-      <h2>Other properties</h2>
-      <p>You can transition any property.</p>
-    </div>
-
-    <div class="examples l-page duo">
-
-      <div class="example slim">
-        <div class="in">
-          <div class="area">
-            <div class="box"></div>
-          </div>
-          <h3>Example one</h3>
-          <div class="code">
-            <pre>$('.box').transition({ <b>opacity: 0</b> });</pre>
-          </div>
-        </div>
-      </div>
-
-      <div class="example slim">
-        <div class="in">
-          <div class="area">
-            <div class="box"></div>
-          </div>
-          <h3>Example two</h3>
-          <div class="code">
-            <pre>$('.box').transition({ <b>marginTop: '10px'</b>, <b>height: '22px'</b> });</pre>
-          </div>
-        </div>
-      </div>
     </div>
 
   </div>
@@ -446,13 +471,14 @@
     <a href="#top" class="thing"></a>
   </div>
 
-  <div class="section extras">
+  <div class="section extras" id="more-features">
 
     <div class="heading l-page">
-      <h2>More features</h2>
+      <h2><span class="in"><span class="inin"><b>More</b> <i>features<i></span></span></h2>
+      <!-- <h2><strong>More</strong> <span>features</span></h2> -->
     </div>
 
-    <div class="examples duo l-page">
+    <div class="examples tree l-page">
 
       <div class="example slim">
         <div class="in">
@@ -473,7 +499,7 @@
             <div class="box"></div>
           </div>
           <h3>Optional units</h3>
-          <p>All units (eg, <code>px</em>, <em>deg</em>, <em>ms</em>) are optional.</p>
+          <p>All units (eg, <code>px</code>, <code>deg</code>, <code>ms</code>) are optional.</p>
           <div class="code">
             <pre>$('.box').transition({ <b>y: 30</b> });</pre>
           </div>
@@ -511,10 +537,25 @@
           <div class="area">
             <div class="box"></div>
           </div>
+          <h3>Chaining <span class="amp">&amp;</span> queuing</h3>
+          <p>Transit uses <a href="http://api.jquery.com/queue/">jQuery's
+          effect queue</a>, exactly like <code>.animate</code>. This means transitions
+          will never run in parallel. (You can disable the queue with <code>queue: false</code>.)</p>
+          <div class="code">
+            <pre>$('.box')<br>  <b>.transition({ x: -40 })</b><br>  <b>.transition({ y: 40 })</b><br>  <b>.transition({ x: 0 })</b><br>  <b>.transition({ y: 0 })</b>;</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="example slim">
+        <div class="in">
+          <div class="area">
+            <div class="box"></div>
+          </div>
           <h3>Alternate easing/duration syntax</h3>
           <p>You can provide <code>easing</code> and <code>duration</code> in the options. Great with CoffeeScript.</p>
           <div class="code">
-            <pre>$('.box').transition({<br>  y: 32, <b>easing: 'snap'</b>, <b>duration: 200</b><br>});</pre>
+            <pre>$('.box').transition({<br>  y: 55,<br>  <b>easing: 'snap'</b>,<br>  <b>duration: 200</b> });</pre>
           </div>
         </div>
       </div>
@@ -527,7 +568,7 @@
           <h3>Relative values</h3>
           <p>Start your values with either <code>+=</code> or <code>-=</code> to add/subtract to current values.</p>
           <div class="code">
-            <pre>$('.box').transition({<br>  <b>rotate: '+=30deg'</b>, <b>x: '+= 10'</b><br>  });</pre>
+            <pre>$('.box').transition({<br>  <b>rotate: '+=30deg'</b>,<br>  <b>x: '+=10'</b><br>});</pre>
           </div>
         </div>
       </div>
@@ -551,37 +592,19 @@
             <div class="box"></div>
           </div>
           <h3>Getting values</h3>
-          <p>You can <code>.css</code> to get values from any of the transformations defined by Transit.</p>
+          <p>Use <code>.css()</code> to get values from any of the transformations defined by Transit.</p>
           <div class="code">
-            <pre>$('.box').css({ rotate: '30deg' });<br>alert($('.box')<b>.css('rotate')</b>);<br>alert($('.box')<b>.css('transform')</b>);</pre>
+            <pre>$('.box').css({ rotate: '30deg' });<br>console.log($('.box')<b>.css('rotate')</b>);<br>console.log($('.box')<b>.css('transform')</b>);</pre>
           </div>
         </div>
-      </div>
-
-     </div>
-
-     <div class="examples solo l-page">
-      <div class="example slim">
-        <div class="in">
-          <div class="area">
-            <div class="box"></div>
-          </div>
-          <h3>Chaining <span class="amp">&amp;</span> queuing</h3>
-          <p>Transit uses <a href="http://api.jquery.com/queue/">jQuery's
-          effect queue</a>, exactly like <code>.animate</code>. This means transitions
-          will never run in parallel. (You can disable the queue with <code>queue: false</code>.)</p>
-          <div class="code">
-            <pre>$('.box') <b>.transition({ x: -40 })</b> <b>.transition({ y: 40 })</b> <b>.transition({ x: 0 })</b> <b>.transition({ y: 0 })</b>;</pre>
-          </div>
-        </div>
-      </div>
+      </div> 
 
     </div>
   </div>
 
   <!-- ============================================================================ -->
 
-  <div class="gap">
+  <div class="gap hard">
     <a href="#top" class="thing"></a>
   </div>
 
@@ -646,10 +669,32 @@
       </div>
 
       <div class='info grey slim'>
-        <pre class="figure">$.cssEase['bounce'] = 'cubic-bezier(0,1,0.5,1.3)';<br>$('.box').transition({ x: 0 }, 500, 'bounce');</pre>
+        <pre class="figure">$.cssEase['bounce'] =<br>  'cubic-bezier(0,1,0.5,1.3)';<br>$('.box').transition({ x: 0 }, 500,<br>  'bounce');</pre>
         <h3>Custom easing</h3>
         <p>
           Define custom easing aliases in <code>$.cssEase</code>.
+        </p>
+      </div>
+
+      <div class='info slim'>
+        <pre class="figure">.box {<br>  -webkit-backface-visibility: hidden;<br>}</pre>
+        <h3>Webkit: prevent flickers</h3>
+        <p>
+          Having flickering problems in Webkit? Use
+          <code>-webkit-backface-visibility</code>. See <a
+          href="http://stackoverflow.com/questions/3461441/prevent-flicker-on-webkit-transition-of-webkit-transform">this
+          question</a> for some discussions on this.
+        </p>
+      </div>
+
+      <div class='info grey slim'>
+        <pre class="figure">.box {<br>  -webkit-transition: translate3d(0,0,0);<br>}</pre>
+        <h3>Antialias problems in Webkit?</h3>
+        <p>
+          Force hardware-acceleration in Webkits to prevent text flickering. See
+          <a href="http://davidwalsh.name/translate3d">this article</a> and
+          <a href="http://cubiq.org/you-shall-not-flicker">this article</a> for more
+          information.
         </p>
       </div>
     </div>
@@ -659,21 +704,27 @@
 
   <!-- ============================================================================ -->
 
-  <div class="gap">
+  <div class="gap dark">
     <a href="#top" class="thing"></a>
   </div>
 
   <div class="section credits">
 
     <div class="subcontent l-page">
-      <p>Copyright 2011-2012, Rico Sta. Cruz. Released under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT
-      License</a>.</p>
+      <p>
+        <a href="https://twitter.com/rstacruz" class="twitter-follow-button" data-show-count="false">Follow @rstacruz</a>
+        <br>
+        <iframe src="http://ghbtns.com/github-btn.html?user=rstacruz&repo=jquery.transit&type=follow&count=true"
+          allowtransparency="true" frameborder="0" scrolling="0" width="153" height="20"></iframe>
+      </p>
 
-      <p>Transit is authored and maintained by <a
-        href="http://ricostacruz.com">Rico Sta. Cruz</a> with help from it's <a
+      <p>
+      Transit is authored and maintained by <a
+        href="http://ricostacruz.com">Rico Sta. Cruz</a> with help from its <a
         href="http://github.com/rstacruz/jquery.transit/contributors">contributors</a>.
       It is sponsored by my startup, <a href="http://nadarei.co">Nadarei,
-        Inc</a>.</p>
+        Inc</a>.
+      </p>
 
       <ul>
         <li><a href="http://ricostacruz.com">My website</a> (ricostacruz.com)</li>
@@ -681,8 +732,17 @@
         <li><a href="http://github.com/rstacruz">Github</a> (@rstacruz)</li>
         <li><a href="http://twitter.com/rstacruz">Twitter</a> (@rstacruz)</li>
       </ul>
+
+      <p>
+        &copy;
+        Copyright 2011-2012, Rico Sta. Cruz. Released under the <a
+          href="http://www.opensource.org/licenses/mit-license.php">MIT
+          License</a>.
+      </p>
     </div>
   </div>
 
+  <script>(function(a,b){var c=a.createElement(b),d=a.getElementsByTagName(b)[0];c.src="//hnbutton.appspot.com/static/hn.min.js",d.parentNode.insertBefore(c,d)})(document,"script")</script>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 </body>
 </html>
