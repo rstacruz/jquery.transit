@@ -179,7 +179,7 @@ span.amp {
   font-family: exo, sans-serif;
   font-weight: 200;
 
-  text-shadow: 1px 1px 0 white, 2px 2px 0 rgba(30, 120, 200, 0.15); }
+  text-shadow: 2px 2px 0 rgba(30, 160, 200, 0.15); }
 
 .header p {
   max-width: 350px;
@@ -188,6 +188,10 @@ span.amp {
   color: #5ad;
   font-style: italic;
   font-size: 15pt; }
+
+@media (max-width: 600px) {
+  .header h1 {
+    font-size: 42pt; } }
 
 /* ---------------------------------------------------------------------------- */
 
@@ -1022,12 +1026,10 @@ span.amp {
 .section.extras {
   background: rgba(230, 250, 250, 0.5); }
 
-.section.extras .heading h2 {
-  text-shadow: 0 1px 0 rgba(250, 250, 250, 0.7); }
-
 @media (min-width: 600px) {
   .section.extras .heading h2 {
-    font-size: 36pt; } }
+    font-size: 36pt; }
+}
 
 .section.extras .example h3 {
   font-family: exo, sans-serif;
