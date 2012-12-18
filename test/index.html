@@ -14,7 +14,12 @@
       }
 
       // Dynamically load jQuery depending on what's passed on get params.
-      addScript("http://ajax.googleapis.com/ajax/libs/jquery/"+jQueryVersion+"/jquery.min.js");
+      if (jQueryVersion === "1.9.0b1") {
+        addScript("http://code.jquery.com/jquery-1.9.0b1.js");
+        addScript("http://code.jquery.com/jquery-migrate-1.0.0b1.js");
+      } else {
+        addScript("http://ajax.googleapis.com/ajax/libs/jquery/"+jQueryVersion+"/jquery.min.js");
+      }
       addScript("../jquery.transit.js");
 
     })();
@@ -67,7 +72,10 @@
     }
 
     $(function() {
-      $('#jquery-version').text('Using jQuery v' + $.fn.jquery);
+      $('#jquery-version').html(
+        'jQuery: v' + $.fn.jquery + '<br>' +
+        'Transit: v' + $.transit.version
+      );
     });
   </script>
 
@@ -100,7 +108,8 @@
 <body>
   <div class='use'>
     Use:
-    <a href='index.html?jquery=1.8.1'>jQ 1.8.1</a>
+    <a href='index.html?jquery=1.9.0b1'>jQ 1.9.0b1</a>
+    <a href='index.html?jquery=1.8.1'>jQ 1.8</a>
     <a href='index.html?jquery=1.7.0'>jQ 1.7</a>
     <a href='index.html?jquery=1.6.0'>jQ 1.6</a>
     <a href='index.html?jquery=1.5.0'>jQ 1.5</a>
