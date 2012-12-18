@@ -1,3 +1,8 @@
+def system(*a)
+  puts "  $ #{a[0]}"
+  super
+end
+
 module Compressor
   def self.compress(jscode)
     require 'net/http'
@@ -81,6 +86,10 @@ task :prebuild => [:check_deps, :compress] do
   system "rocco jquery.transit.js > /dev/null"
   system "mv ./jquery.transit.html site/source.html"
   system "rm -rf docs"
+
+  puts "==> Copying test files..."
+  system "rm -rf site/test"
+  system "cp -R test site/test"
 end
 
 desc "Builds the website"

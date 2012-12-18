@@ -17,8 +17,8 @@
   <!-- [if lte IE8]><script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6/html5shiv.min.js"></script><![endif] -->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.6/prefixfree.min.js"></script>
-  <script src="jquery.transit.js?31"></script>
-  <script src="script.js?31"></script>
+  <script src="jquery.transit.js?32"></script>
+  <script src="script.js?32"></script>
   <script>WebFontConfig={google:{families:["Exo:200,700","Open Sans:400,400italic"]}},function(a,b){var c=a.createElement(b);c.src="http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js",c.async=1;var d=a.getElementsByTagName(b)[0];d.parentNode.insertBefore(c,d)}(document,"script")</script>
   <script>location.hostname.match(/ricostacruz\.com/)&&(_gaq=[["_setAccount","UA-20473929-1"],["_trackPageview"]],function(a,b){var c=a.createElement(b),d=a.getElementsByTagName(b)[0];c.async=1,c.src=("https:"==location.protocol?"//ssl":"//www")+".google-analytics.com/ga.js",d.parentNode.insertBefore(c,d)}(document,"script"))</script>
 </head>
@@ -57,7 +57,8 @@
         <a href="jquery.transit.min.js">
           <span class="in">
             <span class="inin">
-              <strong>v0.9.9</strong>
+              <strong id="version_id"></strong>
+              <script>$("#version_id").html('v'+jQuery.transit.version);</script>
               <small>Download</small>
             </span>
           </span>

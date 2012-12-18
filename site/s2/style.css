@@ -179,7 +179,7 @@ span.amp {
   font-family: exo, sans-serif;
   font-weight: 200;
 
-  text-shadow: 1px 1px 0 white, 2px 2px 0 rgba(30, 120, 200, 0.15); }
+  text-shadow: 2px 2px 0 rgba(30, 160, 200, 0.15); }
 
 .header p {
   max-width: 350px;
@@ -188,6 +188,10 @@ span.amp {
   color: #5ad;
   font-style: italic;
   font-size: 15pt; }
+
+@media (max-width: 600px) {
+  .header h1 {
+    font-size: 42pt; } }
 
 /* ---------------------------------------------------------------------------- */
 
@@ -760,11 +764,12 @@ span.amp {
     top: 50px;
     bottom: -80px;
 
-    width: 8px;
-    margin-left: -4px;
+    width: 6px;
+    margin-left: -3px;
 
     box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.07);
-    background: rgba(90, 184, 190, 0.3); }
+    background-color: rgba(90, 184, 190, 0.3);
+    background: linear-gradient(270deg, rgba(90, 184, 190, 0.3) 40%, rgba(190, 90, 90, 0.3) 60%); }
 
   .tree .example {
     position: relative;
