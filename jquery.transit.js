@@ -620,13 +620,8 @@
     // Defer running. This allows the browser to paint any pending CSS it hasn't
     // painted yet before doing the transitions.
     var deferredRun = function(next) {
-      var i = 0;
-
-      // Durations that are too slow will get transitions mixed up.
-      // (Tested on Mac/FF 7.0.1)
-      if ((support.transition === 'MozTransition') && (i < 25)) { i = 25; }
-
-      window.setTimeout(function() { run(next); }, i);
+        this.offsetWidth; // force a repaint
+        run(next);
     };
 
     // Use jQuery's fx queue.
