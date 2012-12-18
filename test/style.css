@@ -1,0 +1,22 @@
+* { margin: 0; padding: 0; font-size: 1em; }
+html { padding: 40px; background: #e3e3e7; }
+body, td, input, textarea { font-family: helvetica neue, sans-serif; font-size: 9pt; color: #444; line-height: 1.4; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
+body { padding-top: 50px; }
+.use { position: fixed; top: 0; left: 0; right: 0; padding: 20px; border-bottom: solid 1px rgba(0, 0, 0, 0.1); background: rgba(250, 250, 250, 0.9); z-index: 10; }
+.test { width: 220px; padding: 20px; float: left; margin: 0 20px 20px 0; background: white; border-radius: 2px; box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.05), -1px 1px 0 rgba(0, 0, 0, 0.05), 0 1px 5px rgba(0, 0, 0, 0.05); }
+.test .area { width: auto; height: 100px; margin: 10px 0; position: relative; }
+.test:hover { box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.05), -1px 1px 0 rgba(0, 0, 0, 0.05), 0 1px 5px rgba(0, 0, 0, 0.05), 0 0 0 4px rgba(0, 0, 0, 0.15); }
+.test h3 { font-size: 1.2em; margin-bottom: 2px; overflow: hidden; line-height: 24px; }
+.test h3 em { font-style: normal; font-weight: 200; float: right; color: #37a; font-size: 0.8em; }
+.test .box { position: absolute; top: 50%; left: 50%; margin: -16px 0 0 -16px; width: 32px; height: 32px; line-height: 32px; text-align: center; background: #505070; border-radius: 2px; z-index: 2; color: #ddd; }
+.test .ghost { background: #ddd; z-index: 1; box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.07), inset 0 0 0 1px rgba(0, 0, 0, 0.03); }
+.test pre { font-family: menlo, monospace; font-size: 7pt; padding: 10px; background: #eee; margin: 20px -20px -20px -20px; border-top: solid 1px #ddd; white-space: pre-wrap; line-height: 1.5; }
+.group-heading { margin: 20px 0 20px 0; padding-bottom: 10px; border-bottom: dotted 1px #ccc; font-size: 1.6em; clear: both; color: #70a0c0; font-weight: 200; }
+
+.use button { padding: 0 10px; }
+.use a, .use button { margin: 0 5px; }
+
+.description { padding-bottom: 20px; border-bottom: dotted 1px #ccc; }
+.description h1 { font-size: 2.5em; font-weight: 200; color: #707090; }
+.description p { font-size: 1.2em; color: #707090; width: 500px; }
+.description .version { margin-bottom: 20px; font-size: 1.2em; font-weight: bold; }
