@@ -6,7 +6,7 @@
     var $box = $test.find('.box:not(.ghost)');
     var $ghost = $box.clone().addClass('ghost').appendTo($test.find('.area'));
 
-    $test.data('code')($box, $test);
+    $test.data('code').fn($box, $test);
   });
 
   $('.test').live('mouseleave reset', function() {
@@ -35,7 +35,7 @@
     $test.attr('id', 'test-'+i);
     $test.find('h3').html(name);
     $test.find('pre').text(code);
-    $test.data('code', fn);
+    $test.data('code', {fn: fn});
 
     $('.tests').append($test);
   }
