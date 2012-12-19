@@ -16,6 +16,8 @@ Feel free to respond to other people's issues! Some people may be reporting
 issues that can easily be solved even without modification to the project's 
 code.
 
+You can also help by validating bugs reported.
+
 **[View issues][issues]**
 
 ## Reporting issues
