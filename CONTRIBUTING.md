@@ -2,24 +2,6 @@
 
 Want to get involved? Thanks! There are plenty of ways to help!
 
-## Contributing code
-
-If you would like to contribute code and don't have any specific issue to fix, 
-   see our issues list. Some items have been marked with a **contribs wanted** 
-   tag--you may want to start there.
-
-**[View issues][issues]**
-
-## Responding to issues
-
-Feel free to respond to other people's issues! Some people may be reporting 
-issues that can easily be solved even without modification to the project's 
-code.
-
-You can also help by validating bugs reported.
-
-**[View issues][issues]**
-
 ## Reporting issues
 
 A bug is a _demonstrable problem_ that is caused by the code in the
@@ -69,6 +51,29 @@ A good bug report shouldn't leave people needing to chase you up to get further
 information that is required to assess or fix the bug.
 
 **[File a bug report][issues]**
+
+## Responding to issues
+
+Feel free to respond to other people's issues! Some people may be reporting 
+issues that can easily be solved even without modification to the project's 
+code.
+
+You can also help by verifying issues reported.
+
+**[View issues][issues]**
+
+## The 'help wanted' tag
+
+Some [issues] are tagged with the 'help wanted' tag. These issues often:
+
+ - are missing an actual implementation, or
+ - need people's help in verifying and replicating the issue, or
+ - need test cases.
+
+If you would like to contribute code and don't have any specific issue you want 
+to fix, this would be a good place to start looking at!
+
+**[View issues][issues]**
 
 ## Pull requests
 
