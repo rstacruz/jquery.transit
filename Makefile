@@ -47,6 +47,7 @@ ${MINIFIED}: ${SOURCE}
 # ------------------------------
 
 dist: \
+	source minify \
 	dist/jquery.transit-${VERSION}.js \
 	dist/jquery.transit-${VERSION}.min.js
 
