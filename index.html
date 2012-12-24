@@ -95,7 +95,8 @@
 
     <div class="heading l-page">
       <h2>Transitions <span class="amp">&amp;</span> transformations</h2>
-      <p>Here are some basic transformations. Hover to see them work.</p>
+      <p>Here are some basic transformations. <span id="instruction-message"></span></p>
+      <script>$("#instruction-message").html(App.isMobile ? "Tap to see them work." : "Hover to see them work.");</script>
     </div>
 
     <div class="examples trio l-page">
