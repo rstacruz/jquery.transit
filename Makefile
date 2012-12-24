@@ -1,3 +1,5 @@
+VERSION := $(shell cat dist/jquery.transit.js | grep version: | sed "s/.*\"\(.*\)\".*/\1/")
+
 all: source minify
 
 # Aliases
@@ -6,6 +8,10 @@ all: source minify
 minify: dist/jquery.transit.min.js
 
 source: source/index.html
+
+dist: \
+	dist/jquery.transit-${VERSION}.js \
+	dist/jquery.transit-${VERSION}.min.js
 
 # Routines
 # --------
@@ -20,7 +26,15 @@ dist/jquery.transit.min.js: dist/jquery.transit.js
 	@which yuicompressor >/dev/null || (echo " ! Error: You need YUI compressor to minify .css files. Try: 'gem install yui-compressor'" && exit 1)
 	@rm -f $@
 	yuicompressor $< > $@
-	@chmod a-w $@
+	chmod a-w $@
+
+dist/jquery.transit-${VERSION}.js: dist/jquery.transit.js
+	cp $< $@
+	chmod a-w $@
+
+dist/jquery.transit-${VERSION}.min.js: dist/jquery.transit.min.js
+	cp $< $@
+	chmod a-w $@
 
 # Clean
 # -----
@@ -30,4 +44,4 @@ clean:
 
 # -----
 
-.PHONY: minify source all clean
+.PHONY: minify source all clean dist
