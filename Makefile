@@ -1,8 +1,8 @@
 # Everything will be generated from this.
-SOURCE ?= dist/jquery.transit.js
+SOURCE ?= jquery.transit.js
 
 # Where the SOURCE will be compressed to.
-MINIFIED ?= dist/jquery.transit.min.js
+MINIFIED ?= jquery.transit.min.js
 
 # The version string (eg, "v0.9.9") -- used for building distributions
 VERSION := $(shell cat ${SOURCE} | grep version: | sed "s/.*\"\(.*\)\".*/\1/")
@@ -26,7 +26,7 @@ source/index.html: ${SOURCE}
 	@echo "==> Generating annotated source..."
 	mkdir -p source/
 	rocco $< > /dev/null
-	mv dist/jquery.transit.html $@
+	mv $(patsubst %.js, %.html, $<) $@
 
 # ---------------
 # JS minification
@@ -76,6 +76,9 @@ clean:
 update:
 	@echo "==> Updating ${SOURCE}..."
 	cp ../jquery.transit.js ${SOURCE}
+	@echo "==> Updating tests..."
+	rm -rf test/
+	cp -R ../test/ ./test/
 
 # -----
 
