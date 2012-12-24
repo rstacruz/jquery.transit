@@ -7,6 +7,8 @@ MINIFIED ?= jquery.transit.min.js
 # The version string (eg, "v0.9.9") -- used for building distributions
 VERSION := $(shell cat ${SOURCE} | grep version: | sed "s/.*\"\(.*\)\".*/\1/")
 
+STATUS := @echo "\n\033[32m---->\033[0m"
+
 # -------
 # Default
 # -------
@@ -23,7 +25,7 @@ source: \
 
 source/index.html: ${SOURCE}
 	@which rocco >/dev/null || (echo " ! Error: You need Rocco to build an annotated source document. Try: 'gem install fl-rocco'" && exit 1)
-	@echo "==> Generating annotated source..."
+	${STATUS} Generating annotated source...
 	mkdir -p source/
 	rocco $< > /dev/null
 	mv $(patsubst %.js, %.html, $<) $@
@@ -37,7 +39,7 @@ minify: \
 
 ${MINIFIED}: ${SOURCE}
 	@which yuicompressor >/dev/null || (echo " ! Error: You need YUI compressor to minify .css files. Try: 'gem install yui-compressor'" && exit 1)
-	@echo "==> Minifying..."
+	${STATUS} Minifying...
 	@rm -f $@
 	yuicompressor $< > $@
 	chmod a-w $@
@@ -52,7 +54,7 @@ dist: \
 	dist/jquery.transit-${VERSION}.min.js
 
 dist/jquery.transit-${VERSION}.js: ${SOURCE}
-	@echo "==> Updating distribution for v${VERSION}..."
+	${STATUS} Updating distribution for v${VERSION}...
 	cp $< $@
 	chmod a-w $@
 
@@ -65,7 +67,7 @@ dist/jquery.transit-${VERSION}.min.js: ${MINIFIED}
 # -----
 
 clean:
-	@echo "==> Cleaning built files..."
+	${STATUS} Cleaning built files...
 	rm -rf ${MINIFIED} source/
 
 # -----
@@ -74,9 +76,10 @@ clean:
 # assume the main file is there, and fish it out with `make update`
 
 update:
-	@echo "==> Updating ${SOURCE}..."
+	${STATUS} Updating from main repo...
 	cp ../jquery.transit.js ${SOURCE}
-	@echo "==> Updating tests..."
+
+	${STATUS} Updating tests...
 	rm -rf test/
 	cp -R ../test/ ./test/
 
