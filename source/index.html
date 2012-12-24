@@ -1105,9 +1105,7 @@ painted yet before doing the transitions.</p>
       </td>
       <td class=code>
         <div class='highlight'><pre>    <span class="kd">var</span> <span class="nx">deferredRun</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">offsetWidth</span><span class="p">;</span> <span class="c1">// force a repaint</span>
-        <span class="nx">run</span><span class="p">(</span><span class="nx">next</span><span class="p">);</span>
-    <span class="p">};</span></pre></div>
+      <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span></pre></div>
       </td>
     </tr>
     <tr id='section-56'>
@@ -1115,16 +1113,31 @@ painted yet before doing the transitions.</p>
         <div class="pilwrap">
           <a class="pilcrow" href="#section-56">&#182;</a>
         </div>
-        <p>Use jQuery&rsquo;s fx queue.</p>
+        <p>Durations that are too slow will get transitions mixed up.
+(Tested on Mac/FF 7.0.1)</p>
       </td>
       <td class=code>
-        <div class='highlight'><pre>    <span class="nx">callOrQueue</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="nx">queue</span><span class="p">,</span> <span class="nx">deferredRun</span><span class="p">);</span></pre></div>
+        <div class='highlight'><pre>      <span class="k">if</span> <span class="p">((</span><span class="nx">support</span><span class="p">.</span><span class="nx">transition</span> <span class="o">===</span> <span class="s1">&#39;MozTransition&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">25</span><span class="p">))</span> <span class="p">{</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">25</span><span class="p">;</span> <span class="p">}</span>
+
+      <span class="nb">window</span><span class="p">.</span><span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">run</span><span class="p">(</span><span class="nx">next</span><span class="p">);</span> <span class="p">},</span> <span class="nx">i</span><span class="p">);</span>
+    <span class="p">};</span></pre></div>
       </td>
     </tr>
     <tr id='section-57'>
       <td class=docs>
         <div class="pilwrap">
           <a class="pilcrow" href="#section-57">&#182;</a>
+        </div>
+        <p>Use jQuery&rsquo;s fx queue.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="nx">callOrQueue</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="nx">queue</span><span class="p">,</span> <span class="nx">deferredRun</span><span class="p">);</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-58'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-58">&#182;</a>
         </div>
         <p>Chainability.</p>
       </td>
@@ -1135,10 +1148,10 @@ painted yet before doing the transitions.</p>
   <span class="kd">function</span> <span class="nx">registerCssHook</span><span class="p">(</span><span class="nx">prop</span><span class="p">,</span> <span class="nx">isPixels</span><span class="p">)</span> <span class="p">{</span></pre></div>
       </td>
     </tr>
-    <tr id='section-58'>
+    <tr id='section-59'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-58">&#182;</a>
+          <a class="pilcrow" href="#section-59">&#182;</a>
         </div>
         <p>For certain properties, the &lsquo;px&rsquo; should not be implied.</p>
       </td>
@@ -1222,10 +1235,10 @@ toMS(10)       //=&gt; &lsquo;10ms&rsquo;
     <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">duration</span><span class="p">;</span></pre></div>
       </td>
     </tr>
-    <tr id='section-62'>
+    <tr id='section-63'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-62">&#182;</a>
+          <a class="pilcrow" href="#section-63">&#182;</a>
         </div>
         <p>Allow for string durations like &lsquo;fast&rsquo;.</p>
       </td>
@@ -1236,10 +1249,10 @@ toMS(10)       //=&gt; &lsquo;10ms&rsquo;
   <span class="p">}</span></pre></div>
       </td>
     </tr>
-    <tr id='section-63'>
+    <tr id='section-64'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-63">&#182;</a>
+          <a class="pilcrow" href="#section-64">&#182;</a>
         </div>
         <p>Export some functions for testable-ness.</p>
 
