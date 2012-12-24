@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>jquery.transit.js</title>
+  <link rel="stylesheet" href="http://jashkenas.github.com/docco/resources/docco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class=docs><h1>jquery.transit.js</h1></th>
+      <th class=code></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr id='section-1'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-1">&#182;</a>
+        </div>
+        
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><span class="cm">/*!</span>
+<span class="cm"> * jQuery Transit - CSS3 transitions and transformations</span>
+<span class="cm"> * (c) 2011-2012 Rico Sta. Cruz &lt;rico@ricostacruz.com&gt;</span>
+<span class="cm"> * MIT Licensed.</span>
+<span class="cm"> *</span>
+<span class="cm"> * http://ricostacruz.com/jquery.transit</span>
+<span class="cm"> * http://github.com/rstacruz/jquery.transit</span>
+<span class="cm"> */</span>
+
+<span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">$</span><span class="p">.</span><span class="nx">transit</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">version</span><span class="o">:</span> <span class="s2">&quot;0.9.9&quot;</span><span class="p">,</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-2'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-2">&#182;</a>
+        </div>
+        <p>Map of $.css() keys to values for &lsquo;transitionProperty&rsquo;.
+See https://developer.mozilla.org/en/CSS/CSS<em>transitions#Properties</em>that<em>can</em>be_animated</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="nx">propertyMap</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">marginLeft</span>    <span class="o">:</span> <span class="s1">&#39;margin&#39;</span><span class="p">,</span>
+      <span class="nx">marginRight</span>   <span class="o">:</span> <span class="s1">&#39;margin&#39;</span><span class="p">,</span>
+      <span class="nx">marginBottom</span>  <span class="o">:</span> <span class="s1">&#39;margin&#39;</span><span class="p">,</span>
+      <span class="nx">marginTop</span>     <span class="o">:</span> <span class="s1">&#39;margin&#39;</span><span class="p">,</span>
+      <span class="nx">paddingLeft</span>   <span class="o">:</span> <span class="s1">&#39;padding&#39;</span><span class="p">,</span>
+      <span class="nx">paddingRight</span>  <span class="o">:</span> <span class="s1">&#39;padding&#39;</span><span class="p">,</span>
+      <span class="nx">paddingBottom</span> <span class="o">:</span> <span class="s1">&#39;padding&#39;</span><span class="p">,</span>
+      <span class="nx">paddingTop</span>    <span class="o">:</span> <span class="s1">&#39;padding&#39;</span>
+    <span class="p">},</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-3'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-3">&#182;</a>
+        </div>
+        <p>Will simply transition &ldquo;instantly&rdquo; if false</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="nx">enabled</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-4'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-4">&#182;</a>
+        </div>
+        <p>Set this to false if you don&rsquo;t want to use the transition end property.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="nx">useTransitionEnd</span><span class="o">:</span> <span class="kc">false</span>
+  <span class="p">};</span>
+
+  <span class="kd">var</span> <span class="nx">div</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">support</span> <span class="o">=</span> <span class="p">{};</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-5'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-5">&#182;</a>
+        </div>
+        <p>Helper function to get the proper vendor property name.
+(<code>transition</code> =&gt; <code>WebkitTransition</code>)</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="kd">function</span> <span class="nx">getVendorPropertyName</span><span class="p">(</span><span class="nx">prop</span><span class="p">)</span> <span class="p">{</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-6'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-6">&#182;</a>
+        </div>
+        <p>Handle unprefixed versions (FF16+, for example)</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="k">if</span> <span class="p">(</span><span class="nx">prop</span> <span class="k">in</span> <span class="nx">div</span><span class="p">.</span><span class="nx">style</span><span class="p">)</span> <span class="k">return</span> <span class="nx">prop</span><span class="p">;</span>
+
+    <span class="kd">var</span> <span class="nx">prefixes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Moz&#39;</span><span class="p">,</span> <span class="s1">&#39;Webkit&#39;</span><span class="p">,</span> <span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="s1">&#39;ms&#39;</span><span class="p">];</span>
+    <span class="kd">var</span> <span class="nx">prop_</span> <span class="o">=</span> <span class="nx">prop</span><span class="p">.</span><span class="nx">charAt</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">toUpperCase</span><span class="p">()</span> <span class="o">+</span> <span class="nx">prop</span><span class="p">.</span><span class="nx">substr</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">prop</span> <span class="k">in</span> <span class="nx">div</span><span class="p">.</span><span class="nx">style</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">prop</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">prefixes</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">vendorProp</span> <span class="o">=</span> <span class="nx">prefixes</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">+</span> <span class="nx">prop_</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">vendorProp</span> <span class="k">in</span> <span class="nx">div</span><span class="p">.</span><span class="nx">style</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">vendorProp</span><span class="p">;</span> <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-7'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-7">&#182;</a>
+        </div>
+        <p>Helper function to check if transform3D is supported.
+Should return true for Webkits and Firefox 10+.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="kd">function</span> <span class="nx">checkTransform3dSupport</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">div</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span><span class="nx">support</span><span class="p">.</span><span class="nx">transform</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+    <span class="nx">div</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span><span class="nx">support</span><span class="p">.</span><span class="nx">transform</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;rotateY(90deg)&#39;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nx">div</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span><span class="nx">support</span><span class="p">.</span><span class="nx">transform</span><span class="p">]</span> <span class="o">!==</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kd">var</span> <span class="nx">isChrome</span> <span class="o">=</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">userAgent</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">().</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;chrome&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-8'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-8">&#182;</a>
+        </div>
+        <p>Check for the browser&rsquo;s transitions support.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="nx">support</span><span class="p">.</span><span class="nx">transition</span>      <span class="o">=</span> <span class="nx">getVendorPropertyName</span><span class="p">(</span><span class="s1">&#39;transition&#39;</span><span class="p">);</span>
+  <span class="nx">support</span><span class="p">.</span><span class="nx">transitionDelay</span> <span class="o">=</span> <span class="nx">getVendorPropertyName</span><span class="p">(</span><span class="s1">&#39;transitionDelay&#39;</span><span class="p">);</span>
+  <span class="nx">support</span><span class="p">.</span><span class="nx">transform</span>       <span class="o">=</span> <span class="nx">getVendorPropertyName</span><span class="p">(</span><span class="s1">&#39;transform&#39;</span><span class="p">);</span>
+  <span class="nx">support</span><span class="p">.</span><span class="nx">transformOrigin</span> <span class="o">=</span> <span class="nx">getVendorPropertyName</span><span class="p">(</span><span class="s1">&#39;transformOrigin&#39;</span><span class="p">);</span>
+  <span class="nx">support</span><span class="p">.</span><span class="nx">transform3d</span>     <span class="o">=</span> <span class="nx">checkTransform3dSupport</span><span class="p">();</span>
+
+  <span class="kd">var</span> <span class="nx">eventNames</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;transition&#39;</span><span class="o">:</span>       <span class="s1">&#39;transitionEnd&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;MozTransition&#39;</span><span class="o">:</span>    <span class="s1">&#39;transitionend&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;OTransition&#39;</span><span class="o">:</span>      <span class="s1">&#39;oTransitionEnd&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;WebkitTransition&#39;</span><span class="o">:</span> <span class="s1">&#39;webkitTransitionEnd&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;msTransition&#39;</span><span class="o">:</span>     <span class="s1">&#39;MSTransitionEnd&#39;</span>
+  <span class="p">};</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-9'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-9">&#182;</a>
+        </div>
+        <p>Detect the &lsquo;transitionend&rsquo; event needed.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="kd">var</span> <span class="nx">transitionEnd</span> <span class="o">=</span> <span class="nx">support</span><span class="p">.</span><span class="nx">transitionEnd</span> <span class="o">=</span> <span class="nx">eventNames</span><span class="p">[</span><span class="nx">support</span><span class="p">.</span><span class="nx">transition</span><span class="p">]</span> <span class="o">||</span> <span class="kc">null</span><span class="p">;</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-10'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-10">&#182;</a>
+        </div>
+        <p>Populate jQuery&rsquo;s <code>$.support</code> with the vendor prefixes we know.
+As per <a href="http://api.jquery.com/jQuery.cssHooks/">jQuery&rsquo;s cssHooks documentation</a>,
+we set $.support.transition to a string of the actual property name used.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">support</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">support</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">$</span><span class="p">.</span><span class="nx">support</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">$</span><span class="p">.</span><span class="nx">support</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nx">support</span><span class="p">[</span><span class="nx">key</span><span class="p">];</span>
+    <span class="p">}</span>
+  <span class="p">}</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-11'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-11">&#182;</a>
+        </div>
+        <p>Avoid memory leak in IE.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="nx">div</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-$.cssEase'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-$.cssEase">&#182;</a>
+        </div>
+        <h2>$.cssEase</h2>
+
+<p>List of easing aliases that you can use with <code>$.fn.transition</code>.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="nx">$</span><span class="p">.</span><span class="nx">cssEase</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;_default&#39;</span><span class="o">:</span>       <span class="s1">&#39;ease&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;in&#39;</span><span class="o">:</span>             <span class="s1">&#39;ease-in&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;out&#39;</span><span class="o">:</span>            <span class="s1">&#39;ease-out&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;in-out&#39;</span><span class="o">:</span>         <span class="s1">&#39;ease-in-out&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;snap&#39;</span><span class="o">:</span>           <span class="s1">&#39;cubic-bezier(0,1,.5,1)&#39;</span><span class="p">,</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-13'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-13">&#182;</a>
+        </div>
+        <p>Penner equations</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="s1">&#39;easeOutCubic&#39;</span><span class="o">:</span>   <span class="s1">&#39;cubic-bezier(.215,.61,.355,1)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInOutCubic&#39;</span><span class="o">:</span> <span class="s1">&#39;cubic-bezier(.645,.045,.355,1)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInCirc&#39;</span><span class="o">:</span>     <span class="s1">&#39;cubic-bezier(.6,.04,.98,.335)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeOutCirc&#39;</span><span class="o">:</span>    <span class="s1">&#39;cubic-bezier(.075,.82,.165,1)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInOutCirc&#39;</span><span class="o">:</span>  <span class="s1">&#39;cubic-bezier(.785,.135,.15,.86)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInExpo&#39;</span><span class="o">:</span>     <span class="s1">&#39;cubic-bezier(.95,.05,.795,.035)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeOutExpo&#39;</span><span class="o">:</span>    <span class="s1">&#39;cubic-bezier(.19,1,.22,1)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInOutExpo&#39;</span><span class="o">:</span>  <span class="s1">&#39;cubic-bezier(1,0,0,1)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInQuad&#39;</span><span class="o">:</span>     <span class="s1">&#39;cubic-bezier(.55,.085,.68,.53)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeOutQuad&#39;</span><span class="o">:</span>    <span class="s1">&#39;cubic-bezier(.25,.46,.45,.94)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInOutQuad&#39;</span><span class="o">:</span>  <span class="s1">&#39;cubic-bezier(.455,.03,.515,.955)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInQuart&#39;</span><span class="o">:</span>    <span class="s1">&#39;cubic-bezier(.895,.03,.685,.22)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeOutQuart&#39;</span><span class="o">:</span>   <span class="s1">&#39;cubic-bezier(.165,.84,.44,1)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInOutQuart&#39;</span><span class="o">:</span> <span class="s1">&#39;cubic-bezier(.77,0,.175,1)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInQuint&#39;</span><span class="o">:</span>    <span class="s1">&#39;cubic-bezier(.755,.05,.855,.06)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeOutQuint&#39;</span><span class="o">:</span>   <span class="s1">&#39;cubic-bezier(.23,1,.32,1)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInOutQuint&#39;</span><span class="o">:</span> <span class="s1">&#39;cubic-bezier(.86,0,.07,1)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInSine&#39;</span><span class="o">:</span>     <span class="s1">&#39;cubic-bezier(.47,0,.745,.715)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeOutSine&#39;</span><span class="o">:</span>    <span class="s1">&#39;cubic-bezier(.39,.575,.565,1)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInOutSine&#39;</span><span class="o">:</span>  <span class="s1">&#39;cubic-bezier(.445,.05,.55,.95)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInBack&#39;</span><span class="o">:</span>     <span class="s1">&#39;cubic-bezier(.6,-.28,.735,.045)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeOutBack&#39;</span><span class="o">:</span>    <span class="s1">&#39;cubic-bezier(.175, .885,.32,1.275)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;easeInOutBack&#39;</span><span class="o">:</span>  <span class="s1">&#39;cubic-bezier(.68,-.55,.265,1.55)&#39;</span>
+  <span class="p">};</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-&amp;lsquo;transform&amp;rsquo;_CSS_hook'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-&amp;lsquo;transform&amp;rsquo;_CSS_hook">&#182;</a>
+        </div>
+        <h2>&lsquo;transform&rsquo; CSS hook</h2>
+
+<p>Allows you to use the <code>transform</code> property in CSS.</p>
+
+<pre><code>$(&ldquo;#hello&rdquo;).css({ transform: &ldquo;rotate(90deg)&rdquo; });
+
+$(&ldquo;#hello&rdquo;).css(&lsquo;transform&rsquo;);
+//=&gt; { rotate: &lsquo;90deg&rsquo; }
+</code></pre>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="nx">$</span><span class="p">.</span><span class="nx">cssHooks</span><span class="p">[</span><span class="s1">&#39;transit:transform&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-15'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-15">&#182;</a>
+        </div>
+        <p>The getter returns a <code>Transform</code> object.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="nx">get</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elem</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">$</span><span class="p">(</span><span class="nx">elem</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s1">&#39;transform&#39;</span><span class="p">)</span> <span class="o">||</span> <span class="k">new</span> <span class="nx">Transform</span><span class="p">();</span>
+    <span class="p">},</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-16'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-16">&#182;</a>
+        </div>
+        <p>The setter accepts a <code>Transform</code> object or a string.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="nx">set</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elem</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">v</span><span class="p">;</span>
+
+      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="nx">value</span> <span class="k">instanceof</span> <span class="nx">Transform</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nx">value</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Transform</span><span class="p">(</span><span class="nx">value</span><span class="p">);</span>
+      <span class="p">}</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-17'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-17">&#182;</a>
+        </div>
+        <p>We&rsquo;ve seen the 3D version of Scale() not work in Chrome when the
+element being scaled extends outside of the viewport.  Thus, we&rsquo;re
+forcing Chrome to not use the 3d transforms as well.  Not sure if
+translate is affectede, but not risking it.  Detection code from
+http://davidwalsh.name/detecting-google-chrome-javascript</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>      <span class="k">if</span> <span class="p">(</span><span class="nx">support</span><span class="p">.</span><span class="nx">transform</span> <span class="o">===</span> <span class="s1">&#39;WebkitTransform&#39;</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">isChrome</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span><span class="nx">support</span><span class="p">.</span><span class="nx">transform</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span><span class="p">.</span><span class="nx">toString</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span><span class="nx">support</span><span class="p">.</span><span class="nx">transform</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
+      <span class="p">}</span>
+
+      <span class="nx">$</span><span class="p">(</span><span class="nx">elem</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s1">&#39;transform&#39;</span><span class="p">,</span> <span class="nx">value</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">};</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-18'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-18">&#182;</a>
+        </div>
+        <p>Add a CSS hook for <code>.css({ transform: &lsquo;&hellip;&rsquo; })</code>.
+In jQuery 1.8+, this will intentionally override the default <code>transform</code>
+CSS hook so it&rsquo;ll play well with Transit. (see issue #62)</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="nx">$</span><span class="p">.</span><span class="nx">cssHooks</span><span class="p">.</span><span class="nx">transform</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">set</span><span class="o">:</span> <span class="nx">$</span><span class="p">.</span><span class="nx">cssHooks</span><span class="p">[</span><span class="s1">&#39;transit:transform&#39;</span><span class="p">].</span><span class="nx">set</span>
+  <span class="p">};</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-19'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-19">&#182;</a>
+        </div>
+        <p>jQuery 1.8+ supports prefix-free transitions, so these polyfills will not
+be necessary.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">jquery</span> <span class="o">&lt;</span> <span class="s2">&quot;1.8&quot;</span><span class="p">)</span> <span class="p">{</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-&amp;lsquo;transformOrigin&amp;rsquo;_CSS_hook'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-&amp;lsquo;transformOrigin&amp;rsquo;_CSS_hook">&#182;</a>
+        </div>
+        <h2>&lsquo;transformOrigin&rsquo; CSS hook</h2>
+
+<p>Allows the use for <code>transformOrigin</code> to define where scaling and rotation
+is pivoted.</p>
+
+<pre><code>$(&ldquo;#hello&rdquo;).css({ transformOrigin: &lsquo;0 0&rsquo; });
+</code></pre>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="nx">$</span><span class="p">.</span><span class="nx">cssHooks</span><span class="p">.</span><span class="nx">transformOrigin</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">get</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elem</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span><span class="nx">support</span><span class="p">.</span><span class="nx">transformOrigin</span><span class="p">];</span>
+      <span class="p">},</span>
+      <span class="nx">set</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elem</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span><span class="nx">support</span><span class="p">.</span><span class="nx">transformOrigin</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">};</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-&amp;lsquo;transition&amp;rsquo;_CSS_hook'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-&amp;lsquo;transition&amp;rsquo;_CSS_hook">&#182;</a>
+        </div>
+        <h2>&lsquo;transition&rsquo; CSS hook</h2>
+
+<p>Allows you to use the <code>transition</code> property in CSS.</p>
+
+<pre><code>$(&ldquo;#hello&rdquo;).css({ transition: &lsquo;all 0 ease 0&rsquo; });
+</code></pre>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="nx">$</span><span class="p">.</span><span class="nx">cssHooks</span><span class="p">.</span><span class="nx">transition</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">get</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elem</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span><span class="nx">support</span><span class="p">.</span><span class="nx">transition</span><span class="p">];</span>
+      <span class="p">},</span>
+      <span class="nx">set</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elem</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span><span class="nx">support</span><span class="p">.</span><span class="nx">transition</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">};</span>
+  <span class="p">}</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-Other_CSS_hooks'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-Other_CSS_hooks">&#182;</a>
+        </div>
+        <h2>Other CSS hooks</h2>
+
+<p>Allows you to rotate, scale and translate.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="nx">registerCssHook</span><span class="p">(</span><span class="s1">&#39;scale&#39;</span><span class="p">);</span>
+  <span class="nx">registerCssHook</span><span class="p">(</span><span class="s1">&#39;translate&#39;</span><span class="p">);</span>
+  <span class="nx">registerCssHook</span><span class="p">(</span><span class="s1">&#39;rotate&#39;</span><span class="p">);</span>
+  <span class="nx">registerCssHook</span><span class="p">(</span><span class="s1">&#39;rotateX&#39;</span><span class="p">);</span>
+  <span class="nx">registerCssHook</span><span class="p">(</span><span class="s1">&#39;rotateY&#39;</span><span class="p">);</span>
+  <span class="nx">registerCssHook</span><span class="p">(</span><span class="s1">&#39;rotate3d&#39;</span><span class="p">);</span>
+  <span class="nx">registerCssHook</span><span class="p">(</span><span class="s1">&#39;perspective&#39;</span><span class="p">);</span>
+  <span class="nx">registerCssHook</span><span class="p">(</span><span class="s1">&#39;skewX&#39;</span><span class="p">);</span>
+  <span class="nx">registerCssHook</span><span class="p">(</span><span class="s1">&#39;skewY&#39;</span><span class="p">);</span>
+  <span class="nx">registerCssHook</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+  <span class="nx">registerCssHook</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-Transform_class'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-Transform_class">&#182;</a>
+        </div>
+        <h2>Transform class</h2>
+
+<p>This is the main class of a transformation property that powers
+<code>$.fn.css({ transform: &lsquo;&hellip;&rsquo; })</code>.</p>
+
+<p>This is, in essence, a dictionary object with key/values as <code>-transform</code>
+properties.</p>
+
+<pre><code>var t = new Transform(&ldquo;rotate(90) scale(4)&rdquo;);
+
+t.rotate             //=&gt; &ldquo;90deg&rdquo;
+t.scale              //=&gt; &ldquo;4,4&rdquo;
+</code></pre>
+
+<p>Setters are accounted for.</p>
+
+<pre><code>t.set(&lsquo;rotate&rsquo;, 4)
+t.rotate             //=&gt; &ldquo;4deg&rdquo;
+</code></pre>
+
+<p>Convert it to a CSS string using the <code>toString()</code> and <code>toString(true)</code> (for WebKit)
+functions.</p>
+
+<pre><code>t.toString()         //=&gt; &ldquo;rotate(90deg) scale(4,4)&rdquo;
+t.toString(true)     //=&gt; &ldquo;rotate(90deg) scale3d(4,4,0)&rdquo; (WebKit version)
+</code></pre>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="kd">function</span> <span class="nx">Transform</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">str</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">str</span><span class="p">);</span> <span class="p">}</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">Transform</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-setFromString()'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-setFromString()">&#182;</a>
+        </div>
+        <h3>setFromString()</h3>
+
+<p>Sets a property from a string.</p>
+
+<pre><code>t.setFromString(&lsquo;scale&rsquo;, &lsquo;2,4&rsquo;);
+// Same as set(&lsquo;scale&rsquo;, &lsquo;2&rsquo;, &lsquo;4&rsquo;);
+</code></pre>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="nx">setFromString</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">prop</span><span class="p">,</span> <span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">args</span> <span class="o">=</span>
+        <span class="p">(</span><span class="k">typeof</span> <span class="nx">val</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="p">)</span>  <span class="o">?</span> <span class="nx">val</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span> <span class="o">:</span>
+        <span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nx">constructor</span> <span class="o">===</span> <span class="nb">Array</span><span class="p">)</span> <span class="o">?</span> <span class="nx">val</span> <span class="o">:</span>
+        <span class="p">[</span> <span class="nx">val</span> <span class="p">];</span>
+
+      <span class="nx">args</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span><span class="nx">prop</span><span class="p">);</span>
+
+      <span class="nx">Transform</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">set</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">args</span><span class="p">);</span>
+    <span class="p">},</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-set()'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-set()">&#182;</a>
+        </div>
+        <h3>set()</h3>
+
+<p>Sets a property.</p>
+
+<pre><code>t.set(&lsquo;scale&rsquo;, 2, 4);
+</code></pre>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="nx">set</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">prop</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">args</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">slice</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">arguments</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">setter</span><span class="p">[</span><span class="nx">prop</span><span class="p">])</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">setter</span><span class="p">[</span><span class="nx">prop</span><span class="p">].</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">args</span><span class="p">);</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">[</span><span class="nx">prop</span><span class="p">]</span> <span class="o">=</span> <span class="nx">args</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+
+    <span class="nx">get</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">prop</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">getter</span><span class="p">[</span><span class="nx">prop</span><span class="p">])</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">getter</span><span class="p">[</span><span class="nx">prop</span><span class="p">].</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">[</span><span class="nx">prop</span><span class="p">]</span> <span class="o">||</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+
+    <span class="nx">setter</span><span class="o">:</span> <span class="p">{</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-rotate'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-rotate">&#182;</a>
+        </div>
+        <h3>rotate</h3>
+
+<pre><code>.css({ rotate: 30 })
+.css({ rotate: &ldquo;30&rdquo; })
+.css({ rotate: &ldquo;30deg&rdquo; })
+.css({ rotate: &ldquo;30deg&rdquo; })
+</code></pre>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>      <span class="nx">rotate</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">theta</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">rotate</span> <span class="o">=</span> <span class="nx">unit</span><span class="p">(</span><span class="nx">theta</span><span class="p">,</span> <span class="s1">&#39;deg&#39;</span><span class="p">);</span>
+      <span class="p">},</span>
+
+      <span class="nx">rotateX</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">theta</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">rotateX</span> <span class="o">=</span> <span class="nx">unit</span><span class="p">(</span><span class="nx">theta</span><span class="p">,</span> <span class="s1">&#39;deg&#39;</span><span class="p">);</span>
+      <span class="p">},</span>
+
+      <span class="nx">rotateY</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">theta</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">rotateY</span> <span class="o">=</span> <span class="nx">unit</span><span class="p">(</span><span class="nx">theta</span><span class="p">,</span> <span class="s1">&#39;deg&#39;</span><span class="p">);</span>
+      <span class="p">},</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-scale'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-scale">&#182;</a>
+        </div>
+        <h3>scale</h3>
+
+<pre><code>.css({ scale: 9 })      //=&gt; &ldquo;scale(9,9)&rdquo;
+.css({ scale: &lsquo;3,2&rsquo; })  //=&gt; &ldquo;scale(3,2)&rdquo;
+</code></pre>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>      <span class="nx">scale</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">y</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">x</span><span class="p">;</span> <span class="p">}</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">scale</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="nx">y</span><span class="p">;</span>
+      <span class="p">},</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-skewX_+_skewY'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-skewX_+_skewY">&#182;</a>
+        </div>
+        <h3>skewX + skewY</h3>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>      <span class="nx">skewX</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">skewX</span> <span class="o">=</span> <span class="nx">unit</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="s1">&#39;deg&#39;</span><span class="p">);</span>
+      <span class="p">},</span>
+
+      <span class="nx">skewY</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">skewY</span> <span class="o">=</span> <span class="nx">unit</span><span class="p">(</span><span class="nx">y</span><span class="p">,</span> <span class="s1">&#39;deg&#39;</span><span class="p">);</span>
+      <span class="p">},</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-perspectvie'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-perspectvie">&#182;</a>
+        </div>
+        <h3>perspectvie</h3>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>      <span class="nx">perspective</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">dist</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">perspective</span> <span class="o">=</span> <span class="nx">unit</span><span class="p">(</span><span class="nx">dist</span><span class="p">,</span> <span class="s1">&#39;px&#39;</span><span class="p">);</span>
+      <span class="p">},</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-x_/_y'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-x_/_y">&#182;</a>
+        </div>
+        <h3>x / y</h3>
+
+<p>Translations. Notice how this keeps the other value.</p>
+
+<pre><code>.css({ x: 4 })       //=&gt; &ldquo;translate(4px, 0)&rdquo;
+.css({ y: 10 })      //=&gt; &ldquo;translate(4px, 10px)&rdquo;
+</code></pre>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>      <span class="nx">x</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;translate&#39;</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="kc">null</span><span class="p">);</span>
+      <span class="p">},</span>
+
+      <span class="nx">y</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;translate&#39;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">y</span><span class="p">);</span>
+      <span class="p">},</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-translate'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-translate">&#182;</a>
+        </div>
+        <h3>translate</h3>
+
+<p>Notice how this keeps the other value.</p>
+
+<pre><code>.css({ translate: &lsquo;2, 5&rsquo; })    //=&gt; &ldquo;translate(2px, 5px)&rdquo;
+</code></pre>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>      <span class="nx">translate</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_translateX</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">_translateX</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_translateY</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">_translateY</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">x</span> <span class="o">!==</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="nx">x</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">_translateX</span> <span class="o">=</span> <span class="nx">unit</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="s1">&#39;px&#39;</span><span class="p">);</span> <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">y</span> <span class="o">!==</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="nx">y</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">_translateY</span> <span class="o">=</span> <span class="nx">unit</span><span class="p">(</span><span class="nx">y</span><span class="p">,</span> <span class="s1">&#39;px&#39;</span><span class="p">);</span> <span class="p">}</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">translate</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_translateX</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">_translateY</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+
+    <span class="nx">getter</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">x</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_translateX</span> <span class="o">||</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="p">},</span>
+
+      <span class="nx">y</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_translateY</span> <span class="o">||</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="p">},</span>
+
+      <span class="nx">scale</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">scale</span> <span class="o">||</span> <span class="s2">&quot;1,1&quot;</span><span class="p">).</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="p">{</span> <span class="nx">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">parseFloat</span><span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span> <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="p">{</span> <span class="nx">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">parseFloat</span><span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span> <span class="p">}</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-32'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-32">&#182;</a>
+        </div>
+        <p>&ldquo;2.5,2.5&rdquo; =&gt; 2.5
+&ldquo;2.5,1&rdquo; =&gt; [2.5,1]</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>        <span class="k">return</span> <span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">===</span> <span class="nx">s</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">?</span> <span class="nx">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">:</span> <span class="nx">s</span><span class="p">;</span>
+      <span class="p">},</span>
+
+      <span class="nx">rotate3d</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">rotate3d</span> <span class="o">||</span> <span class="s2">&quot;0,0,0,0deg&quot;</span><span class="p">).</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;=</span><span class="mi">3</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">if</span> <span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span> <span class="p">{</span> <span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">parseFloat</span><span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span> <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="p">{</span> <span class="nx">s</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="nx">unit</span><span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="s1">&#39;deg&#39;</span><span class="p">);</span> <span class="p">}</span>
+
+        <span class="k">return</span> <span class="nx">s</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">},</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-parse()'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-parse()">&#182;</a>
+        </div>
+        <h3>parse()</h3>
+
+<p>Parses from a string. Called on constructor.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="nx">parse</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+      <span class="nx">str</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/([a-zA-Z0-9]+)\((.*?)\)/g</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">prop</span><span class="p">,</span> <span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">setFromString</span><span class="p">(</span><span class="nx">prop</span><span class="p">,</span> <span class="nx">val</span><span class="p">);</span>
+      <span class="p">});</span>
+    <span class="p">},</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-toString()'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-toString()">&#182;</a>
+        </div>
+        <h3>toString()</h3>
+
+<p>Converts to a <code>transition</code> CSS property string. If <code>use3d</code> is given,
+it converts to a <code>-webkit-transition</code> CSS property string instead.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="nx">toString</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">use3d</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">re</span> <span class="o">=</span> <span class="p">[];</span>
+
+      <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="k">this</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span> <span class="p">{</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-35'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-35">&#182;</a>
+        </div>
+        <p>Don&rsquo;t use 3D transformations if the browser can&rsquo;t support it.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>          <span class="k">if</span> <span class="p">((</span><span class="o">!</span><span class="nx">support</span><span class="p">.</span><span class="nx">transform3d</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span>
+            <span class="p">(</span><span class="nx">i</span> <span class="o">===</span> <span class="s1">&#39;rotateX&#39;</span><span class="p">)</span> <span class="o">||</span>
+            <span class="p">(</span><span class="nx">i</span> <span class="o">===</span> <span class="s1">&#39;rotateY&#39;</span><span class="p">)</span> <span class="o">||</span>
+            <span class="p">(</span><span class="nx">i</span> <span class="o">===</span> <span class="s1">&#39;perspective&#39;</span><span class="p">)</span> <span class="o">||</span>
+            <span class="p">(</span><span class="nx">i</span> <span class="o">===</span> <span class="s1">&#39;transformOrigin&#39;</span><span class="p">)))</span> <span class="p">{</span> <span class="k">continue</span><span class="p">;</span> <span class="p">}</span>
+
+          <span class="k">if</span> <span class="p">(</span><span class="nx">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!==</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">use3d</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">i</span> <span class="o">===</span> <span class="s1">&#39;scale&#39;</span><span class="p">))</span> <span class="p">{</span>
+              <span class="nx">re</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">i</span> <span class="o">+</span> <span class="s2">&quot;3d(&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;,1)&quot;</span><span class="p">);</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">use3d</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">i</span> <span class="o">===</span> <span class="s1">&#39;translate&#39;</span><span class="p">))</span> <span class="p">{</span>
+              <span class="nx">re</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">i</span> <span class="o">+</span> <span class="s2">&quot;3d(&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;,0)&quot;</span><span class="p">);</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+              <span class="nx">re</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">i</span> <span class="o">+</span> <span class="s2">&quot;(&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">);</span>
+            <span class="p">}</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+
+      <span class="k">return</span> <span class="nx">re</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+
+  <span class="kd">function</span> <span class="nx">callOrQueue</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="nx">queue</span><span class="p">,</span> <span class="nx">fn</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">queue</span> <span class="o">===</span> <span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">self</span><span class="p">.</span><span class="nx">queue</span><span class="p">(</span><span class="nx">fn</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">queue</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">self</span><span class="p">.</span><span class="nx">queue</span><span class="p">(</span><span class="nx">queue</span><span class="p">,</span> <span class="nx">fn</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">fn</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">}</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-getProperties(dict)'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-getProperties(dict)">&#182;</a>
+        </div>
+        <h3>getProperties(dict)</h3>
+
+<p>Returns properties (for <code>transition-property</code>) for dictionary <code>props</code>. The
+value of <code>props</code> is what you would expect in <code>$.css(&hellip;)</code>.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="kd">function</span> <span class="nx">getProperties</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">re</span> <span class="o">=</span> <span class="p">[];</span>
+
+    <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">props</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">key</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">camelCase</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span> <span class="c1">// Convert &quot;text-align&quot; =&gt; &quot;textAlign&quot;</span>
+      <span class="nx">key</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">transit</span><span class="p">.</span><span class="nx">propertyMap</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">||</span> <span class="nx">$</span><span class="p">.</span><span class="nx">cssProps</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">||</span> <span class="nx">key</span><span class="p">;</span>
+      <span class="nx">key</span> <span class="o">=</span> <span class="nx">uncamel</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span> <span class="c1">// Convert back to dasherized</span>
+
+      <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">inArray</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">re</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="nx">re</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span> <span class="p">}</span>
+    <span class="p">});</span>
+
+    <span class="k">return</span> <span class="nx">re</span><span class="p">;</span>
+  <span class="p">}</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-getTransition()'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-getTransition()">&#182;</a>
+        </div>
+        <h3>getTransition()</h3>
+
+<p>Returns the transition string to be used for the <code>transition</code> CSS property.</p>
+
+<p>Example:</p>
+
+<pre><code>getTransition({ opacity: 1, rotate: 30 }, 500, &lsquo;ease&rsquo;);
+//=&gt; &lsquo;opacity 500ms ease, -webkit-transform 500ms ease&rsquo;
+</code></pre>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="kd">function</span> <span class="nx">getTransition</span><span class="p">(</span><span class="nx">properties</span><span class="p">,</span> <span class="nx">duration</span><span class="p">,</span> <span class="nx">easing</span><span class="p">,</span> <span class="nx">delay</span><span class="p">)</span> <span class="p">{</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-38'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-38">&#182;</a>
+        </div>
+        <p>Get the CSS properties needed.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="kd">var</span> <span class="nx">props</span> <span class="o">=</span> <span class="nx">getProperties</span><span class="p">(</span><span class="nx">properties</span><span class="p">);</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-39'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-39">&#182;</a>
+        </div>
+        <p>Account for aliases (<code>in</code> =&gt; <code>ease-in</code>).</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">cssEase</span><span class="p">[</span><span class="nx">easing</span><span class="p">])</span> <span class="p">{</span> <span class="nx">easing</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">cssEase</span><span class="p">[</span><span class="nx">easing</span><span class="p">];</span> <span class="p">}</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-40'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-40">&#182;</a>
+        </div>
+        <p>Build the duration/easing/delay attributes for it.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="kd">var</span> <span class="nx">attribs</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span> <span class="o">+</span> <span class="nx">toMS</span><span class="p">(</span><span class="nx">duration</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="nx">easing</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">parseInt</span><span class="p">(</span><span class="nx">delay</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span> <span class="nx">attribs</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="nx">toMS</span><span class="p">(</span><span class="nx">delay</span><span class="p">);</span> <span class="p">}</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-41'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-41">&#182;</a>
+        </div>
+        <p>For more properties, add them this way:
+&ldquo;margin 200ms ease, padding 200ms ease, &hellip;&rdquo;</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="kd">var</span> <span class="nx">transitions</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">props</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">transitions</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="nx">attribs</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="k">return</span> <span class="nx">transitions</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">);</span>
+  <span class="p">}</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-$.fn.transition'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-$.fn.transition">&#182;</a>
+        </div>
+        <h2>$.fn.transition</h2>
+
+<p>Works like $.fn.animate(), but uses CSS transitions.</p>
+
+<pre><code>$(&ldquo;&hellip;&rdquo;).transition({ opacity: 0.1, scale: 0.3 });
+
+// Specific duration
+$(&ldquo;&hellip;&rdquo;).transition({ opacity: 0.1, scale: 0.3 }, 500);
+
+// With duration and easing
+$(&ldquo;&hellip;&rdquo;).transition({ opacity: 0.1, scale: 0.3 }, 500, &lsquo;in&rsquo;);
+
+// With callback
+$(&ldquo;&hellip;&rdquo;).transition({ opacity: 0.1, scale: 0.3 }, function() { &hellip; });
+
+// With everything
+$(&ldquo;&hellip;&rdquo;).transition({ opacity: 0.1, scale: 0.3 }, 500, &lsquo;in&rsquo;, function() { &hellip; });
+
+// Alternate syntax
+$(&ldquo;&hellip;&rdquo;).transition({
+  opacity: 0.1,
+  duration: 200,
+  delay: 40,
+  easing: &lsquo;in&rsquo;,
+  complete: function() { /* &hellip; */ }
+ });
+</code></pre>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">transition</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">transit</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">properties</span><span class="p">,</span> <span class="nx">duration</span><span class="p">,</span> <span class="nx">easing</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">self</span>  <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">delay</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">queue</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-43'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-43">&#182;</a>
+        </div>
+        <p>Account for <code>.transition(properties, callback)</code>.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">duration</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">callback</span> <span class="o">=</span> <span class="nx">duration</span><span class="p">;</span>
+      <span class="nx">duration</span> <span class="o">=</span> <span class="kc">undefined</span><span class="p">;</span>
+    <span class="p">}</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-44'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-44">&#182;</a>
+        </div>
+        <p>Account for <code>.transition(properties, duration, callback)</code>.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">easing</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">callback</span> <span class="o">=</span> <span class="nx">easing</span><span class="p">;</span>
+      <span class="nx">easing</span> <span class="o">=</span> <span class="kc">undefined</span><span class="p">;</span>
+    <span class="p">}</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-45'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-45">&#182;</a>
+        </div>
+        <p>Alternate syntax.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">easing</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">easing</span> <span class="o">=</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">easing</span><span class="p">;</span>
+      <span class="k">delete</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">easing</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">duration</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">duration</span> <span class="o">=</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">duration</span><span class="p">;</span>
+      <span class="k">delete</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">duration</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">complete</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">callback</span> <span class="o">=</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">complete</span><span class="p">;</span>
+      <span class="k">delete</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">complete</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">queue</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">queue</span> <span class="o">=</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">queue</span><span class="p">;</span>
+      <span class="k">delete</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">queue</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">delay</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">delay</span> <span class="o">=</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">delay</span><span class="p">;</span>
+      <span class="k">delete</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">delay</span><span class="p">;</span>
+    <span class="p">}</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-46'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-46">&#182;</a>
+        </div>
+        <p>Set defaults. (<code>400</code> duration, <code>ease</code> easing)</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">duration</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span> <span class="nx">duration</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fx</span><span class="p">.</span><span class="nx">speeds</span><span class="p">.</span><span class="nx">_default</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">easing</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span>   <span class="p">{</span> <span class="nx">easing</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">cssEase</span><span class="p">.</span><span class="nx">_default</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="nx">duration</span> <span class="o">=</span> <span class="nx">toMS</span><span class="p">(</span><span class="nx">duration</span><span class="p">);</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-47'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-47">&#182;</a>
+        </div>
+        <p>Build the <code>transition</code> property.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="kd">var</span> <span class="nx">transitionValue</span> <span class="o">=</span> <span class="nx">getTransition</span><span class="p">(</span><span class="nx">properties</span><span class="p">,</span> <span class="nx">duration</span><span class="p">,</span> <span class="nx">easing</span><span class="p">,</span> <span class="nx">delay</span><span class="p">);</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-48'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-48">&#182;</a>
+        </div>
+        <p>Compute delay until callback.
+If this becomes 0, don&rsquo;t bother setting the transition property.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="kd">var</span> <span class="nx">work</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">transit</span><span class="p">.</span><span class="nx">enabled</span> <span class="o">&amp;&amp;</span> <span class="nx">support</span><span class="p">.</span><span class="nx">transition</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">work</span> <span class="o">?</span> <span class="p">(</span><span class="nb">parseInt</span><span class="p">(</span><span class="nx">duration</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">delay</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-49'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-49">&#182;</a>
+        </div>
+        <p>If there&rsquo;s nothing to do&hellip;</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">fn</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">css</span><span class="p">(</span><span class="nx">properties</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span> <span class="nx">callback</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">self</span><span class="p">);</span> <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">next</span><span class="p">)</span> <span class="p">{</span> <span class="nx">next</span><span class="p">();</span> <span class="p">}</span>
+      <span class="p">};</span>
+
+      <span class="nx">callOrQueue</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="nx">queue</span><span class="p">,</span> <span class="nx">fn</span><span class="p">);</span>
+      <span class="k">return</span> <span class="nx">self</span><span class="p">;</span>
+    <span class="p">}</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-50'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-50">&#182;</a>
+        </div>
+        <p>Save the old transitions of each element so we can restore it later.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="kd">var</span> <span class="nx">oldTransitions</span> <span class="o">=</span> <span class="p">{};</span>
+
+    <span class="kd">var</span> <span class="nx">run</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">nextCall</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">bound</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-51'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-51">&#182;</a>
+        </div>
+        <p>Prepare the callback.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>      <span class="kd">var</span> <span class="nx">cb</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">bound</span><span class="p">)</span> <span class="p">{</span> <span class="nx">self</span><span class="p">.</span><span class="nx">unbind</span><span class="p">(</span><span class="nx">transitionEnd</span><span class="p">,</span> <span class="nx">cb</span><span class="p">);</span> <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">self</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span><span class="nx">support</span><span class="p">.</span><span class="nx">transition</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="nx">oldTransitions</span><span class="p">[</span><span class="k">this</span><span class="p">]</span> <span class="o">||</span> <span class="kc">null</span><span class="p">);</span>
+          <span class="p">});</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">callback</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span><span class="p">)</span> <span class="p">{</span> <span class="nx">callback</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">self</span><span class="p">);</span> <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">nextCall</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span><span class="p">)</span> <span class="p">{</span> <span class="nx">nextCall</span><span class="p">();</span> <span class="p">}</span>
+      <span class="p">};</span>
+
+      <span class="k">if</span> <span class="p">((</span><span class="nx">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">transitionEnd</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">transit</span><span class="p">.</span><span class="nx">useTransitionEnd</span><span class="p">))</span> <span class="p">{</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-52'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-52">&#182;</a>
+        </div>
+        <p>Use the &lsquo;transitionend&rsquo; event if it&rsquo;s available.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>        <span class="nx">bound</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">transitionEnd</span><span class="p">,</span> <span class="nx">cb</span><span class="p">);</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-53'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-53">&#182;</a>
+        </div>
+        <p>Fallback to timers if the &lsquo;transitionend&rsquo; event isn&rsquo;t supported.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>        <span class="nb">window</span><span class="p">.</span><span class="nx">setTimeout</span><span class="p">(</span><span class="nx">cb</span><span class="p">,</span> <span class="nx">i</span><span class="p">);</span>
+      <span class="p">}</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-54'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-54">&#182;</a>
+        </div>
+        <p>Apply transitions.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>      <span class="nx">self</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span><span class="nx">support</span><span class="p">.</span><span class="nx">transition</span><span class="p">]</span> <span class="o">=</span> <span class="nx">transitionValue</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="nx">properties</span><span class="p">);</span>
+      <span class="p">});</span>
+    <span class="p">};</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-55'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-55">&#182;</a>
+        </div>
+        <p>Defer running. This allows the browser to paint any pending CSS it hasn&rsquo;t
+painted yet before doing the transitions.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="kd">var</span> <span class="nx">deferredRun</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">offsetWidth</span><span class="p">;</span> <span class="c1">// force a repaint</span>
+        <span class="nx">run</span><span class="p">(</span><span class="nx">next</span><span class="p">);</span>
+    <span class="p">};</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-56'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-56">&#182;</a>
+        </div>
+        <p>Use jQuery&rsquo;s fx queue.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="nx">callOrQueue</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="nx">queue</span><span class="p">,</span> <span class="nx">deferredRun</span><span class="p">);</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-57'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-57">&#182;</a>
+        </div>
+        <p>Chainability.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+  <span class="p">};</span>
+
+  <span class="kd">function</span> <span class="nx">registerCssHook</span><span class="p">(</span><span class="nx">prop</span><span class="p">,</span> <span class="nx">isPixels</span><span class="p">)</span> <span class="p">{</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-58'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-58">&#182;</a>
+        </div>
+        <p>For certain properties, the &lsquo;px&rsquo; should not be implied.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">isPixels</span><span class="p">)</span> <span class="p">{</span> <span class="nx">$</span><span class="p">.</span><span class="nx">cssNumber</span><span class="p">[</span><span class="nx">prop</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="nx">$</span><span class="p">.</span><span class="nx">transit</span><span class="p">.</span><span class="nx">propertyMap</span><span class="p">[</span><span class="nx">prop</span><span class="p">]</span> <span class="o">=</span> <span class="nx">support</span><span class="p">.</span><span class="nx">transform</span><span class="p">;</span>
+
+    <span class="nx">$</span><span class="p">.</span><span class="nx">cssHooks</span><span class="p">[</span><span class="nx">prop</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">get</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elem</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">t</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">elem</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;transit:transform&#39;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">t</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">prop</span><span class="p">);</span>
+      <span class="p">},</span>
+
+      <span class="nx">set</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elem</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">t</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">elem</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;transit:transform&#39;</span><span class="p">);</span>
+        <span class="nx">t</span><span class="p">.</span><span class="nx">setFromString</span><span class="p">(</span><span class="nx">prop</span><span class="p">,</span> <span class="nx">value</span><span class="p">);</span>
+
+        <span class="nx">$</span><span class="p">(</span><span class="nx">elem</span><span class="p">).</span><span class="nx">css</span><span class="p">({</span> <span class="s1">&#39;transit:transform&#39;</span><span class="o">:</span> <span class="nx">t</span> <span class="p">});</span>
+      <span class="p">}</span>
+    <span class="p">};</span>
+
+  <span class="p">}</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-uncamel(str)'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-uncamel(str)">&#182;</a>
+        </div>
+        <h3>uncamel(str)</h3>
+
+<p>Converts a camelcase string to a dasherized string.
+(<code>marginLeft</code> =&gt; <code>margin-left</code>)</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="kd">function</span> <span class="nx">uncamel</span><span class="p">(</span><span class="nx">str</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">str</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/([A-Z])/g</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">letter</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="nx">letter</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">();</span> <span class="p">});</span>
+  <span class="p">}</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-unit(number,_unit)'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-unit(number,_unit)">&#182;</a>
+        </div>
+        <h3>unit(number, unit)</h3>
+
+<p>Ensures that number <code>number</code> has a unit. If no unit is found, assume the
+default is <code>unit</code>.</p>
+
+<pre><code>unit(2, &lsquo;px&rsquo;)          //=&gt; &ldquo;2px&rdquo;
+unit(&ldquo;30deg&rdquo;, &lsquo;rad&rsquo;)   //=&gt; &ldquo;30deg&rdquo;
+</code></pre>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="kd">function</span> <span class="nx">unit</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">units</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">((</span><span class="k">typeof</span> <span class="nx">i</span> <span class="o">===</span> <span class="s2">&quot;string&quot;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="o">!</span><span class="nx">i</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="sr">/^[\-0-9\.]+$/</span><span class="p">)))</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">i</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="s2">&quot;&quot;</span> <span class="o">+</span> <span class="nx">i</span> <span class="o">+</span> <span class="nx">units</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-toMS(duration)'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-toMS(duration)">&#182;</a>
+        </div>
+        <h3>toMS(duration)</h3>
+
+<p>Converts given <code>duration</code> to a millisecond string.</p>
+
+<pre><code>toMS(&lsquo;fast&rsquo;)   //=&gt; &lsquo;400ms&rsquo;
+toMS(10)       //=&gt; &lsquo;10ms&rsquo;
+</code></pre>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="kd">function</span> <span class="nx">toMS</span><span class="p">(</span><span class="nx">duration</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">duration</span><span class="p">;</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-62'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-62">&#182;</a>
+        </div>
+        <p>Allow for string durations like &lsquo;fast&rsquo;.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">fx</span><span class="p">.</span><span class="nx">speeds</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span> <span class="p">{</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fx</span><span class="p">.</span><span class="nx">speeds</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span> <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nx">unit</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="s1">&#39;ms&#39;</span><span class="p">);</span>
+  <span class="p">}</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-63'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-63">&#182;</a>
+        </div>
+        <p>Export some functions for testable-ness.</p>
+
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="nx">$</span><span class="p">.</span><span class="nx">transit</span><span class="p">.</span><span class="nx">getTransitionValue</span> <span class="o">=</span> <span class="nx">getTransition</span><span class="p">;</span>
+<span class="p">})(</span><span class="nx">jQuery</span><span class="p">);</span></pre></div>
+      </td>
+    </tr>
+  </table>
+</div>
+</body>
