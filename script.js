@@ -36,4 +36,26 @@
       $example.removeClass('playing');
     }); 
 
+    // Equalizer:
+    // Ensure things line up on any browser width.
+    $(window).on('resize reequalize', function() {
+      $('.two-d.examples')
+        .equalize({ reset: true, children: '.code' })
+        .equalize({ reset: true, children: 'h3' });
+
+      $('.three-d.examples')
+        .equalize({ reset: true, children: '.code' })
+        .equalize({ reset: true, children: 'h3' });
+
+      $('.any-property.examples')
+        .equalize({ reset: true, children: '.code' });
+
+      $('.easing .examples')
+        .equalize({ reset: true, children: '.in' });
+    });
+
+    $(function() {
+      $(window).trigger('reequalize');
+    });
+
 })();
