@@ -27,6 +27,13 @@ things:
     # Use this when you release a new version.
     $ make dist
 
+Live preview server
+-------------------
+
+To preview the site while you're working on it:
+
+    $ python -m SimpleHTTPServer
+
 Deploying
 ---------
 
