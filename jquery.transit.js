@@ -432,7 +432,7 @@
             if (use3d && (i === 'scale')) {
               re.push(i + "3d(" + this[i] + ",1)");
             } else if (use3d && (i === 'translate')) {
-              re.push(i + "3d(" + this[i] + ",0)");
+              re.push(i + "3d(" + this[i] + ")");
             } else {
               re.push(i + "(" + this[i] + ")");
             }
