@@ -1,0 +1,608 @@
+/*!
+ * jQuery Transit - CSS3 transitions and transformations
+ * Copyright(c) 2011 Rico Sta. Cruz <rico@ricostacruz.com>
+ * MIT Licensed.
+ *
+ * http://ricostacruz.com/jquery.transit
+ * http://github.com/rstacruz/jquery.transit
+ */
+
+(function($) {
+  $.transit = {
+    version: "0.1.1",
+
+    // Map of $.css() keys to values for 'transitionProperty'.
+    // See https://developer.mozilla.org/en/CSS/CSS_transitions#Properties_that_can_be_animated
+    propertyMap: {
+      marginLeft    : 'margin',
+      marginRight   : 'margin',
+      marginBottom  : 'margin',
+      marginTop     : 'margin',
+      paddingLeft   : 'padding',
+      paddingRight  : 'padding',
+      paddingBottom : 'padding',
+      paddingTop    : 'padding'
+    },
+
+    // Will simply transition "instantly" if false
+    enabled: true   
+  };
+
+  var div = document.createElement('div');
+
+  // Helper function to get the proper vendor property name.
+  // (`transition` => `WebkitTransition`)
+  function getVendorPropertyName(prop) {
+    var prefixes = ['Moz', 'Webkit', 'O', 'ms'];
+    var prop_ = prop.charAt(0).toUpperCase() + prop.substr(1);
+
+    if (prop in div.style) return prop;
+
+    for (var i=0; i<prefixes.length; ++i) {
+      var vendorProp = prefixes[i] + prop_;
+      if (vendorProp in div.style) return vendorProp;
+    }
+  }
+
+  // Check for the browser's transitions support.
+  // You can access this in jQuery's `$.support.transition`.
+  // As per [jQuery's cssHooks documentation](http://api.jquery.com/jQuery.cssHooks/),
+  // we set $.support.transition to a string of the actual property name used.
+  var support = {
+    transition      : getVendorPropertyName('transition'),
+    transitionDelay : getVendorPropertyName('transitionDelay'),
+    transform       : getVendorPropertyName('transform'),
+    transformOrigin : getVendorPropertyName('transformOrigin')
+  };
+
+  $.extend($.support, support);
+
+  var eventNames = {
+    'MozTransition':    'transitionend',
+    'OTransition':      'oTransitionEnd',
+    'WebkitTransition': 'webkitTransitionEnd',
+    'msTransition':     'MSTransitionEnd'
+  };
+
+  // Detect the 'transitionend' event needed.
+  var transitionEnd = eventNames[support.transition] || null;
+
+  // Avoid memory leak in IE.
+  div = null;
+
+  // ## $.cssEase
+  // List of easing aliases that you can use with `$.fn.transition`.
+  $.cssEase = {
+    '_default': 'ease',
+    'in':       'ease-in',
+    'out':      'ease-out',
+    'in-out':   'ease-in-out',
+    'snap':     'cubic-bezier(0,1,.5,1)'
+  };
+
+  // ## 'transform' CSS hook
+  // Allows you to use the `transform` property in CSS.
+  // 
+  //     $("#hello").css({ transform: "rotate(90deg)" });
+  //
+  //     $("#hello").css('transform');
+  //     //=> { rotate: '90deg' }
+  //
+  $.cssHooks.transform = {
+    // The getter returns a `Transform` object.
+    get: function(elem) {
+      return $(elem).data('transform');
+    },
+
+    // The setter accepts a `Transform` object or a string.
+    set: function(elem, v) {
+      var value = v;
+      if (!(value instanceof Transform))
+        value = new Transform(value);
+
+      if (support.transform == 'WebkitTransform')
+        elem.style[support.transform] = value.toString(true);
+      else
+        elem.style[support.transform] = value.toString();
+
+      $(elem).data('transform', value);
+    }
+  };
+
+  // ## 'transformOrigin' CSS hook
+  // Allows the use for `transformOrigin` to define where scaling and rotation
+  // is pivoted.
+  //
+  //     $("#hello").css({ transformOrigin: '0 0' });
+  //
+  $.cssHooks.transformOrigin = {
+    get: function(elem) {
+      return elem.style[support.transformOrigin];
+    },
+    set: function(elem, value) {
+      elem.style[support.transformOrigin] = value;
+    }
+  };
+
+  // ## Other CSS hooks
+  // Allows you to rotate, scale and translate.
+  registerCssHook('scale');
+  registerCssHook('translate');
+  registerCssHook('rotate');
+  registerCssHook('rotateX');
+  registerCssHook('rotateY');
+  registerCssHook('rotate3d');
+  registerCssHook('perspective');
+  registerCssHook('skewX');
+  registerCssHook('skewY');
+  registerCssHook('x', true);
+  registerCssHook('y', true);
+
+  // ## Transform class
+  // This is the main class of a transformation property that powers
+  // `$.fn.css({ transform: '...' })`.
+  //
+  // This is, in essence, a dictionary object with key/values as `-transform`
+  // properties.
+  //
+  //     var t = new Transform("rotate(90) scale(4)");
+  //
+  //     t.rotate             //=> "90deg"
+  //     t.scale              //=> "4,4"
+  //
+  // Setters are accounted for.
+  //
+  //     t.set('rotate', 4)
+  //     t.rotate             //=> "4deg"
+  //
+  // Convert it to a CSS string using the `toString()` and `toWebkitString()`
+  // functions.
+  //
+  //     t.toString()         //=> "rotate(90deg) scale(4,4)"
+  //     t.toWebkitString()   //=> "rotate(90deg) scale3d(4,4,0)"
+  //
+  function Transform(str) {
+    if (typeof str === 'string') this.parse(str);
+    return this;
+  };
+
+  Transform.prototype = {
+    // ### setFromString()
+    // Sets a property from a string.
+    //
+    //     t.setFromString('scale', '2,4');
+    //     // Same as set('scale', '2', '4');
+    //
+    setFromString: function(prop, val) {
+      var args =
+        (typeof val === 'string')  ? val.split(',') :
+        (val.constructor == Array) ? val :
+        [ val ];
+
+      args.unshift(prop);
+
+      Transform.prototype.set.apply(this, args);
+    },
+
+    // ### set()
+    // Sets a property.
+    //
+    //     t.set('scale', 2, 4);
+    //
+    set: function(prop) {
+      var args = Array.prototype.slice.apply(arguments, [1]);
+      if (this.setter[prop]) {
+        this.setter[prop].apply(this, args);
+      } else {
+        this[prop] = args.join(',');
+      }
+    },
+
+    get: function(prop) {
+      if (this.getter[prop]) {
+        return this.getter[prop].apply(this);
+      } else {
+        return this[prop] || 0;
+      }
+    },
+
+    setter: {
+      // ### rotate
+      //
+      //     .css({ rotate: 30 })
+      //     .css({ rotate: "30" })
+      //     .css({ rotate: "30deg" })
+      //     .css({ rotate: "30deg" })
+      //
+      rotate: function(theta) {
+        this.rotate = unit(theta, 'deg');
+      },
+
+      rotateX: function(theta) {
+        this.rotateX = unit(theta, 'deg');
+      },
+
+      rotateY: function(theta) {
+        this.rotateY = unit(theta, 'deg');
+      },
+
+      // ### scale
+      //
+      //     .css({ scale: 9 })      //=> "scale(9,9)"
+      //     .css({ scale: '3,2' })  //=> "scale(3,2)"
+      //
+      scale: function(x, y) {
+        if (y === undefined) y = x;
+        this.scale = x + "," + y;
+      },
+
+      // ### skewX + skewY
+      skewX: function(x) {
+        this.skewX = unit(x, 'deg');
+      },
+
+      skewY: function(y) {
+        this.skewY = unit(y, 'deg');
+      },
+
+      // ### perspectvie
+      perspective: function(dist) {
+        this.perspective = unit(dist, 'px');
+      },
+
+      // ### x / y
+      // Translations. Notice how this keeps the other value.
+      //
+      //     .css({ x: 4 })       //=> "translate(4px, 0)"
+      //     .css({ y: 10 })      //=> "translate(4px, 10px)"
+      //
+      x: function(x) {
+        this.set('translate', x, null);
+      },
+
+      y: function(y) {
+        this.set('translate', null, y);
+      },
+
+      // ### translate
+      // Notice how this keeps the other value.
+      //
+      //     .css({ translate: '2, 5' })    //=> "translate(2px, 5px)"
+      //
+      translate: function(x, y) {
+        if (this._translateX === undefined) this._translateX = 0;
+        if (this._translateY === undefined) this._translateY = 0;
+
+        if (x !== null) this._translateX = unit(x, 'px');
+        if (y !== null) this._translateY = unit(y, 'px');
+
+        this.translate = this._translateX + "," + this._translateY;
+      }
+    },
+
+    getter: {
+      x: function() {
+        return this._translateX || 0;
+      },
+
+      y: function() {
+        return this._translateY || 0;
+      },
+
+      scale: function() {
+        var s = (this.scale || "1,1").split(',');
+        if (s[0]) s[0] = parseFloat(s[0]);
+        if (s[1]) s[1] = parseFloat(s[1]);
+
+        // "2.5,2.5" => 2.5
+        // "2.5,1" => [2.5,1]
+        return (s[0] == s[1]) ? s[0] : s;
+      },
+      
+      rotate3d: function() {
+        var s = (this.rotate3d || "0,0,0,0deg").split(',');
+        for (i=0; i<=3; ++i)
+          if (s[i]) s[i] = parseFloat(s[i]);
+        if (s[3]) s[3] = unit(s[3], 'deg');
+
+        return s;
+      }
+    },
+
+    // ### parse()
+    // Parses from a string. Called on constructor.
+    parse: function(str) {
+      var self = this;
+      str.replace(/([a-zA-Z0-9]+)\((.*?)\)/g, function(x, prop, val) {
+        self.setFromString(prop, val);
+      });
+    },
+
+    // ### toString()
+    // Converts to a `transition` CSS property string. If `use3d` is given,
+    // it converts to a `-webkit-transition` CSS property string instead.
+    toString: function(use3d) {
+      var re = [];
+
+      for (i in this) {
+        if ((this.hasOwnProperty(i)) && (i[0] !== '_')) {
+          if ((use3d) && ((i === 'scale') || (i === 'translate')))
+            re.push(i + "3d(" + this[i] + ",0)");
+          else
+            re.push(i + "(" + this[i] + ")");
+        }
+      }
+
+      return re.join(" ");
+    }
+  };
+
+  function callOrQueue(self, queue, fn) {
+    if (queue === true)
+      self.queue(fn);
+    else if (queue)
+      self.queue(queue, fn)
+    else
+      fn();
+  }
+
+  // ### getProperties(dict)
+  // Returns properties (for `transition-property`) for dictionary `props`. The
+  // value of `props` is what you would expect in `$.css(...)`.
+  function getProperties(props) {
+    var re = [];
+
+    $.each(props, function(key) {
+      key = $.camelCase(key); // Convert "text-align" => "textAlign"
+      key = $.transit.propertyMap[key] || key;
+      key = uncamel(key); // Convert back to dasherized
+
+      if (re.indexOf(key) === -1)
+        re.push(key);
+    });
+
+    return re;
+  }
+
+  // ### getTransition()
+  // Returns the transition string to be used for the `transition` CSS property.
+  //
+  // Example:
+  //
+  //     getTransition({ opacity: 1, rotate: 30 }, 500, 'ease');
+  //     //=> 'opacity 500ms ease, -webkit-transform 500ms ease'
+  //
+  function getTransition(properties, duration, easing, delay) {
+    // Get the CSS properties needed.
+    var props = getProperties(properties);
+
+    // Account for aliases (`in` => `ease-in`).
+    if ($.cssEase[easing]) easing = $.cssEase[easing];
+
+    // Build the duration/easing/delay attributes for it.
+    var attribs = '' + toMS(duration) + ' ' + easing;
+    if (parseInt(delay) > 0)
+      attribs += ' ' + toMS(delay);
+
+    // For more properties, add them this way:
+    // "margin 200ms ease, padding 200ms ease, ..."
+    var transitions = [];
+    $.each(props, function(i, name) {
+      transitions.push(name + ' ' + attribs);
+    });
+
+    return transitions.join(', ');
+  }
+
+  // ## $.fn.transition
+  // Works like $.fn.animate(), but uses CSS transitions.
+  //
+  //     $("...").transition({ opacity: 0.1, scale: 0.3 });
+  //
+  //     // Specific duration
+  //     $("...").transition({ opacity: 0.1, scale: 0.3 }, 500);
+  //
+  //     // With duration and easing
+  //     $("...").transition({ opacity: 0.1, scale: 0.3 }, 500, 'in');
+  //
+  //     // With callback
+  //     $("...").transition({ opacity: 0.1, scale: 0.3 }, function() { ... });
+  //
+  //     // With everything
+  //     $("...").transition({ opacity: 0.1, scale: 0.3 }, 500, 'in', function() { ... });
+  //
+  //     // Alternate syntax
+  //     $("...").transition({
+  //       opacity: 0.1,
+  //       duration: 200,
+  //       delay: 40,
+  //       easing: 'in',
+  //       complete: function() { /* ... */ }
+  //      });
+  //
+  $.fn.transition = $.fn.transit = function(properties, duration, easing, callback) {
+    var self  = this;
+    var delay = 0;
+    var queue = true;
+
+    // Account for `.transition(properties, callback)`.
+    if (typeof duration === 'function') {
+      callback = duration;
+      duration = null;
+    }
+
+    // Account for `.transition(properties, duration, callback)`.
+    if (typeof easing === 'function') {
+      callback = easing;
+      easing = null;
+    }
+
+    // Alternate syntax.
+    if (properties.easing) {
+      easing = properties.easing;
+      delete properties.easing;
+    }
+
+    if (properties.duration) {
+      duration = properties.duration;
+      delete properties.duration;
+    }
+
+    if (properties.complete) {
+      callback = properties.complete;
+      delete properties.complete;
+    }
+
+    if (properties.queue) {
+      queue = properties.queue;
+      delete properties.queue;
+    }
+
+    if (properties.delay) {
+      delay = properties.delay;
+      delete properties.delay;
+    }
+
+    // Set defaults. (`400` duration, `ease` easing)
+    if (duration == null) duration = $.fx.speeds._default;
+    if (easing == null) easing = $.cssEase._default;
+
+    duration = toMS(duration);
+
+    // Build the `transition` property.
+    var transitionValue = getTransition(properties, duration, easing, delay);
+
+    // Compute delay until callback.
+    // If this becomes 0, don't bother setting the transition property.
+    var work = $.transit.enabled && support.transition;
+    var i = work ? (parseInt(duration) + parseInt(delay)) : 0;
+
+    // If there's nothing to do...
+    if (i === 0) {
+      var fn = function(next) {
+        self.css(properties);
+        if (callback) callback();
+        next();
+      };
+
+      callOrQueue(self, queue, fn);
+      return self;
+    }
+
+    // Save the old transitions of each element so we can restore it later.
+    var oldTransitions = {};
+
+    var run = function(nextCall) {
+      // Apply transitions.
+      self.each(function() {
+        if (i > 0) {
+          this.style[support.transition] = transitionValue;
+        }
+        $(this).css(properties);
+      });
+
+      var bound = false;
+
+      // Prepare the callback.
+      var cb = function() {
+        if (bound) self.unbind(transitionEnd, cb);
+
+        if (i > 0) {
+          self.each(function() {
+            this.style[support.transition] = oldTransitions[this];
+          });
+        }
+
+        if (typeof callback === 'function') callback.apply(self);
+        if (typeof nextCall === 'function') nextCall();
+      };
+
+      if ((i > 0) && (transitionEnd)) {
+        // Use the 'transitionend' event if it's available.
+        bound = true;
+        self.bind(transitionEnd, cb);
+      } else {
+        // Fallback to timers if the 'transitionend' event isn't supported.
+        window.setTimeout(cb, i);
+      }
+    };
+
+    // Defer running. This allows the browser to paint any pending CSS it hasn't
+    // painted yet before doing the transitions.
+    var deferredRun = function(next) {
+      var i = 0;
+
+      // Durations that are too slow will get transitions mixed up.
+      // (Tested on Mac/FF 7.0.1)
+      if ((support.transition === 'MozTransition') && (i < 25)) i = 25;
+
+      window.setTimeout(function() { run(next); }, i);
+    };
+
+    // Use jQuery's fx queue.
+    callOrQueue(self, queue, deferredRun);
+
+    // Chainability.
+    return this;
+  };
+
+  function registerCssHook(prop, isPixels) {
+    // For certain properties, the 'px' should not be implied.
+    if (!isPixels) $.cssNumber[prop] = true;
+
+    $.transit.propertyMap[prop] = support.transform;
+
+    $.cssHooks[prop] = {
+      get: function(elem) {
+        var t = $(elem).css('transform') || new Transform;
+        return t.get(prop);
+      },
+
+      set: function(elem, value) {
+        var t = $(elem).css('transform') || new Transform;
+        t.setFromString(prop, value);
+
+        $(elem).css({ transform: t });
+      }
+    };
+  }
+
+  // ### uncamel(str)
+  // Converts a camelcase string to a dasherized string.
+  // (`marginLeft` => `margin-left`)
+  function uncamel(str) {
+    return str.replace(/([A-Z])/g, function(letter) { return '-' + letter.toLowerCase(); })
+  }
+
+  // ### unit(number, unit)
+  // Ensures that number `number` has a unit. If no unit is found, assume the
+  // default is `unit`.
+  //
+  //     unit(2, 'px')          //=> "2px"
+  //     unit("30deg", 'rad')   //=> "30deg"
+  //
+  function unit(i, unit) {
+    if ((typeof i === "string") && (!i.match(/^[\-0-9\.]+$/)))
+      return i;
+    else
+      return "" + i + unit;
+  }
+
+  // ### toMS(duration)
+  // Converts given `duration` to a millisecond string.
+  //
+  //     toMS('fast')   //=> '400ms'
+  //     toMS(10)       //=> '10ms'
+  //
+  function toMS(duration) {
+    var i = duration;
+
+    // Allow for string durations like 'fast'.
+    if ($.fx.speeds[i]) i = $.fx.speeds[i];
+
+    return unit(i, 'ms');
+  }
+
+  // Export some functions for testable-ness.
+  $.transit.getTransitionValue = getTransition;
+})(jQuery);
