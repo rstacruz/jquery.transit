@@ -589,6 +589,8 @@
 
       // Prepare the callback.
       var cb = function(e) {
+        self.data('transitCallback', null);
+
         if(e) e.stopPropagation();
 
         if (bound) { self.unbind(transitionEnd, cb); }
@@ -657,19 +659,19 @@
         this.offsetWidth; // force a repaint
         this.style[support.transition] = 'none';
 
+        if(clearQueue){
+          self.clearQueue();
+          self.unbind(transitionEnd);
+        };
+
         if(jumpToEnd){
           for(var i = 0; i < properties.length; i++)
             this.style[properties[i]] = css[properties[i]];
 
           var cb = self.data('transitCallback');
           if(typeof cb === 'function') cb();
-          
-          self.data('transitCallback', null);
 
-        }else if(clearQueue){
-          self.clearQueue();
-          self.unbind(transitionEnd);
-        }else{
+        }else if(!clearQueue){
           self.dequeue();
         };
       };
