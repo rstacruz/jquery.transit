@@ -83,6 +83,9 @@ update:
 	rm -rf test/
 	cp -R ../test/ ./test/
 
+cachebust:
+	perl -p -i -e "s/\?v=[0-9]+/?v=`echo $$RANDOM`/" index.html
+
 # -----
 
-.PHONY: minify source all clean dist update
+.PHONY: minify source all clean dist update cachebust
