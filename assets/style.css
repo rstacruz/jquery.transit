@@ -164,6 +164,8 @@ span.amp {
 
   line-height: 1.3;
 
+  overflow: hidden;
+
   /* background: */
   /*   linear-gradient(top, rgba(255, 255, 255, 0.9), rgba(220, 255, 255, 0.9)), */
   /*   url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/shattered.png); */
@@ -175,23 +177,53 @@ span.amp {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 
-  font-size: 52pt;
+  font-size: 42pt;
   font-family: exo, sans-serif;
   font-weight: 200;
 
-  text-shadow: 2px 2px 0 rgba(30, 160, 200, 0.15); }
+  text-shadow: 2px 2px 0 rgba(30, 30, 30, 0.15);
+
+  box-sizing: border-box; }
 
 .header p {
-  max-width: 350px;
   margin: 0 auto;
-  font-weight: 400;
-  color: #5ad;
-  font-style: italic;
+
+  max-width: 350px;
+  font-weight: 200;
+  color: #666;
   font-size: 15pt; }
 
-@media (max-width: 600px) {
+.header .amp {
+  opacity: 1; }
+
+@media (min-width: 600px) { /* Desktop */
+  .header {
+    padding-bottom: 94px;
+    padding-top: 70px; }
+
+  .header p {
+    margin: 23px 0 0 0;
+    line-height: 1.3;
+    padding-left: 20px;
+    font-size: 14pt;
+    text-align: left;
+    float: left;
+
+    font-style: normal; }
+
+  .header p:first-line {
+    font-weight: 400; }
+
   .header h1 {
-    font-size: 42pt; } }
+    font-size: 52pt;
+
+    width: 50%;
+    float: left;
+    text-align: right;
+
+    padding-bottom: 20px;
+    padding-right: 30px; }
+}
 
 /* ---------------------------------------------------------------------------- */
 
@@ -264,7 +296,7 @@ span.amp {
 
 .main-notes { 
   overflow: hidden;
-  padding: 0px 120px; }
+  padding: 30px 120px 0px 120px; }
 
 .main-notes p {
   float: left;
@@ -285,7 +317,7 @@ span.amp {
   color: #444;
   font-weight: bold; }
 
-@media (max-width: 600px) {
+@media (max-width: 600px) { /* Mobile */
   .main-notes {
     padding: 0px 20px; }
 
@@ -607,22 +639,26 @@ span.amp {
 
 /* Non-hover */
 .download a .in {
-  transition: all 150ms linear;
-  background: #5ad;
-  color: white; }
+  border: solid 2px #444;
+  transition: all 150ms linear; }
 
 .download a strong {
-  color: white; }
+  color: #444; }
 
 .download a small {
-  color: #eee; }
+  color: #444; }
 
 /* Hover */
-.download a:hover {
-  transform: scale(1.08); }
-
 .download a:hover .in {
+  border-color: #222;
   background: #222; }
+
+.download a:hover strong {
+  color: #fff; }
+
+.download a:hover small {
+  color: #bbb; }
+
 
 /* ---------------------------------------------------------------------------- */
 
