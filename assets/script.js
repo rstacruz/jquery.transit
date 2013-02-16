@@ -57,6 +57,10 @@
     // Equalizer:
     // Ensure things line up on any browser width.
     $(window).on('resize reequalize', function() {
+      $('.translations.examples')
+        .equalize({ reset: true, children: '.code' })
+        .equalize({ reset: true, children: 'h3' });
+
       $('.two-d.examples')
         .equalize({ reset: true, children: '.code' })
         .equalize({ reset: true, children: 'h3' });
