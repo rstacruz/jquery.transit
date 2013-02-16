@@ -196,7 +196,7 @@ span.amp {
 .header .amp {
   opacity: 1; }
 
-@media (min-width: 600px) { /* Desktop */
+@media (min-width: 870px) { /* Desktop */
   .header {
     padding-bottom: 94px;
     padding-top: 70px; }
