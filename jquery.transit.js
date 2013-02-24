@@ -464,6 +464,10 @@
       key = $.transit.propertyMap[key] || $.cssProps[key] || key;
       key = uncamel(key); // Convert back to dasherized
 
+      // Get vendor specify propertie
+      if (support[key])
+        key = uncamel(support[key]);
+
       if ($.inArray(key, re) === -1) { re.push(key); }
     });
 
