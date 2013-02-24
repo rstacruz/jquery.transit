@@ -66,6 +66,7 @@
   support.transitionDelay = getVendorPropertyName('transitionDelay');
   support.transform       = getVendorPropertyName('transform');
   support.transformOrigin = getVendorPropertyName('transformOrigin');
+  support.filter          = getVendorPropertyName('Filter');
   support.transform3d     = checkTransform3dSupport();
 
   var eventNames = {
@@ -167,6 +168,20 @@
   // CSS hook so it'll play well with Transit. (see issue #62)
   $.cssHooks.transform = {
     set: $.cssHooks['transit:transform'].set
+  };
+
+  // ## 'filter' CSS hook
+  // Allows you to use the `filter` property in CSS.
+  //
+  //     $("#hello").css({ filter: 'blur(10px)' });
+  //
+  $.cssHooks.filter = {
+    get: function(elem) {
+      return elem.style[support.filter];
+    },
+    set: function(elem, value) {
+      elem.style[support.filter] = value;
+    }
   };
 
   // jQuery 1.8+ supports prefix-free transitions, so these polyfills will not
