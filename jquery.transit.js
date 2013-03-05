@@ -676,6 +676,9 @@
         };
       };
     });
+
+    // Chainability.
+    return this;
   };
 
   function registerCssHook(prop, isPixels) {
