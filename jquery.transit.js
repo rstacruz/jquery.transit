@@ -526,6 +526,12 @@
       callback = easing;
       easing = undefined;
     }
+    
+    // Account for `.transition(properties, easing, callback)`.
+    if (typeof duration === 'string') {
+      easing = duration;
+      duration = undefined;
+    }
 
     // Alternate syntax.
     if (typeof properties.easing !== 'undefined') {
