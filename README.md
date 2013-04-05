@@ -116,7 +116,7 @@ enhanced](https://github.com/benbarnett/jQuery-Animate-Enhanced)__
 
 * Pros: transparently overrides `$.fn.animate()` to provide CSS transitions 
   support.
-* Cons: transpalently overrides `$.fn.animate()`. No transformations support.
+* Cons: transparently overrides `$.fn.animate()`. No transformations support.
 
 __[jQuery 2D transformations](https://github.com/heygrady/transform/)__
 
