@@ -685,7 +685,7 @@
     var i = duration;
 
     // Allow for string durations like 'fast'.
-    if ($.fx.speeds[i]) { i = $.fx.speeds[i]; }
+    if (typeof i === 'string') { i = $.fx.speeds[i] || $.fx.speeds._default; }
 
     return unit(i, 'ms');
   }
