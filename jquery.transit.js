@@ -455,33 +455,88 @@
     return re;
   }
 
-  // ### getTransition()
-  // Returns the transition string to be used for the `transition` CSS property.
+  // ### getTransitionMerged()
+  // Adds the current transitions in the transition string - replaces property if it already existed, adds to the end if new
   //
   // Example:
   //
-  //     getTransition({ opacity: 1, rotate: 30 }, 500, 'ease');
-  //     //=> 'opacity 500ms ease, -webkit-transform 500ms ease'
+  //     getTransition({ opacity: 1, rotate: 30 }, 500, 'ease', 0, self);
+  //     when elm.style.transition = 'opacity 200ms linear'
   //
-  function getTransition(properties, duration, easing, delay) {
+  //     //=> 'opacity 500ms ease 0, -webkit-transform 500ms ease 0'
+  //
+  function getTransitionMerged(properties, duration, easing, delay, self) {
     // Get the CSS properties needed.
-    var props = getProperties(properties);
+	  var props = getProperties(properties);
+	  
+	  // Account for aliases (`in` => `ease-in`).
+	  if ($.cssEase[easing]) { easing = $.cssEase[easing]; }
 
-    // Account for aliases (`in` => `ease-in`).
-    if ($.cssEase[easing]) { easing = $.cssEase[easing]; }
+	  // Build the duration/easing/delay attributes for it.
+	  var attribs = '' + toMS(duration) + ' ' + easing;
+	  if (parseInt(delay, 10) > 0) { attribs += ' ' + toMS(delay); }
 
-    // Build the duration/easing/delay attributes for it.
-    var attribs = '' + toMS(duration) + ' ' + easing;
-    if (parseInt(delay, 10) > 0) { attribs += ' ' + toMS(delay); }
+	  // For more properties, add them this way:
+	  // "margin 200ms ease, padding 200ms ease, ..."
+	  var transitions = [];
+	  $.each(props, function(i, name) {
+		  transitions.push(name + ' ' + attribs);
+	  });
+	  
+	  var allTransitions = self.get(0).style[support.transition].split(',');
+	  
+	  // no existing properties
+	  if(allTransitions[0].length == 0) {
+		  return transitions.join(', ');
+	  }
+	  
+	  for(var i=0;i<props.length;i++) {
+		  var propFound = false;
+		  for(var j=0;j<allTransitions.length;j++) {
+			  if(allTransitions[j].indexOf(props[i]) != -1) {
+				  allTransitions[j] = transitions[i];
+				  propFound = true;
+				  break;
+			 }
+		  }
+		  if(!propFound) {
+			  allTransitions.push(transitions[i])
+		  }
+	  }
+	  return allTransitions.join(', ');
+  }
 
-    // For more properties, add them this way:
-    // "margin 200ms ease, padding 200ms ease, ..."
-    var transitions = [];
-    $.each(props, function(i, name) {
-      transitions.push(name + ' ' + attribs);
-    });
-
-    return transitions.join(', ');
+  // ### getTransitionUnmerged()
+  // Removes the finished transition from the transition string, keeps the rest
+  //
+  // Example:
+  //
+  //     getTransitionUnmerged({ opacity: 1 }, self);
+  //     when elm.style.transition = 'opacity 500ms ease 0, -webkit-transform 500ms ease 0'
+  //
+  //     //=> '-webkit-transform 500ms ease'
+  //
+  function getTransitionUnmerged(properties, self) {
+	
+	  var props = getProperties(properties);
+	  
+	  var allTransitions = self.get(0).style[support.transition].split(',');
+	  
+	  // no existing properties, something went wrong, empty anyway
+	  if(allTransitions[0].length == 0) {
+		  return '';
+	  }
+	  
+	  for(var i=0;i<props.length;i++) {
+		  for(var j=0;j<allTransitions.length;j++) {
+			  if(allTransitions[j].indexOf(props[i]) != -1) {
+				  allTransitions.splice(j,1);
+				  break;
+			 }
+		  }
+	  }
+	  
+	  return allTransitions.join(', ');
   }
 
   // ## $.fn.transition
@@ -568,8 +623,8 @@
 
     duration = toMS(duration);
 
-    // Build the `transition` property.
-    var transitionValue = getTransition(properties, duration, easing, delay);
+    // Build the `transition` property. - im moving this into the run() function because it checkes the existing transitions on runtime
+    //  var transitionValue = getTransitionMerged(properties, duration, easing, delay, self);
 
     // Compute delay until callback.
     // If this becomes 0, don't bother setting the transition property.
@@ -589,10 +644,14 @@
     }
 
     // Save the old transitions of each element so we can restore it later.
-    var oldTransitions = {};
+    // not using this anymore, delete
+    // var oldTransitions = {};
 
     var run = function(nextCall) {
       var bound = false;
+
+      // new getTransition() position (to get existing transitions on runtime) & changed function call
+      var transitionValue = getTransitionMerged(properties, duration, easing, delay, self);
 
       // Prepare the callback.
       var cb = function() {
@@ -600,7 +659,8 @@
 
         if (i > 0) {
           self.each(function() {
-            this.style[support.transition] = (oldTransitions[this] || null);
+            // unmerge transition, keep the other transition properties instead of emptying
+            this.style[support.transition] = getTransitionUnmerged(properties, self);
           });
         }
 
@@ -700,5 +760,5 @@
   }
 
   // Export some functions for testable-ness.
-  $.transit.getTransitionValue = getTransition;
+  $.transit.getTransitionValue = getTransitionMerged;
 })(jQuery);
