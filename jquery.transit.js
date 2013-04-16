@@ -521,6 +521,15 @@
       duration = undefined;
     }
 
+    // Account for `.transition(properties, options)`.
+    if (typeof duration === 'object') {
+      easing = duration.easing;
+      delay = duration.delay || 0;
+      queue = duration.queue || true;
+      callback = duration.complete;
+      duration = duration.duration;
+    }
+
     // Account for `.transition(properties, duration, callback)`.
     if (typeof easing === 'function') {
       callback = easing;
