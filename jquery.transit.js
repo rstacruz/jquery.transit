@@ -515,6 +515,8 @@
     var delay = 0;
     var queue = true;
 
+    var theseProperties = jQuery.extend(true, {}, properties);
+
     // Account for `.transition(properties, callback)`.
     if (typeof duration === 'function') {
       callback = duration;
@@ -537,29 +539,29 @@
     }
 
     // Alternate syntax.
-    if (typeof properties.easing !== 'undefined') {
-      easing = properties.easing;
-      delete properties.easing;
+    if (typeof theseProperties.easing !== 'undefined') {
+      easing = theseProperties.easing;
+      delete theseProperties.easing;
     }
 
-    if (typeof properties.duration !== 'undefined') {
-      duration = properties.duration;
-      delete properties.duration;
+    if (typeof theseProperties.duration !== 'undefined') {
+      duration = theseProperties.duration;
+      delete theseProperties.duration;
     }
 
-    if (typeof properties.complete !== 'undefined') {
-      callback = properties.complete;
-      delete properties.complete;
+    if (typeof theseProperties.complete !== 'undefined') {
+      callback = theseProperties.complete;
+      delete theseProperties.complete;
     }
 
-    if (typeof properties.queue !== 'undefined') {
-      queue = properties.queue;
-      delete properties.queue;
+    if (typeof theseProperties.queue !== 'undefined') {
+      queue = theseProperties.queue;
+      delete theseProperties.queue;
     }
 
-    if (typeof properties.delay !== 'undefined') {
-      delay = properties.delay;
-      delete properties.delay;
+    if (typeof theseProperties.delay !== 'undefined') {
+      delay = theseProperties.delay;
+      delete theseProperties.delay;
     }
 
     // Set defaults. (`400` duration, `ease` easing)
@@ -569,7 +571,7 @@
     duration = toMS(duration);
 
     // Build the `transition` property.
-    var transitionValue = getTransition(properties, duration, easing, delay);
+    var transitionValue = getTransition(theseProperties, duration, easing, delay);
 
     // Compute delay until callback.
     // If this becomes 0, don't bother setting the transition property.
@@ -579,7 +581,7 @@
     // If there's nothing to do...
     if (i === 0) {
       var fn = function(next) {
-        self.css(properties);
+        self.css(theseProperties);
         if (callback) { callback.apply(self); }
         if (next) { next(); }
       };
@@ -694,7 +696,7 @@
     var i = duration;
 
     // Allow for string durations like 'fast'.
-    if (typeof i === 'string') { i = $.fx.speeds[i] || $.fx.speeds._default; }
+    if (typeof i === NaN) { i = $.fx.speeds[i] || $.fx.speeds._default; }
 
     return unit(i, 'ms');
   }
