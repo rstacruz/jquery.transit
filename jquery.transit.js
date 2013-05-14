@@ -689,14 +689,16 @@
   // ### toMS(duration)
   // Converts given `duration` to a millisecond string.
   //
-  //     toMS('fast')   //=> '400ms'
-  //     toMS(10)       //=> '10ms'
+  // toMS('fast') => $.fx.speeds[i] => "200ms"
+  // toMS('normal') //=> $.fx.speeds._default => "400ms"
+  // toMS(10) //=> '10ms'
+  // toMS('100ms') //=> '100ms'  
   //
   function toMS(duration) {
     var i = duration;
 
-    // Allow for string durations like 'fast'.
-    if (typeof i === NaN) { i = $.fx.speeds[i] || $.fx.speeds._default; }
+    // Allow string durations like 'fast' and 'slow', without overriding numeric values.
+    if (typeof i === 'string' && (!i.match(/^[\-0-9\.]+/))) { i = $.fx.speeds[i] || $.fx.speeds._default; }
 
     return unit(i, 'ms');
   }
