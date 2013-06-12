@@ -669,6 +669,38 @@
     return str.replace(/([A-Z])/g, function(letter) { return '-' + letter.toLowerCase(); });
   }
 
+// ### isWithUnit(i, unit)
+// Looks if a `i` is a string, and if it is it checks whether it matches 
+// the specified unit. 
+// 
+// Example, `unit` is set to "ms"
+// "100ms" === true
+// 100 === false
+// "100" === false
+// 
+  function isWithUnit(i, unit) {
+    // Inspect Further if a string
+    var searchPattern;
+    var search;
+
+    if (typeof i !== "string") {
+      return false; // This isn't even a string !
+    } else {
+
+      searchPattern = "^[\-0-9\.]+(" + unit + ")$";
+      search = new RegExp(searchPattern);
+
+      if( i.match(search) ) {
+        return true; // This is a string and we Found a number and a unit. This is a Unit.
+      } else {
+        return false; // This is just a string
+      }
+    }
+
+  
+  }
+
+
   // ### unit(number, unit)
   // Ensures that number `number` has a unit. If no unit is found, assume the
   // default is `unit`.
@@ -677,7 +709,7 @@
   //     unit("30deg", 'rad')   //=> "30deg"
   //
   function unit(i, units) {
-    if ((typeof i === "string") && (!i.match(/^[\-0-9\.]+$/))) {
+    if (isWithUnit(i, units) === true) {
       return i;
     } else {
       return "" + i + units;
@@ -694,7 +726,10 @@
     var i = duration;
 
     // Allow for string durations like 'fast'.
-    if (typeof i === 'string') { i = $.fx.speeds[i] || $.fx.speeds._default; }
+    // But make sure we're not interfering with an Unit
+    if (typeof i === "string" && isWithUnit(i, 'ms') === false) { 
+        i = $.fx.speeds[i] || $.fx.speeds._default; 
+    }
 
     return unit(i, 'ms');
   }
