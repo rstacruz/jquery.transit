@@ -607,6 +607,15 @@
 
       callOrQueue(self, queue, fn);
       return self;
+    } else {
+      // transition to 'height: auto' and 'width: auto' properly
+      for (var j = 0; j < this.length; j++) {
+        var elem = this.eq(j);
+        $.each(theseProperties, function(key) {
+          var value = elem.css(key);
+          elem.css(key, value);
+        });
+      }
     }
 
     // Save the old transitions of each element so we can restore it later.
@@ -617,6 +626,10 @@
 
       // Prepare the callback.
       var cb = function() {
+        $.each(finalProperties, function(key) {
+          self.css(key, finalProperties[key]);
+        });
+
         if (bound) { self.unbind(transitionEnd, cb); }
 
         if (i > 0) {
@@ -638,19 +651,34 @@
         window.setTimeout(cb, i);
       }
 
+      var finalProperties = {};
+
       // Apply transitions.
       self.each(function() {
+        var elem = $(this);
+
+        $.each(theseProperties, function(key) {
+          var value = theseProperties[key];
+          if (value === '' || value === 'auto') {
+            finalProperties[key] = value;
+            var prev = elem.css(key);
+            elem.css(key, value);
+            theseProperties[key] = elem.css(key);
+            elem.css(key, prev);
+          }
+        });
+
         if (i > 0) {
+          this.offsetWidth; // force a repaint
           this.style[support.transition] = transitionValue;
         }
-        $(this).css(properties);
+        elem.css(theseProperties);
       });
     };
 
     // Defer running. This allows the browser to paint any pending CSS it hasn't
     // painted yet before doing the transitions.
     var deferredRun = function(next) {
-        this.offsetWidth; // force a repaint
         run(next);
     };
 
@@ -711,7 +739,7 @@
   // toMS('fast') => $.fx.speeds[i] => "200ms"
   // toMS('normal') //=> $.fx.speeds._default => "400ms"
   // toMS(10) //=> '10ms'
-  // toMS('100ms') //=> '100ms'  
+  // toMS('100ms') //=> '100ms'
   //
   function toMS(duration) {
     var i = duration;
