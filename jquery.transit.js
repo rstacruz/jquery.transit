@@ -100,6 +100,7 @@
     'in-out':         'ease-in-out',
     'snap':           'cubic-bezier(0,1,.5,1)',
     // Penner equations
+    'easeInCubic':    'cubic-bezier(.55,.055,.675,.19)',
     'easeOutCubic':   'cubic-bezier(.215,.61,.355,1)',
     'easeInOutCubic': 'cubic-bezier(.645,.045,.355,1)',
     'easeInCirc':     'cubic-bezier(.6,.04,.98,.335)',
