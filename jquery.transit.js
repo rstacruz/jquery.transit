@@ -37,18 +37,18 @@
   // Helper function to get the proper vendor property name.
   // (`transition` => `WebkitTransition`)
   function getVendorPropertyName(prop) {
-    // Handle unprefixed versions (FF16+, for example)
-    if (prop in div.style) return prop;
-
+    
     var prefixes = ['Moz', 'Webkit', 'O', 'ms'];
     var prop_ = prop.charAt(0).toUpperCase() + prop.substr(1);
 
-    if (prop in div.style) { return prop; }
-
+    // Prefer vendor-prefixed property name over native for better interop with other libs
     for (var i=0; i<prefixes.length; ++i) {
       var vendorProp = prefixes[i] + prop_;
       if (vendorProp in div.style) { return vendorProp; }
     }
+    
+    // Handle unprefixed versions (FF16+, for example)
+    if (prop in div.style) { return prop; }
   }
 
   // Helper function to check if transform3D is supported.
@@ -62,7 +62,9 @@
   var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
 
   // Check for the browser's transitions support.
-  support.transition      = getVendorPropertyName('transition');
+  // Create "transition" and "transform" as string objects so that they can be augmented with other properties.
+  // Bootstrap.transition, for example, creates $.support.transition = { end: support.transitionEnd }
+  support.transition      = new String(getVendorPropertyName('transition'));
   support.transitionDelay = getVendorPropertyName('transitionDelay');
   support.transform       = getVendorPropertyName('transform');
   support.transformOrigin = getVendorPropertyName('transformOrigin');
@@ -87,6 +89,9 @@
       $.support[key] = support[key];
     }
   }
+  
+  // Now add the transition.end property expected by components dependent on bootstrap.transition
+  $.support.transition && ($.support.transition.end = support.transitionEnd);
 
   // Avoid memory leak in IE.
   div = null;
