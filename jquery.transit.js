@@ -62,11 +62,12 @@
   var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
 
   // Check for the browser's transitions support.
-  support.transition      = getVendorPropertyName('transition');
-  support.transitionDelay = getVendorPropertyName('transitionDelay');
-  support.transform       = getVendorPropertyName('transform');
-  support.transformOrigin = getVendorPropertyName('transformOrigin');
-  support.transform3d     = checkTransform3dSupport();
+  support.transition         = getVendorPropertyName('transition');
+  support.transitionProperty = getVendorPropertyName('transitionProperty');
+  support.transitionDelay    = getVendorPropertyName('transitionDelay');
+  support.transform          = getVendorPropertyName('transform');
+  support.transformOrigin    = getVendorPropertyName('transformOrigin');
+  support.transform3d        = checkTransform3dSupport();
 
   var eventNames = {
     'transition':       'transitionEnd',
@@ -590,53 +591,102 @@
       return self;
     }
 
-    // Save the old transitions of each element so we can restore it later.
-    var oldTransitions = {};
-
-    var run = function(nextCall) {
+    var run = function(nextCall, element) {
       var bound = false;
+      var self = $(element);
+      
+      // Save the old transitions of each element so we can restore it later.
+      var oldTransitions = {};
 
       // Prepare the callback.
-      var cb = function() {
+      var cb = function(e) {
+        self.data('transitCallback', null);
+
+        if(e) e.stopPropagation();
+
         if (bound) { self.unbind(transitionEnd, cb); }
 
-        if (i > 0) {
-          self.each(function() {
-            this.style[support.transition] = (oldTransitions[this] || null);
-          });
-        }
+        element.style[support.transition] = (oldTransitions[this] || null);
 
         if (typeof callback === 'function') { callback.apply(self); }
         if (typeof nextCall === 'function') { nextCall(); }
       };
 
-      if ((i > 0) && (transitionEnd) && ($.transit.useTransitionEnd)) {
+      if ( (transitionEnd) && ($.transit.useTransitionEnd)) {
         // Use the 'transitionend' event if it's available.
         bound = true;
         self.bind(transitionEnd, cb);
       } else {
         // Fallback to timers if the 'transitionend' event isn't supported.
-        window.setTimeout(cb, i);
+        var id = window.setTimeout(cb, i);
+        self.data('transitTimer', id);
       }
 
       // Apply transitions.
-      self.each(function() {
-        if (i > 0) {
-          this.style[support.transition] = transitionValue;
-        }
-        $(this).css(properties);
-      });
+      element.style[support.transition] = transitionValue;
+      self.css(properties);
+      self.data('transitCallback', cb);
     };
 
     // Defer running. This allows the browser to paint any pending CSS it hasn't
     // painted yet before doing the transitions.
     var deferredRun = function(next) {
         this.offsetWidth; // force a repaint
-        run(next);
+        run(next, this);
     };
 
     // Use jQuery's fx queue.
     callOrQueue(self, queue, deferredRun);
+
+    // Chainability.
+    return this;
+  };
+
+  // ## $.fn.transitionStop
+  // Works like $.fn.stop( [clearQueue ] [, jumpToEnd ] )
+  //     
+  $.fn.transitionStop = $.fn.transitStop = function(clearQueue, jumpToEnd){
+    this.each(function() {
+      var self = $(this);
+
+      var id = self.data('transitTimer');
+      clearTimeout(id);
+
+      self.data('transitTimer', null);
+
+      var properties = this.style[support.transitionProperty];
+
+      if(properties){
+        properties = properties.replace(/\s*/g, '').split(',');
+
+        var style = window.getComputedStyle(this),
+            css = {};
+
+        for(var i = 0; i < properties.length; i++){
+          css[properties[i]] = this.style[properties[i]];
+          this.style[properties[i]] = style[properties[i]];
+        }
+
+        this.offsetWidth; // force a repaint
+        this.style[support.transition] = 'none';
+
+        if(clearQueue){
+          self.clearQueue();
+          self.unbind(transitionEnd);
+        };
+
+        if(jumpToEnd){
+          for(var i = 0; i < properties.length; i++)
+            this.style[properties[i]] = css[properties[i]];
+
+          var cb = self.data('transitCallback');
+          if(typeof cb === 'function') cb();
+
+        }else if(!clearQueue){
+          self.dequeue();
+        };
+      };
+    });
 
     // Chainability.
     return this;
