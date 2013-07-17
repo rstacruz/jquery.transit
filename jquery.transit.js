@@ -68,16 +68,13 @@
   support.transformOrigin = getVendorPropertyName('transformOrigin');
   support.transform3d     = checkTransform3dSupport();
 
-  var eventNames = {
-    'transition':       'transitionEnd',
-    'MozTransition':    'transitionend',
-    'OTransition':      'oTransitionEnd',
-    'WebkitTransition': 'webkitTransitionEnd',
-    'msTransition':     'MSTransitionEnd'
-  };
-
-  // Detect the 'transitionend' event needed.
-  var transitionEnd = support.transitionEnd = eventNames[support.transition] || null;
+  // Non-working transitionend event names are gonna get spliced out on the first event
+  var eventNames = [
+    'transitionend',
+    'webkitTransitionEnd',
+    'otransitionend',
+    'oTransitionEnd'
+  ];
 
   // Populate jQuery's `$.support` with the vendor prefixes we know.
   // As per [jQuery's cssHooks documentation](http://api.jquery.com/jQuery.cssHooks/),
@@ -597,8 +594,15 @@
       var bound = false;
 
       // Prepare the callback.
-      var cb = function() {
-        if (bound) { self.unbind(transitionEnd, cb); }
+      var cb = function(event) {
+        if (bound) {
+          for (var j=bound.length; j>0; --j) {
+            self.unbind(bound[j], cb);
+            if ((eventNames.length > 1) && (bound[j] !== event.type) && (eventNames.indexOf(bound[j]) !== -1)) {
+              eventNames.splice(eventNames.indexOf(bound[j]), 1);
+            }
+          }
+        }
 
         if (i > 0) {
           self.each(function() {
@@ -610,10 +614,12 @@
         if (typeof nextCall === 'function') { nextCall(); }
       };
 
-      if ((i > 0) && (transitionEnd) && ($.transit.useTransitionEnd)) {
+      if ((i > 0) && ($.transit.useTransitionEnd)) {
         // Use the 'transitionend' event if it's available.
-        bound = true;
-        self.bind(transitionEnd, cb);
+        bound = eventNames;
+        for (var j=0; j<eventNames.length; ++j) {
+          self.bind(eventNames[j], cb);
+        }
       } else {
         // Fallback to timers if the 'transitionend' event isn't supported.
         window.setTimeout(cb, i);
