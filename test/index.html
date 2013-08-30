@@ -158,6 +158,12 @@
         .transition({ opacity: 0 });
     });
 
+    test('Transition of transform (no jump first time)', function($box) {
+      $box
+        .transition({ transform: "translateX(80px)" });
+    });
+
+
   </script>
 </body>
 </html>
