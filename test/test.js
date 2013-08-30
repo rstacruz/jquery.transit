@@ -1,25 +1,31 @@
 (function($) {
   /* Simple test framework of sorts */
-  $('.test').live('mouseenter play', function() {
-    var $test = $(this).closest('.test');
-    $test.trigger('reset');
-    var $box = $test.find('.box:not(.ghost)');
-    var $ghost = $box.clone().addClass('ghost').appendTo($test.find('.area'));
 
-    $test.data('code').fn($box, $test);
-  });
 
-  $('.test').live('mouseleave reset', function() {
-    var $test = $(this).closest('.test');
-    var $ghost = $test.find('.ghost');
-    if ($ghost.length) {
-      $test.find('.box:not(.ghost)').remove();
-      $test.find('.ghost').removeClass('ghost');
-    }
-  }); 
-
-  $('.play-all').live('click', function() {
-    $('.test').trigger('play');
+  function addTestEvents ($test) {
+    $test.bind('mouseenter play', function() {
+      var $test = $(this).closest('.test');
+      $test.trigger('reset');
+      var $box = $test.find('.box:not(.ghost)');
+      var $ghost = $box.clone().addClass('ghost').appendTo($test.find('.area'));
+  
+      $test.data('code').fn($box, $test);
+    });
+  
+    $test.bind('mouseleave reset', function() {
+      var $test = $(this).closest('.test');
+      var $ghost = $test.find('.ghost');
+      if ($ghost.length) {
+        $test.find('.box:not(.ghost)').remove();
+        $test.find('.ghost').removeClass('ghost');
+      }
+    });
+  }
+  
+  $(document).ready(function () {
+    $('.play-all').bind('click', function() {
+      $('.test').trigger('play');
+    });
   });
 
   function test(name, fn) {
@@ -36,6 +42,7 @@
     $test.find('h3').html(name);
     $test.find('pre').text(code);
     $test.data('code', {fn: fn});
+      addTestEvents($test);
 
     $('.tests').append($test);
   }
