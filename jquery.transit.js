@@ -449,6 +449,10 @@
       key = $.transit.propertyMap[key] || $.cssProps[key] || key;
       key = uncamel(key); // Convert back to dasherized
 
+      if (key === 'transform' && support.transform === 'WebkitTransform') {
+          key = '-webkit-transform'
+      }
+
       if ($.inArray(key, re) === -1) { re.push(key); }
     });
 
