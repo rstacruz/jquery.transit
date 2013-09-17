@@ -590,9 +590,6 @@
       return self;
     }
 
-    // Save the old transitions of each element so we can restore it later.
-    var oldTransitions = {};
-
     var run = function(nextCall) {
       var bound = false;
 
@@ -602,7 +599,7 @@
 
         if (i > 0) {
           self.each(function() {
-            this.style[support.transition] = (oldTransitions[this] || null);
+            this.style[support.transition] = null;
           });
         }
 
