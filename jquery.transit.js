@@ -220,6 +220,8 @@
   // ## Other CSS hooks
   // Allows you to rotate, scale and translate.
   registerCssHook('scale');
+  registerCssHook('scaleX');
+  registerCssHook('scaleY');
   registerCssHook('translate');
   registerCssHook('rotate');
   registerCssHook('rotateX');
