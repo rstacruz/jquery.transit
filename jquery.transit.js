@@ -449,7 +449,9 @@
     } else if (queue) {
       self.queue(queue, fn);
     } else {
-      fn();
+      self.each(function () {
+                fn.call(this);
+            });
     }
   }
 
