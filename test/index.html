@@ -26,7 +26,7 @@
       addScript("../jquery.transit.js");
     })();
   </script>
-  
+
   <script src="test.js"></script>
   <link href="style.css" rel="stylesheet" />
 </head>
@@ -155,6 +155,35 @@
     test('Opacity', function($box) {
       $box
         .transition({ opacity: 0 });
+    });
+
+    group('Auto');
+
+    test('To width: auto', function($box) {
+      $box
+        .html('test')
+        .transition({ width: 'auto' })
+    });
+
+    test('To height: auto', function($box) {
+      $box
+        .html('test')
+        .css('line-height', '14px')
+        .transition({ height: 'auto' })
+    });
+
+    test('From width: auto', function($box) {
+      $box
+        .html('test')
+        .css('width', 'auto')
+        .transition({ width: '64px' })
+    });
+
+    test('From height: auto', function($box) {
+      $box
+        .html('test')
+        .css('height', 'auto')
+        .transition({ height: '64px' })
     });
 
   </script>
