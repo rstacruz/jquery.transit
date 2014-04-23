@@ -220,6 +220,8 @@
   // ## Other CSS hooks
   // Allows you to rotate, scale and translate.
   registerCssHook('scale');
+  registerCssHook('scaleX');
+  registerCssHook('scaleY');
   registerCssHook('translate');
   registerCssHook('rotate');
   registerCssHook('rotateX');
@@ -449,7 +451,9 @@
     } else if (queue) {
       self.queue(queue, fn);
     } else {
-      fn();
+      self.each(function () {
+                fn.call(this);
+            });
     }
   }
 
@@ -546,7 +550,7 @@
     if (typeof duration === 'object') {
       easing = duration.easing;
       delay = duration.delay || 0;
-      queue = duration.queue || true;
+      queue = typeof duration.queue === "undefined" ? true : duration.queue;
       callback = duration.complete;
       duration = duration.duration;
     }
