@@ -1,3 +1,16 @@
+v0.9.10 - Unreleased
+--------------------
+
+ * Add support for `scaleX` and `scaleY`. (@YousefED, #192)
+ * Fix `.transition({...}, {queue: false})` not being honored. (@YousefED, #192)
+ * Remove some redundant code. (@Bongo, #165)
+ * Docs: Update to support the new docco. (@francismakes, #175)
+ * Add `easeInCubic` easing. (@emagnier, @willblackmore, #161, #142)
+
+To do:
+
+ * Update bootstrap compatibility (#143)
+
 v0.9.9 - Dec 14, 2012
 ---------------------
 
