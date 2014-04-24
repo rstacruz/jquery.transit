@@ -68,7 +68,7 @@
   support.transform3d     = checkTransform3dSupport();
 
   var eventNames = {
-    'transition':       'transitionEnd',
+    'transition':       'transitionend',
     'MozTransition':    'transitionend',
     'OTransition':      'oTransitionEnd',
     'WebkitTransition': 'webkitTransitionEnd',
