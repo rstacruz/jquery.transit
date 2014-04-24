@@ -7,6 +7,7 @@ v0.9.10 - Unreleased
  * Docs: Update to support the new docco. (@francismakes, #175)
  * Add `easeInCubic` easing. (@emagnier, @willblackmore, #161, #142)
  * Fix transitionend support for IE10, Chrome, and many others. (@wambotron, #103)
+ * Add test cases for jQuery 2.0+. (@hankhero, #155)
 
 To do:
 
