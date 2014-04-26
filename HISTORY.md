@@ -11,7 +11,7 @@ v0.9.10 - Unreleased
 
 To do:
 
- * Update bootstrap compatibility (#143)
+ * Update bootstrap compatibility (#143, #67)
 
 v0.9.9 - Dec 14, 2012
 ---------------------
