@@ -105,7 +105,11 @@ different browsers.
 Alternatives
 ------------
 
-__[Move.js](https://github.com/visionmedia/move.js)__ (recommended!)
+__[Velocity.js](https://velocityjs.org)__ (recommended!)
+
+ * Pros: optimized for situations with hundreds of simultaneous transitions. Lots of extra features.
+
+__[Move.js](https://github.com/visionmedia/move.js)__
 
  * Pros: no jQuery dependency, great syntax.
  * Cons (at time of writing): no iOS support (doesn't use `translate3d`), some
