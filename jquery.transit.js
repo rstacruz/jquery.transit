@@ -28,7 +28,10 @@
     enabled: true,
 
     // Set this to false if you don't want to use the transition end property.
-    useTransitionEnd: false
+    useTransitionEnd: false,
+
+    // Set this to true to force the use of 3d versions of transforms in Chrome
+    use3dChrome: false
   };
 
   var div = document.createElement('div');
@@ -152,7 +155,8 @@
       // forcing Chrome to not use the 3d transforms as well.  Not sure if
       // translate is affectede, but not risking it.  Detection code from
       // http://davidwalsh.name/detecting-google-chrome-javascript
-      if (support.transform === 'WebkitTransform' && !isChrome) {
+      if (support.transform === 'WebkitTransform' &&
+          (!isChrome || $.transit.use3dChrome)) {
         elem.style[support.transform] = value.toString(true);
       } else {
         elem.style[support.transform] = value.toString();
