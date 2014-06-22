@@ -1,12 +1,16 @@
-v0.9.10 - Unreleased
---------------------
+## v0.9.10 - unreleased
 
  * Add support for `scaleX` and `scaleY`. (@YousefED, #192)
+ * Add support for npm.
+ * Add support for RequireJS and CommonJS.
+ * Fix transitionend support for IE10, Chrome, and many others. (@wambotron, #103)
+
+Also:
+
  * Fix `.transition({...}, {queue: false})` not being honored. (@YousefED, #192)
  * Remove some redundant code. (@Bongo, #165)
  * Docs: Update to support the new docco. (@francismakes, #175)
  * Add `easeInCubic` easing. (@emagnier, @willblackmore, #161, #142)
- * Fix transitionend support for IE10, Chrome, and many others. (@wambotron, #103)
  * Add test cases for jQuery 2.0+. (@hankhero, #155)
 
 To do:
