@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>jquery.transit.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>jquery.transit.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-comment">/*!
+ * jQuery Transit - CSS3 transitions and transformations
+ * (c) 2011-2014 Rico Sta. Cruz
+ * MIT Licensed.
+ *
+ * http://ricostacruz.com/jquery.transit
+ * http://github.com/rstacruz/jquery.transit
+ */</span>
+
+<span class="hljs-comment">/* jshint expr: true */</span>
+
+;(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(root, factory)</span> {</span>
+
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> define === <span class="hljs-string">'function'</span> &amp;&amp; define.amd) {
+    define([<span class="hljs-string">'jquery'</span>], factory);
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> exports === <span class="hljs-string">'object'</span>) {
+    module.exports = factory(<span class="hljs-built_in">require</span>(<span class="hljs-string">'jquery'</span>));
+  } <span class="hljs-keyword">else</span> {
+    factory(root.jQuery);
+  }
+
+}(<span class="hljs-keyword">this</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($)</span> {</span>
+
+  $.transit = {
+    version: <span class="hljs-string">"0.9.11"</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Map of $.css() keys to values for ‘transitionProperty’.
+See <a href="https://developer.mozilla.org/en/CSS/CSS_transitions#Properties_that_can_be_animated">https://developer.mozilla.org/en/CSS/CSS_transitions#Properties_that_can_be_animated</a></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    propertyMap: {
+      marginLeft    : <span class="hljs-string">'margin'</span>,
+      marginRight   : <span class="hljs-string">'margin'</span>,
+      marginBottom  : <span class="hljs-string">'margin'</span>,
+      marginTop     : <span class="hljs-string">'margin'</span>,
+      paddingLeft   : <span class="hljs-string">'padding'</span>,
+      paddingRight  : <span class="hljs-string">'padding'</span>,
+      paddingBottom : <span class="hljs-string">'padding'</span>,
+      paddingTop    : <span class="hljs-string">'padding'</span>
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Will simply transition “instantly” if false</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    enabled: <span class="hljs-literal">true</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Set this to false if you don’t want to use the transition end property.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    useTransitionEnd: <span class="hljs-literal">false</span>
+  };
+
+  <span class="hljs-keyword">var</span> div = document.createElement(<span class="hljs-string">'div'</span>);
+  <span class="hljs-keyword">var</span> support = {};</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Helper function to get the proper vendor property name.
+(<code>transition</code> =&gt; <code>WebkitTransition</code>)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getVendorPropertyName</span><span class="hljs-params">(prop)</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Handle unprefixed versions (FF16+, for example)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (prop <span class="hljs-keyword">in</span> div.style) <span class="hljs-keyword">return</span> prop;
+
+    <span class="hljs-keyword">var</span> prefixes = [<span class="hljs-string">'Moz'</span>, <span class="hljs-string">'Webkit'</span>, <span class="hljs-string">'O'</span>, <span class="hljs-string">'ms'</span>];
+    <span class="hljs-keyword">var</span> prop_ = prop.charAt(<span class="hljs-number">0</span>).toUpperCase() + prop.substr(<span class="hljs-number">1</span>);
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i=<span class="hljs-number">0</span>; i&lt;prefixes.length; ++i) {
+      <span class="hljs-keyword">var</span> vendorProp = prefixes[i] + prop_;
+      <span class="hljs-keyword">if</span> (vendorProp <span class="hljs-keyword">in</span> div.style) { <span class="hljs-keyword">return</span> vendorProp; }
+    }
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Helper function to check if transform3D is supported.
+Should return true for Webkits and Firefox 10+.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkTransform3dSupport</span><span class="hljs-params">()</span> {</span>
+    div.style[support.transform] = <span class="hljs-string">''</span>;
+    div.style[support.transform] = <span class="hljs-string">'rotateY(90deg)'</span>;
+    <span class="hljs-keyword">return</span> div.style[support.transform] !== <span class="hljs-string">''</span>;
+  }
+
+  <span class="hljs-keyword">var</span> isChrome = navigator.userAgent.toLowerCase().indexOf(<span class="hljs-string">'chrome'</span>) &gt; -<span class="hljs-number">1</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Check for the browser’s transitions support.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  support.transition      = getVendorPropertyName(<span class="hljs-string">'transition'</span>);
+  support.transitionDelay = getVendorPropertyName(<span class="hljs-string">'transitionDelay'</span>);
+  support.transform       = getVendorPropertyName(<span class="hljs-string">'transform'</span>);
+  support.transformOrigin = getVendorPropertyName(<span class="hljs-string">'transformOrigin'</span>);
+  support.filter          = getVendorPropertyName(<span class="hljs-string">'Filter'</span>);
+  support.transform3d     = checkTransform3dSupport();
+
+  <span class="hljs-keyword">var</span> eventNames = {
+    <span class="hljs-string">'transition'</span>:       <span class="hljs-string">'transitionend'</span>,
+    <span class="hljs-string">'MozTransition'</span>:    <span class="hljs-string">'transitionend'</span>,
+    <span class="hljs-string">'OTransition'</span>:      <span class="hljs-string">'oTransitionEnd'</span>,
+    <span class="hljs-string">'WebkitTransition'</span>: <span class="hljs-string">'webkitTransitionEnd'</span>,
+    <span class="hljs-string">'msTransition'</span>:     <span class="hljs-string">'MSTransitionEnd'</span>
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Detect the ‘transitionend’ event needed.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> transitionEnd = support.transitionEnd = eventNames[support.transition] || <span class="hljs-literal">null</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Populate jQuery’s <code>$.support</code> with the vendor prefixes we know.
+As per <a href="http://api.jquery.com/jQuery.cssHooks/">jQuery’s cssHooks documentation</a>,
+we set $.support.transition to a string of the actual property name used.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> support) {
+    <span class="hljs-keyword">if</span> (support.hasOwnProperty(key) &amp;&amp; <span class="hljs-keyword">typeof</span> $.support[key] === <span class="hljs-string">'undefined'</span>) {
+      $.support[key] = support[key];
+    }
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>Avoid memory leak in IE.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  div = <span class="hljs-literal">null</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <h2 id="-cssease">$.cssEase</h2>
+<p>List of easing aliases that you can use with <code>$.fn.transition</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  $.cssEase = {
+    <span class="hljs-string">'_default'</span>:       <span class="hljs-string">'ease'</span>,
+    <span class="hljs-string">'in'</span>:             <span class="hljs-string">'ease-in'</span>,
+    <span class="hljs-string">'out'</span>:            <span class="hljs-string">'ease-out'</span>,
+    <span class="hljs-string">'in-out'</span>:         <span class="hljs-string">'ease-in-out'</span>,
+    <span class="hljs-string">'snap'</span>:           <span class="hljs-string">'cubic-bezier(0,1,.5,1)'</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Penner equations</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-string">'easeInCubic'</span>:    <span class="hljs-string">'cubic-bezier(.550,.055,.675,.190)'</span>,
+    <span class="hljs-string">'easeOutCubic'</span>:   <span class="hljs-string">'cubic-bezier(.215,.61,.355,1)'</span>,
+    <span class="hljs-string">'easeInOutCubic'</span>: <span class="hljs-string">'cubic-bezier(.645,.045,.355,1)'</span>,
+    <span class="hljs-string">'easeInCirc'</span>:     <span class="hljs-string">'cubic-bezier(.6,.04,.98,.335)'</span>,
+    <span class="hljs-string">'easeOutCirc'</span>:    <span class="hljs-string">'cubic-bezier(.075,.82,.165,1)'</span>,
+    <span class="hljs-string">'easeInOutCirc'</span>:  <span class="hljs-string">'cubic-bezier(.785,.135,.15,.86)'</span>,
+    <span class="hljs-string">'easeInExpo'</span>:     <span class="hljs-string">'cubic-bezier(.95,.05,.795,.035)'</span>,
+    <span class="hljs-string">'easeOutExpo'</span>:    <span class="hljs-string">'cubic-bezier(.19,1,.22,1)'</span>,
+    <span class="hljs-string">'easeInOutExpo'</span>:  <span class="hljs-string">'cubic-bezier(1,0,0,1)'</span>,
+    <span class="hljs-string">'easeInQuad'</span>:     <span class="hljs-string">'cubic-bezier(.55,.085,.68,.53)'</span>,
+    <span class="hljs-string">'easeOutQuad'</span>:    <span class="hljs-string">'cubic-bezier(.25,.46,.45,.94)'</span>,
+    <span class="hljs-string">'easeInOutQuad'</span>:  <span class="hljs-string">'cubic-bezier(.455,.03,.515,.955)'</span>,
+    <span class="hljs-string">'easeInQuart'</span>:    <span class="hljs-string">'cubic-bezier(.895,.03,.685,.22)'</span>,
+    <span class="hljs-string">'easeOutQuart'</span>:   <span class="hljs-string">'cubic-bezier(.165,.84,.44,1)'</span>,
+    <span class="hljs-string">'easeInOutQuart'</span>: <span class="hljs-string">'cubic-bezier(.77,0,.175,1)'</span>,
+    <span class="hljs-string">'easeInQuint'</span>:    <span class="hljs-string">'cubic-bezier(.755,.05,.855,.06)'</span>,
+    <span class="hljs-string">'easeOutQuint'</span>:   <span class="hljs-string">'cubic-bezier(.23,1,.32,1)'</span>,
+    <span class="hljs-string">'easeInOutQuint'</span>: <span class="hljs-string">'cubic-bezier(.86,0,.07,1)'</span>,
+    <span class="hljs-string">'easeInSine'</span>:     <span class="hljs-string">'cubic-bezier(.47,0,.745,.715)'</span>,
+    <span class="hljs-string">'easeOutSine'</span>:    <span class="hljs-string">'cubic-bezier(.39,.575,.565,1)'</span>,
+    <span class="hljs-string">'easeInOutSine'</span>:  <span class="hljs-string">'cubic-bezier(.445,.05,.55,.95)'</span>,
+    <span class="hljs-string">'easeInBack'</span>:     <span class="hljs-string">'cubic-bezier(.6,-.28,.735,.045)'</span>,
+    <span class="hljs-string">'easeOutBack'</span>:    <span class="hljs-string">'cubic-bezier(.175, .885,.32,1.275)'</span>,
+    <span class="hljs-string">'easeInOutBack'</span>:  <span class="hljs-string">'cubic-bezier(.68,-.55,.265,1.55)'</span>
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <h2 id="-transform-css-hook">‘transform’ CSS hook</h2>
+<p>Allows you to use the <code>transform</code> property in CSS.</p>
+<pre><code>$(<span class="hljs-string">"#hello"</span>).css({ transform: <span class="hljs-string">"rotate(90deg)"</span> });
+
+$(<span class="hljs-string">"#hello"</span>).css(<span class="hljs-string">'transform'</span>);
+<span class="hljs-comment">//=&gt; { rotate: '90deg' }</span>
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  $.cssHooks[<span class="hljs-string">'transit:transform'</span>] = {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>The getter returns a <code>Transform</code> object.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    get: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(elem)</span> {</span>
+      <span class="hljs-keyword">return</span> $(elem).data(<span class="hljs-string">'transform'</span>) || <span class="hljs-keyword">new</span> Transform();
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>The setter accepts a <code>Transform</code> object or a string.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    set: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(elem, v)</span> {</span>
+      <span class="hljs-keyword">var</span> value = v;
+
+      <span class="hljs-keyword">if</span> (!(value <span class="hljs-keyword">instanceof</span> Transform)) {
+        value = <span class="hljs-keyword">new</span> Transform(value);
+      }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>We’ve seen the 3D version of Scale() not work in Chrome when the
+element being scaled extends outside of the viewport.  Thus, we’re
+forcing Chrome to not use the 3d transforms as well.  Not sure if
+translate is affectede, but not risking it.  Detection code from
+<a href="http://davidwalsh.name/detecting-google-chrome-javascript">http://davidwalsh.name/detecting-google-chrome-javascript</a></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> (support.transform === <span class="hljs-string">'WebkitTransform'</span> &amp;&amp; !isChrome) {
+        elem.style[support.transform] = value.toString(<span class="hljs-literal">true</span>);
+      } <span class="hljs-keyword">else</span> {
+        elem.style[support.transform] = value.toString();
+      }
+
+      $(elem).data(<span class="hljs-string">'transform'</span>, value);
+    }
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>Add a CSS hook for <code>.css({ transform: &#39;...&#39; })</code>.
+In jQuery 1.8+, this will intentionally override the default <code>transform</code>
+CSS hook so it’ll play well with Transit. (see issue #62)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  $.cssHooks.transform = {
+    set: $.cssHooks[<span class="hljs-string">'transit:transform'</span>].set
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <h2 id="-filter-css-hook">‘filter’ CSS hook</h2>
+<p>Allows you to use the <code>filter</code> property in CSS.</p>
+<pre><code>$(<span class="hljs-string">"#hello"</span>).css({ filter: <span class="hljs-string">'blur(10px)'</span> });
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  $.cssHooks.filter = {
+    get: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(elem)</span> {</span>
+      <span class="hljs-keyword">return</span> elem.style[support.filter];
+    },
+    set: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(elem, value)</span> {</span>
+      elem.style[support.filter] = value;
+    }
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>jQuery 1.8+ supports prefix-free transitions, so these polyfills will not
+be necessary.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> ($.fn.jquery &lt; <span class="hljs-string">"1.8"</span>) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <h2 id="-transformorigin-css-hook">‘transformOrigin’ CSS hook</h2>
+<p>Allows the use for <code>transformOrigin</code> to define where scaling and rotation
+is pivoted.</p>
+<pre><code>$(<span class="hljs-string">"#hello"</span>).css({ transformOrigin: <span class="hljs-string">'0 0'</span> });
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $.cssHooks.transformOrigin = {
+      get: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(elem)</span> {</span>
+        <span class="hljs-keyword">return</span> elem.style[support.transformOrigin];
+      },
+      set: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(elem, value)</span> {</span>
+        elem.style[support.transformOrigin] = value;
+      }
+    };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <h2 id="-transition-css-hook">‘transition’ CSS hook</h2>
+<p>Allows you to use the <code>transition</code> property in CSS.</p>
+<pre><code>$(<span class="hljs-string">"#hello"</span>).css({ transition: <span class="hljs-string">'all 0 ease 0'</span> });
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $.cssHooks.transition = {
+      get: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(elem)</span> {</span>
+        <span class="hljs-keyword">return</span> elem.style[support.transition];
+      },
+      set: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(elem, value)</span> {</span>
+        elem.style[support.transition] = value;
+      }
+    };
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <h2 id="other-css-hooks">Other CSS hooks</h2>
+<p>Allows you to rotate, scale and translate.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  registerCssHook(<span class="hljs-string">'scale'</span>);
+  registerCssHook(<span class="hljs-string">'scaleX'</span>);
+  registerCssHook(<span class="hljs-string">'scaleY'</span>);
+  registerCssHook(<span class="hljs-string">'translate'</span>);
+  registerCssHook(<span class="hljs-string">'rotate'</span>);
+  registerCssHook(<span class="hljs-string">'rotateX'</span>);
+  registerCssHook(<span class="hljs-string">'rotateY'</span>);
+  registerCssHook(<span class="hljs-string">'rotate3d'</span>);
+  registerCssHook(<span class="hljs-string">'perspective'</span>);
+  registerCssHook(<span class="hljs-string">'skewX'</span>);
+  registerCssHook(<span class="hljs-string">'skewY'</span>);
+  registerCssHook(<span class="hljs-string">'x'</span>, <span class="hljs-literal">true</span>);
+  registerCssHook(<span class="hljs-string">'y'</span>, <span class="hljs-literal">true</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <h2 id="transform-class">Transform class</h2>
+<p>This is the main class of a transformation property that powers
+<code>$.fn.css({ transform: &#39;...&#39; })</code>.</p>
+<p>This is, in essence, a dictionary object with key/values as <code>-transform</code>
+properties.</p>
+<pre><code><span class="hljs-keyword">var</span> t = <span class="hljs-keyword">new</span> Transform(<span class="hljs-string">"rotate(90) scale(4)"</span>);
+
+t.rotate             <span class="hljs-comment">//=&gt; "90deg"</span>
+t.scale              <span class="hljs-comment">//=&gt; "4,4"</span>
+</code></pre><p>Setters are accounted for.</p>
+<pre><code>t.set(<span class="hljs-string">'rotate'</span>, <span class="hljs-number">4</span>)
+t.rotate             <span class="hljs-comment">//=&gt; "4deg"</span>
+</code></pre><p>Convert it to a CSS string using the <code>toString()</code> and <code>toString(true)</code> (for WebKit)
+functions.</p>
+<pre><code>t.toString()         <span class="hljs-comment">//=&gt; "rotate(90deg) scale(4,4)"</span>
+t.toString(<span class="hljs-literal">true</span>)     <span class="hljs-comment">//=&gt; "rotate(90deg) scale3d(4,4,0)" (WebKit version)</span>
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Transform</span><span class="hljs-params">(str)</span> {</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> str === <span class="hljs-string">'string'</span>) { <span class="hljs-keyword">this</span>.parse(str); }
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+  }
+
+  Transform.prototype = {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <h3 id="setfromstring-">setFromString()</h3>
+<p>Sets a property from a string.</p>
+<pre><code>t.setFromString(<span class="hljs-string">'scale'</span>, <span class="hljs-string">'2,4'</span>);
+<span class="hljs-comment">// Same as set('scale', '2', '4');</span>
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    setFromString: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(prop, val)</span> {</span>
+      <span class="hljs-keyword">var</span> args =
+        (<span class="hljs-keyword">typeof</span> val === <span class="hljs-string">'string'</span>)  ? val.split(<span class="hljs-string">','</span>) :
+        (val.constructor === <span class="hljs-built_in">Array</span>) ? val :
+        [ val ];
+
+      args.unshift(prop);
+
+      Transform.prototype.set.apply(<span class="hljs-keyword">this</span>, args);
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <h3 id="set-">set()</h3>
+<p>Sets a property.</p>
+<pre><code>t.set(<span class="hljs-string">'scale'</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>);
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    set: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(prop)</span> {</span>
+      <span class="hljs-keyword">var</span> args = <span class="hljs-built_in">Array</span>.prototype.slice.apply(<span class="hljs-built_in">arguments</span>, [<span class="hljs-number">1</span>]);
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.setter[prop]) {
+        <span class="hljs-keyword">this</span>.setter[prop].apply(<span class="hljs-keyword">this</span>, args);
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">this</span>[prop] = args.join(<span class="hljs-string">','</span>);
+      }
+    },
+
+    get: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(prop)</span> {</span>
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.getter[prop]) {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getter[prop].apply(<span class="hljs-keyword">this</span>);
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>[prop] || <span class="hljs-number">0</span>;
+      }
+    },
+
+    setter: {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <h3 id="rotate">rotate</h3>
+<pre><code>.css({ rotate: <span class="hljs-number">30</span> })
+.css({ rotate: <span class="hljs-string">"30"</span> })
+.css({ rotate: <span class="hljs-string">"30deg"</span> })
+.css({ rotate: <span class="hljs-string">"30deg"</span> })
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      rotate: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(theta)</span> {</span>
+        <span class="hljs-keyword">this</span>.rotate = unit(theta, <span class="hljs-string">'deg'</span>);
+      },
+
+      rotateX: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(theta)</span> {</span>
+        <span class="hljs-keyword">this</span>.rotateX = unit(theta, <span class="hljs-string">'deg'</span>);
+      },
+
+      rotateY: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(theta)</span> {</span>
+        <span class="hljs-keyword">this</span>.rotateY = unit(theta, <span class="hljs-string">'deg'</span>);
+      },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <h3 id="scale">scale</h3>
+<pre><code>.css({ scale: <span class="hljs-number">9</span> })      <span class="hljs-comment">//=&gt; "scale(9,9)"</span>
+.css({ scale: <span class="hljs-string">'3,2'</span> })  <span class="hljs-comment">//=&gt; "scale(3,2)"</span>
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      scale: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(x, y)</span> {</span>
+        <span class="hljs-keyword">if</span> (y === <span class="hljs-literal">undefined</span>) { y = x; }
+        <span class="hljs-keyword">this</span>.scale = x + <span class="hljs-string">","</span> + y;
+      },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <h3 id="skewx-skewy">skewX + skewY</h3>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      skewX: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(x)</span> {</span>
+        <span class="hljs-keyword">this</span>.skewX = unit(x, <span class="hljs-string">'deg'</span>);
+      },
+
+      skewY: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(y)</span> {</span>
+        <span class="hljs-keyword">this</span>.skewY = unit(y, <span class="hljs-string">'deg'</span>);
+      },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-30">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-30">&#182;</a>
+              </div>
+              <h3 id="perspectvie">perspectvie</h3>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      perspective: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(dist)</span> {</span>
+        <span class="hljs-keyword">this</span>.perspective = unit(dist, <span class="hljs-string">'px'</span>);
+      },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-31">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-31">&#182;</a>
+              </div>
+              <h3 id="x-y">x / y</h3>
+<p>Translations. Notice how this keeps the other value.</p>
+<pre><code>.css({ x: <span class="hljs-number">4</span> })       <span class="hljs-comment">//=&gt; "translate(4px, 0)"</span>
+.css({ y: <span class="hljs-number">10</span> })      <span class="hljs-comment">//=&gt; "translate(4px, 10px)"</span>
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      x: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(x)</span> {</span>
+        <span class="hljs-keyword">this</span>.set(<span class="hljs-string">'translate'</span>, x, <span class="hljs-literal">null</span>);
+      },
+
+      y: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(y)</span> {</span>
+        <span class="hljs-keyword">this</span>.set(<span class="hljs-string">'translate'</span>, <span class="hljs-literal">null</span>, y);
+      },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-32">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-32">&#182;</a>
+              </div>
+              <h3 id="translate">translate</h3>
+<p>Notice how this keeps the other value.</p>
+<pre><code>.css({ translate: <span class="hljs-string">'2, 5'</span> })    <span class="hljs-comment">//=&gt; "translate(2px, 5px)"</span>
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      translate: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(x, y)</span> {</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>._translateX === <span class="hljs-literal">undefined</span>) { <span class="hljs-keyword">this</span>._translateX = <span class="hljs-number">0</span>; }
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>._translateY === <span class="hljs-literal">undefined</span>) { <span class="hljs-keyword">this</span>._translateY = <span class="hljs-number">0</span>; }
+
+        <span class="hljs-keyword">if</span> (x !== <span class="hljs-literal">null</span> &amp;&amp; x !== <span class="hljs-literal">undefined</span>) { <span class="hljs-keyword">this</span>._translateX = unit(x, <span class="hljs-string">'px'</span>); }
+        <span class="hljs-keyword">if</span> (y !== <span class="hljs-literal">null</span> &amp;&amp; y !== <span class="hljs-literal">undefined</span>) { <span class="hljs-keyword">this</span>._translateY = unit(y, <span class="hljs-string">'px'</span>); }
+
+        <span class="hljs-keyword">this</span>.translate = <span class="hljs-keyword">this</span>._translateX + <span class="hljs-string">","</span> + <span class="hljs-keyword">this</span>._translateY;
+      }
+    },
+
+    getter: {
+      x: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._translateX || <span class="hljs-number">0</span>;
+      },
+
+      y: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._translateY || <span class="hljs-number">0</span>;
+      },
+
+      scale: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+        <span class="hljs-keyword">var</span> s = (<span class="hljs-keyword">this</span>.scale || <span class="hljs-string">"1,1"</span>).split(<span class="hljs-string">','</span>);
+        <span class="hljs-keyword">if</span> (s[<span class="hljs-number">0</span>]) { s[<span class="hljs-number">0</span>] = <span class="hljs-built_in">parseFloat</span>(s[<span class="hljs-number">0</span>]); }
+        <span class="hljs-keyword">if</span> (s[<span class="hljs-number">1</span>]) { s[<span class="hljs-number">1</span>] = <span class="hljs-built_in">parseFloat</span>(s[<span class="hljs-number">1</span>]); }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-33">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-33">&#182;</a>
+              </div>
+              <p>“2.5,2.5” =&gt; 2.5
+“2.5,1” =&gt; [2.5,1]</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">return</span> (s[<span class="hljs-number">0</span>] === s[<span class="hljs-number">1</span>]) ? s[<span class="hljs-number">0</span>] : s;
+      },
+
+      rotate3d: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+        <span class="hljs-keyword">var</span> s = (<span class="hljs-keyword">this</span>.rotate3d || <span class="hljs-string">"0,0,0,0deg"</span>).split(<span class="hljs-string">','</span>);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i=<span class="hljs-number">0</span>; i&lt;=<span class="hljs-number">3</span>; ++i) {
+          <span class="hljs-keyword">if</span> (s[i]) { s[i] = <span class="hljs-built_in">parseFloat</span>(s[i]); }
+        }
+        <span class="hljs-keyword">if</span> (s[<span class="hljs-number">3</span>]) { s[<span class="hljs-number">3</span>] = unit(s[<span class="hljs-number">3</span>], <span class="hljs-string">'deg'</span>); }
+
+        <span class="hljs-keyword">return</span> s;
+      }
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-34">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-34">&#182;</a>
+              </div>
+              <h3 id="parse-">parse()</h3>
+<p>Parses from a string. Called on constructor.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    parse: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(str)</span> {</span>
+      <span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;
+      str.replace(<span class="hljs-regexp">/([a-zA-Z0-9]+)\((.*?)\)/g</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(x, prop, val)</span> {</span>
+        self.setFromString(prop, val);
+      });
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-35">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-35">&#182;</a>
+              </div>
+              <h3 id="tostring-">toString()</h3>
+<p>Converts to a <code>transition</code> CSS property string. If <code>use3d</code> is given,
+it converts to a <code>-webkit-transition</code> CSS property string instead.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    toString: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(use3d)</span> {</span>
+      <span class="hljs-keyword">var</span> re = [];
+
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i <span class="hljs-keyword">in</span> <span class="hljs-keyword">this</span>) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.hasOwnProperty(i)) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-36">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-36">&#182;</a>
+              </div>
+              <p>Don’t use 3D transformations if the browser can’t support it.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          <span class="hljs-keyword">if</span> ((!support.transform3d) &amp;&amp; (
+            (i === <span class="hljs-string">'rotateX'</span>) ||
+            (i === <span class="hljs-string">'rotateY'</span>) ||
+            (i === <span class="hljs-string">'perspective'</span>) ||
+            (i === <span class="hljs-string">'transformOrigin'</span>))) { <span class="hljs-keyword">continue</span>; }
+
+          <span class="hljs-keyword">if</span> (i[<span class="hljs-number">0</span>] !== <span class="hljs-string">'_'</span>) {
+            <span class="hljs-keyword">if</span> (use3d &amp;&amp; (i === <span class="hljs-string">'scale'</span>)) {
+              re.push(i + <span class="hljs-string">"3d("</span> + <span class="hljs-keyword">this</span>[i] + <span class="hljs-string">",1)"</span>);
+            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (use3d &amp;&amp; (i === <span class="hljs-string">'translate'</span>)) {
+              re.push(i + <span class="hljs-string">"3d("</span> + <span class="hljs-keyword">this</span>[i] + <span class="hljs-string">",0)"</span>);
+            } <span class="hljs-keyword">else</span> {
+              re.push(i + <span class="hljs-string">"("</span> + <span class="hljs-keyword">this</span>[i] + <span class="hljs-string">")"</span>);
+            }
+          }
+        }
+      }
+
+      <span class="hljs-keyword">return</span> re.join(<span class="hljs-string">" "</span>);
+    }
+  };
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">callOrQueue</span><span class="hljs-params">(self, queue, fn)</span> {</span>
+    <span class="hljs-keyword">if</span> (queue === <span class="hljs-literal">true</span>) {
+      self.queue(fn);
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (queue) {
+      self.queue(queue, fn);
+    } <span class="hljs-keyword">else</span> {
+      self.each(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+                fn.call(<span class="hljs-keyword">this</span>);
+            });
+    }
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-37">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-37">&#182;</a>
+              </div>
+              <h3 id="getproperties-dict-">getProperties(dict)</h3>
+<p>Returns properties (for <code>transition-property</code>) for dictionary <code>props</code>. The
+value of <code>props</code> is what you would expect in <code>$.css(...)</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getProperties</span><span class="hljs-params">(props)</span> {</span>
+    <span class="hljs-keyword">var</span> re = [];
+
+    $.each(props, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(key)</span> {</span>
+      key = $.camelCase(key); <span class="hljs-comment">// Convert "text-align" =&gt; "textAlign"</span>
+      key = $.transit.propertyMap[key] || $.cssProps[key] || key;
+      key = uncamel(key); <span class="hljs-comment">// Convert back to dasherized</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-38">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-38">&#182;</a>
+              </div>
+              <p>Get vendor specify propertie</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> (support[key])
+        key = uncamel(support[key]);
+
+      <span class="hljs-keyword">if</span> ($.inArray(key, re) === -<span class="hljs-number">1</span>) { re.push(key); }
+    });
+
+    <span class="hljs-keyword">return</span> re;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-39">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-39">&#182;</a>
+              </div>
+              <h3 id="gettransition-">getTransition()</h3>
+<p>Returns the transition string to be used for the <code>transition</code> CSS property.</p>
+<p>Example:</p>
+<pre><code>getTransition({ opacity: <span class="hljs-number">1</span>, rotate: <span class="hljs-number">30</span> }, <span class="hljs-number">500</span>, <span class="hljs-string">'ease'</span>);
+<span class="hljs-comment">//=&gt; 'opacity 500ms ease, -webkit-transform 500ms ease'</span>
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getTransition</span><span class="hljs-params">(properties, duration, easing, delay)</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-40">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-40">&#182;</a>
+              </div>
+              <p>Get the CSS properties needed.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> props = getProperties(properties);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-41">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-41">&#182;</a>
+              </div>
+              <p>Account for aliases (<code>in</code> =&gt; <code>ease-in</code>).</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> ($.cssEase[easing]) { easing = $.cssEase[easing]; }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-42">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-42">&#182;</a>
+              </div>
+              <p>Build the duration/easing/delay attributes for it.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> attribs = <span class="hljs-string">''</span> + toMS(duration) + <span class="hljs-string">' '</span> + easing;
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">parseInt</span>(delay, <span class="hljs-number">10</span>) &gt; <span class="hljs-number">0</span>) { attribs += <span class="hljs-string">' '</span> + toMS(delay); }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-43">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-43">&#182;</a>
+              </div>
+              <p>For more properties, add them this way:
+“margin 200ms ease, padding 200ms ease, …”</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> transitions = [];
+    $.each(props, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(i, name)</span> {</span>
+      transitions.push(name + <span class="hljs-string">' '</span> + attribs);
+    });
+
+    <span class="hljs-keyword">return</span> transitions.join(<span class="hljs-string">', '</span>);
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-44">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-44">&#182;</a>
+              </div>
+              <h2 id="-fn-transition">$.fn.transition</h2>
+<p>Works like $.fn.animate(), but uses CSS transitions.</p>
+<pre><code>$(<span class="hljs-string">"..."</span>).transition({ opacity: <span class="hljs-number">0.1</span>, scale: <span class="hljs-number">0.3</span> });
+
+<span class="hljs-comment">// Specific duration</span>
+$(<span class="hljs-string">"..."</span>).transition({ opacity: <span class="hljs-number">0.1</span>, scale: <span class="hljs-number">0.3</span> }, <span class="hljs-number">500</span>);
+
+<span class="hljs-comment">// With duration and easing</span>
+$(<span class="hljs-string">"..."</span>).transition({ opacity: <span class="hljs-number">0.1</span>, scale: <span class="hljs-number">0.3</span> }, <span class="hljs-number">500</span>, <span class="hljs-string">'in'</span>);
+
+<span class="hljs-comment">// With callback</span>
+$(<span class="hljs-string">"..."</span>).transition({ opacity: <span class="hljs-number">0.1</span>, scale: <span class="hljs-number">0.3</span> }, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span> ... });
+
+<span class="hljs-comment">// With everything</span>
+$(<span class="hljs-string">"..."</span>).transition({ opacity: <span class="hljs-number">0.1</span>, scale: <span class="hljs-number">0.3</span> }, <span class="hljs-number">500</span>, <span class="hljs-string">'in'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span> ... });
+
+<span class="hljs-comment">// Alternate syntax</span>
+$(<span class="hljs-string">"..."</span>).transition({
+  opacity: <span class="hljs-number">0.1</span>,
+  duration: <span class="hljs-number">200</span>,
+  delay: <span class="hljs-number">40</span>,
+  easing: <span class="hljs-string">'in'</span>,
+  complete: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span> <span class="hljs-comment">/* ... */</span> }
+ });
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  $.fn.transition = $.fn.transit = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(properties, duration, easing, callback)</span> {</span>
+    <span class="hljs-keyword">var</span> self  = <span class="hljs-keyword">this</span>;
+    <span class="hljs-keyword">var</span> delay = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> queue = <span class="hljs-literal">true</span>;
+
+    <span class="hljs-keyword">var</span> theseProperties = jQuery.extend(<span class="hljs-literal">true</span>, {}, properties);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-45">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-45">&#182;</a>
+              </div>
+              <p>Account for <code>.transition(properties, callback)</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> duration === <span class="hljs-string">'function'</span>) {
+      callback = duration;
+      duration = <span class="hljs-literal">undefined</span>;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-46">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-46">&#182;</a>
+              </div>
+              <p>Account for <code>.transition(properties, options)</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> duration === <span class="hljs-string">'object'</span>) {
+      easing = duration.easing;
+      delay = duration.delay || <span class="hljs-number">0</span>;
+      queue = <span class="hljs-keyword">typeof</span> duration.queue === <span class="hljs-string">"undefined"</span> ? <span class="hljs-literal">true</span> : duration.queue;
+      callback = duration.complete;
+      duration = duration.duration;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-47">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-47">&#182;</a>
+              </div>
+              <p>Account for <code>.transition(properties, duration, callback)</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> easing === <span class="hljs-string">'function'</span>) {
+      callback = easing;
+      easing = <span class="hljs-literal">undefined</span>;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-48">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-48">&#182;</a>
+              </div>
+              <p>Alternate syntax.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> theseProperties.easing !== <span class="hljs-string">'undefined'</span>) {
+      easing = theseProperties.easing;
+      <span class="hljs-keyword">delete</span> theseProperties.easing;
+    }
+
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> theseProperties.duration !== <span class="hljs-string">'undefined'</span>) {
+      duration = theseProperties.duration;
+      <span class="hljs-keyword">delete</span> theseProperties.duration;
+    }
+
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> theseProperties.complete !== <span class="hljs-string">'undefined'</span>) {
+      callback = theseProperties.complete;
+      <span class="hljs-keyword">delete</span> theseProperties.complete;
+    }
+
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> theseProperties.queue !== <span class="hljs-string">'undefined'</span>) {
+      queue = theseProperties.queue;
+      <span class="hljs-keyword">delete</span> theseProperties.queue;
+    }
+
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> theseProperties.delay !== <span class="hljs-string">'undefined'</span>) {
+      delay = theseProperties.delay;
+      <span class="hljs-keyword">delete</span> theseProperties.delay;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-49">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-49">&#182;</a>
+              </div>
+              <p>Set defaults. (<code>400</code> duration, <code>ease</code> easing)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> duration === <span class="hljs-string">'undefined'</span>) { duration = $.fx.speeds._default; }
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> easing === <span class="hljs-string">'undefined'</span>)   { easing = $.cssEase._default; }
+
+    duration = toMS(duration);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-50">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-50">&#182;</a>
+              </div>
+              <p>Build the <code>transition</code> property.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> transitionValue = getTransition(theseProperties, duration, easing, delay);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-51">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-51">&#182;</a>
+              </div>
+              <p>Compute delay until callback.
+If this becomes 0, don’t bother setting the transition property.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> work = $.transit.enabled &amp;&amp; support.transition;
+    <span class="hljs-keyword">var</span> i = work ? (<span class="hljs-built_in">parseInt</span>(duration, <span class="hljs-number">10</span>) + <span class="hljs-built_in">parseInt</span>(delay, <span class="hljs-number">10</span>)) : <span class="hljs-number">0</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-52">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-52">&#182;</a>
+              </div>
+              <p>If there’s nothing to do…</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (i === <span class="hljs-number">0</span>) {
+      <span class="hljs-keyword">var</span> fn = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(next)</span> {</span>
+        self.css(theseProperties);
+        <span class="hljs-keyword">if</span> (callback) { callback.apply(self); }
+        <span class="hljs-keyword">if</span> (next) { next(); }
+      };
+
+      callOrQueue(self, queue, fn);
+      <span class="hljs-keyword">return</span> self;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-53">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-53">&#182;</a>
+              </div>
+              <p>Save the old transitions of each element so we can restore it later.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> oldTransitions = {};
+
+    <span class="hljs-keyword">var</span> run = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(nextCall)</span> {</span>
+      <span class="hljs-keyword">var</span> bound = <span class="hljs-literal">false</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-54">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-54">&#182;</a>
+              </div>
+              <p>Prepare the callback.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> cb = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+        <span class="hljs-keyword">if</span> (bound) { self.unbind(transitionEnd, cb); }
+
+        <span class="hljs-keyword">if</span> (i &gt; <span class="hljs-number">0</span>) {
+          self.each(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+            <span class="hljs-keyword">this</span>.style[support.transition] = (oldTransitions[<span class="hljs-keyword">this</span>] || <span class="hljs-literal">null</span>);
+          });
+        }
+
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> callback === <span class="hljs-string">'function'</span>) { callback.apply(self); }
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> nextCall === <span class="hljs-string">'function'</span>) { nextCall(); }
+      };
+
+      <span class="hljs-keyword">if</span> ((i &gt; <span class="hljs-number">0</span>) &amp;&amp; (transitionEnd) &amp;&amp; ($.transit.useTransitionEnd)) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-55">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-55">&#182;</a>
+              </div>
+              <p>Use the ‘transitionend’ event if it’s available.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        bound = <span class="hljs-literal">true</span>;
+        self.bind(transitionEnd, cb);
+      } <span class="hljs-keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-56">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-56">&#182;</a>
+              </div>
+              <p>Fallback to timers if the ‘transitionend’ event isn’t supported.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        window.setTimeout(cb, i);
+      }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-57">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-57">&#182;</a>
+              </div>
+              <p>Apply transitions.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      self.each(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+        <span class="hljs-keyword">if</span> (i &gt; <span class="hljs-number">0</span>) {
+          <span class="hljs-keyword">this</span>.style[support.transition] = transitionValue;
+        }
+        $(<span class="hljs-keyword">this</span>).css(properties);
+      });
+    };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-58">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-58">&#182;</a>
+              </div>
+              <p>Defer running. This allows the browser to paint any pending CSS it hasn’t
+painted yet before doing the transitions.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> deferredRun = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(next)</span> {</span>
+        <span class="hljs-keyword">this</span>.offsetWidth; <span class="hljs-comment">// force a repaint</span>
+        run(next);
+    };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-59">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-59">&#182;</a>
+              </div>
+              <p>Use jQuery’s fx queue.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    callOrQueue(self, queue, deferredRun);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-60">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-60">&#182;</a>
+              </div>
+              <p>Chainability.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+  };
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">registerCssHook</span><span class="hljs-params">(prop, isPixels)</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-61">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-61">&#182;</a>
+              </div>
+              <p>For certain properties, the ‘px’ should not be implied.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (!isPixels) { $.cssNumber[prop] = <span class="hljs-literal">true</span>; }
+
+    $.transit.propertyMap[prop] = support.transform;
+
+    $.cssHooks[prop] = {
+      get: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(elem)</span> {</span>
+        <span class="hljs-keyword">var</span> t = $(elem).css(<span class="hljs-string">'transit:transform'</span>);
+        <span class="hljs-keyword">return</span> t.get(prop);
+      },
+
+      set: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(elem, value)</span> {</span>
+        <span class="hljs-keyword">var</span> t = $(elem).css(<span class="hljs-string">'transit:transform'</span>);
+        t.setFromString(prop, value);
+
+        $(elem).css({ <span class="hljs-string">'transit:transform'</span>: t });
+      }
+    };
+
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-62">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-62">&#182;</a>
+              </div>
+              <h3 id="uncamel-str-">uncamel(str)</h3>
+<p>Converts a camelcase string to a dasherized string.
+(<code>marginLeft</code> =&gt; <code>margin-left</code>)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">uncamel</span><span class="hljs-params">(str)</span> {</span>
+    <span class="hljs-keyword">return</span> str.replace(<span class="hljs-regexp">/([A-Z])/g</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(letter)</span> {</span> <span class="hljs-keyword">return</span> <span class="hljs-string">'-'</span> + letter.toLowerCase(); });
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-63">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-63">&#182;</a>
+              </div>
+              <h3 id="unit-number-unit-">unit(number, unit)</h3>
+<p>Ensures that number <code>number</code> has a unit. If no unit is found, assume the
+default is <code>unit</code>.</p>
+<pre><code>unit(<span class="hljs-number">2</span>, <span class="hljs-string">'px'</span>)          <span class="hljs-comment">//=&gt; "2px"</span>
+unit(<span class="hljs-string">"30deg"</span>, <span class="hljs-string">'rad'</span>)   <span class="hljs-comment">//=&gt; "30deg"</span>
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">unit</span><span class="hljs-params">(i, units)</span> {</span>
+    <span class="hljs-keyword">if</span> ((<span class="hljs-keyword">typeof</span> i === <span class="hljs-string">"string"</span>) &amp;&amp; (!i.match(<span class="hljs-regexp">/^[\-0-9\.]+$/</span>))) {
+      <span class="hljs-keyword">return</span> i;
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span> <span class="hljs-string">""</span> + i + units;
+    }
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-64">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-64">&#182;</a>
+              </div>
+              <h3 id="toms-duration-">toMS(duration)</h3>
+<p>Converts given <code>duration</code> to a millisecond string.</p>
+<p>toMS(‘fast’) =&gt; $.fx.speeds[i] =&gt; “200ms”
+toMS(‘normal’) //=&gt; $.fx.speeds._default =&gt; “400ms”
+toMS(10) //=&gt; ‘10ms’
+toMS(‘100ms’) //=&gt; ‘100ms’  </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">toMS</span><span class="hljs-params">(duration)</span> {</span>
+    <span class="hljs-keyword">var</span> i = duration;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-65">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-65">&#182;</a>
+              </div>
+              <p>Allow string durations like ‘fast’ and ‘slow’, without overriding numeric values.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> i === <span class="hljs-string">'string'</span> &amp;&amp; (!i.match(<span class="hljs-regexp">/^[\-0-9\.]+/</span>))) { i = $.fx.speeds[i] || $.fx.speeds._default; }
+
+    <span class="hljs-keyword">return</span> unit(i, <span class="hljs-string">'ms'</span>);
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-66">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-66">&#182;</a>
+              </div>
+              <p>Export some functions for testable-ness.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  $.transit.getTransitionValue = getTransition;
+
+  <span class="hljs-keyword">return</span> $;
+}));</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

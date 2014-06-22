@@ -7,7 +7,7 @@ MINIFIED ?= jquery.transit.min.js
 # The version string (eg, "v0.9.9") -- used for building distributions
 VERSION := $(shell cat ${SOURCE} | grep version: | sed "s/.*\"\(.*\)\".*/\1/")
 
-STATUS := @echo "\n\033[32m---->\033[0m"
+STATUS := @echo "\n\033[32m=>\033[0m"
 
 # -------
 # Default
@@ -17,18 +17,19 @@ all: \
 	source minify
 
 # --------------------
-# Annotation via Rocco
+# Annotation via Docco
 # --------------------
 
 source: \
 	source/index.html
 
 source/index.html: ${SOURCE}
-	@which rocco >/dev/null || (echo " ! Error: You need Rocco to build an annotated source document. Try: 'gem install fl-rocco'" && exit 1)
+	@which docco >/dev/null || (echo " ! You need docco to build an annotated source document. Try: 'npm install -g docco'" && exit 1)
 	${STATUS} Generating annotated source...
-	mkdir -p source/
-	rocco $< > /dev/null
-	mv $(patsubst %.js, %.html, $<) $@
+	rm -rf source
+	docco $< > /dev/null
+	mv docs source
+	mv source/*.html source/index.html
 
 # ---------------
 # JS minification
@@ -38,10 +39,10 @@ minify: \
 	${MINIFIED}
 
 ${MINIFIED}: ${SOURCE}
-	@which yuicompressor >/dev/null || (echo " ! Error: You need YUI compressor to minify .css files. Try: 'gem install yui-compressor'" && exit 1)
+	@which uglifyjs >/dev/null || (echo " ! uglifyjs is needed to compress .js files. Try: 'npm install -g uglify-js'" && exit 1)
 	${STATUS} Minifying...
 	@rm -f $@
-	yuicompressor $< > $@
+	uglifyjs -m < $< > $@
 	chmod a-w $@
 
 # ------------------------------
