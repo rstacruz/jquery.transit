@@ -7,31 +7,23 @@ MINIFIED ?= jquery.transit.min.js
 # The version string (eg, "v0.9.9") -- used for building distributions
 VERSION := $(shell cat ${SOURCE} | grep version: | sed "s/.*\"\(.*\)\".*/\1/")
 
-STATUS := @echo "\n\033[32m=>\033[0m"
+STATUS := @echo "\n\033[32m->\033[0m"
 
-# -------
-# Default
-# -------
+all: annotate minify
 
-all: \
-	source minify
+# Annotations
+# -----------
 
-# --------------------
-# Annotation via Docco
-# --------------------
-
-source: \
-	source/index.html
+annotate: source/index.html
 
 source/index.html: ${SOURCE}
-	@which docco >/dev/null || (echo " ! You need docco to build an annotated source document. Try: 'npm install -g docco'" && exit 1)
 	${STATUS} Generating annotated source...
 	rm -rf source
-	docco $< > /dev/null
+	npm install
+	./node_modules/.bin/docco $< > /dev/null
 	mv docs source
 	mv source/*.html source/index.html
 
-# ---------------
 # JS minification
 # ---------------
 
@@ -39,13 +31,12 @@ minify: \
 	${MINIFIED}
 
 ${MINIFIED}: ${SOURCE}
-	@which uglifyjs >/dev/null || (echo " ! uglifyjs is needed to compress .js files. Try: 'npm install -g uglify-js'" && exit 1)
 	${STATUS} Minifying...
 	@rm -f $@
-	uglifyjs -m < $< > $@
+	npm install
+	./node_modules/.bin/uglifyjs -m < $< > $@
 	chmod a-w $@
 
-# ------------------------------
 # Creating distribution versions
 # ------------------------------
 
@@ -63,7 +54,6 @@ dist/jquery.transit-${VERSION}.min.js: ${MINIFIED}
 	cp $< $@
 	chmod a-w $@
 
-# -----
 # Clean
 # -----
 
