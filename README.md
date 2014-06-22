@@ -17,6 +17,14 @@ Just include this script after jQuery. Requires jQuery 1.4+.
 <script src='jquery.transit.js'></script>
 ```
 
+It is also available via [bower] and [npm].
+
+    $ bower install --save jquery.transit
+    $ npm install --save jquery.transit
+
+[bower]: http://bower.io/search/?q=jquery.transit
+[npm]: http://npmjs.org/package/jquery.transit
+
 Transformations
 ---------------
 
@@ -135,17 +143,15 @@ __[jQuery CSS3 rotate](http://plugins.jquery.com/project/Rotate)__
 Acknowledgements
 ----------------
 
-© 2011, Rico Sta. Cruz. Released under the [MIT 
+© 2011, 2014, Rico Sta. Cruz. Released under the [MIT 
 License](http://www.opensource.org/licenses/mit-license.php).
 
 jQuery Transit is authored and maintained by [Rico Sta. Cruz][rsc] with help 
-from it's [contributors][c]. It is sponsored by my startup, [Sinefunc, Inc][sf].
+from it's [contributors][c].
 
  * [My website](http://ricostacruz.com) (ricostacruz.com)
- * [Sinefunc, Inc.](http://sinefunc.com) (sinefunc.com)
  * [Github](http://github.com/rstacruz) (@rstacruz)
  * [Twitter](http://twitter.com/rstacruz) (@rstacruz)
 
 [rsc]: http://ricostacruz.com
 [c]:   http://github.com/rstacruz/jquery.transit/contributors
-[sf]:  http://sinefunc.com
