@@ -1,0 +1,16 @@
+{
+  "name": "site",
+  "version": "0.0.0",
+  "description": "",
+  "main": "",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rstacruz/jquery.transit.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "uglify-js": "^2.4.14",
+    "docco": "^0.6.3"
+  }
+}
