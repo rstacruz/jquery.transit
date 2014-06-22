@@ -1,4 +1,4 @@
-## v0.9.10 - unreleased
+## v0.9.11 - June 23, 2014
 
  * Add support for `scaleX` and `scaleY`. (@YousefED, #192)
  * Add support for npm.
@@ -13,9 +13,8 @@ Also:
  * Add `easeInCubic` easing. (@emagnier, @willblackmore, #161, #142)
  * Add test cases for jQuery 2.0+. (@hankhero, #155)
 
-To do:
-
- * Update bootstrap compatibility (#143, #67)
+The version `0.9.10` was not officially released as it was published prematurely
+to npm.
 
 ## v0.9.9 - Dec 14, 2012
 
