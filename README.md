@@ -149,10 +149,10 @@ __Bugs and requests__: submit them through the project's issues tracker.<br>
 [![Issues](http://img.shields.io/github/issues/rstacruz/jquery.transit.svg)]( https://github.com/rstacruz/jquery.transit/issues )
 
 __Questions__: ask them at StackOverflow with the tag *jquery-transit*.<br>
-[![StackOverflow](http://img.shields.io/badge/stackoverflow-jquery--transit-brightgreen.svg)]( http://stackoverflow.com/questions/tagged/jquery-transit )
+[![StackOverflow](http://img.shields.io/badge/stackoverflow-jquery--transit-blue.svg)]( http://stackoverflow.com/questions/tagged/jquery-transit )
 
 __Chat__: join us at gitter.im.<br>
-[![Chat](http://img.shields.io/badge/gitter-rstacruz_/_jquery.transit-brightgreen.svg)]( https://gitter.im/rstacruz/jquery.transit )
+[![Chat](http://img.shields.io/badge/gitter-rstacruz / jquery.transit-blue.svg)]( https://gitter.im/rstacruz/jquery.transit )
 
 Acknowledgements
 ----------------
