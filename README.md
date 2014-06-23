@@ -152,7 +152,7 @@ __Questions__: ask them at StackOverflow with the tag *jquery-transit*.<br>
 [![StackOverflow](http://img.shields.io/badge/stackoverflow-jquery--transit-brightgreen.svg)]( http://stackoverflow.com/questions/tagged/jquery-transit )
 
 __Chat__: join us at gitter.im.<br>
-[![Chat](http://img.shields.io/badge/gitter.im-rstacruz/jquery.transit-brightgreen.svg)]( https://gitter.im/rstacruz/jquery.transit )
+[![Chat](http://img.shields.io/badge/gitter-rstacruz_/_jquery.transit-brightgreen.svg)]( https://gitter.im/rstacruz/jquery.transit )
 
 Acknowledgements
 ----------------
