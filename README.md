@@ -10,7 +10,7 @@ examples.
 Usage
 -----
 
-Just include this script after jQuery. Requires jQuery 1.4+.
+Just include [jquery.transit.js] after jQuery. Requires jQuery 1.4+.
 
 ``` html
 <script src='jquery.js'></script>
@@ -22,8 +22,10 @@ It is also available via [bower] and [npm].
     $ bower install --save jquery.transit
     $ npm install --save jquery.transit
 
+[![npm version](https://img.shields.io/npm/v/jquery.transit.png)](https://npmjs.org/package/jquery.transit "View this project on npm")
 [bower]: http://bower.io/search/?q=jquery.transit
 [npm]: http://npmjs.org/package/jquery.transit
+[jquery.transit.js]: https://github.com/rstacruz/jquery.transit/blob/master/jquery.transit.js
 
 Transformations
 ---------------
@@ -139,6 +141,16 @@ __[jQuery CSS3 rotate](http://plugins.jquery.com/project/Rotate)__
 
 * Pros: simply provides rotation.
 * Cons: simply provides rotation. No transitions support.
+
+Support
+-------
+
+ * __Bugs and requests__: submit them at the project's issues tracker.<br>
+ https://github.com/rstacruz/jquery.transit/issues/
+ * __Questions__: ask them at StackOverflow with the tag *jquery-transit*.<br>
+ http://stackoverflow.com/questions/tagged/jquery-transit
+ * __Chat__: join us at gitter.im.<br>
+ https://gitter.im/rstacruz/jquery.transit
 
 Acknowledgements
 ----------------
