@@ -145,12 +145,12 @@ __[jQuery CSS3 rotate](http://plugins.jquery.com/project/Rotate)__
 Support
 -------
 
- * __Bugs and requests__: submit them at the project's issues tracker.<br>
- https://github.com/rstacruz/jquery.transit/issues/
- * __Questions__: ask them at StackOverflow with the tag *jquery-transit*.<br>
- http://stackoverflow.com/questions/tagged/jquery-transit
- * __Chat__: join us at gitter.im.<br>
- https://gitter.im/rstacruz/jquery.transit
+ * __Bugs and requests__: submit them through the project's issues tracker.
+  [![Issues](http://img.shields.io/github/issues/rstacruz/jquery.transit.svg)]( https://github.com/rstacruz/jquery.transit/issues )
+ * __Questions__: ask them at StackOverflow with the tag *jquery-transit*.
+  [![StackOverflow](http://img.shields.io/badge/stackoverflow-jquery--transit-brightgreen.svg)]( http://stackoverflow.com/questions/tagged/jquery-transit )
+ * __Chat__: join us at gitter.im.
+  [![Chat](http://img.shields.io/badge/gitter.im-rstacruz/jquery.transit-brightgreen.svg)]( https://gitter.im/rstacruz/jquery.transit )
 
 Acknowledgements
 ----------------
