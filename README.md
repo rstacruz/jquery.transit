@@ -157,11 +157,11 @@ __Chat__: join us at gitter.im.<br>
 Acknowledgements
 ----------------
 
-© 2011, 2014, Rico Sta. Cruz. Released under the [MIT 
+**jQuery Transit** © 2011, 2014, Rico Sta. Cruz. Released under the [MIT 
 License](http://www.opensource.org/licenses/mit-license.php).
 
-jQuery Transit is authored and maintained by [Rico Sta. Cruz][rsc] with help 
-from it's [contributors][c].
+Authored and maintained by [Rico Sta. Cruz][rsc] with help from
+[contributors][c].
 
  * [My website](http://ricostacruz.com) (ricostacruz.com)
  * [Github](http://github.com/rstacruz) (@rstacruz)
