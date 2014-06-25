@@ -22,7 +22,6 @@ It is also available via [bower] and [npm].
     $ bower install --save jquery.transit
     $ npm install --save jquery.transit
 
-[![npm version](https://img.shields.io/npm/v/jquery.transit.png)](https://npmjs.org/package/jquery.transit "View this project on npm")
 [bower]: http://bower.io/search/?q=jquery.transit
 [npm]: http://npmjs.org/package/jquery.transit
 [jquery.transit.js]: https://github.com/rstacruz/jquery.transit/blob/master/jquery.transit.js
@@ -154,18 +153,17 @@ __Questions__: ask them at StackOverflow with the tag *jquery-transit*.<br>
 __Chat__: join us at gitter.im.<br>
 [![Chat](http://img.shields.io/badge/gitter-rstacruz / jquery.transit-brightgreen.svg)]( https://gitter.im/rstacruz/jquery.transit )
 
-Acknowledgements
-----------------
+Thanks
+------
 
-**jQuery Transit** © 2011, 2014, Rico Sta. Cruz. Released under the [MIT 
-License](http://www.opensource.org/licenses/mit-license.php).
+**jQuery Transit** © 2011-2014+, Rico Sta. Cruz. Released under the [MIT License].<br>
+Authored and maintained by Rico Sta. Cruz with help from [contributors].
 
-Authored and maintained by [Rico Sta. Cruz][rsc] with help from
-[contributors][c].
+> [ricostacruz.com](http://ricostacruz.com) &nbsp;&middot;&nbsp;
+> GitHub [@rstacruz](https://github.com/rstacruz) &nbsp;&middot;&nbsp;
+> Twitter [@rstacruz](https://twitter.com/rstacruz)
 
- * [My website](http://ricostacruz.com) (ricostacruz.com)
- * [Github](http://github.com/rstacruz) (@rstacruz)
- * [Twitter](http://twitter.com/rstacruz) (@rstacruz)
+[MIT License]: http://mit-license.org/
+[contributors]: http://github.com/rstacruz/jquery.transit/contributors
 
-[rsc]: http://ricostacruz.com
-[c]:   http://github.com/rstacruz/jquery.transit/contributors
+[![npm version](https://img.shields.io/npm/v/jquery.transit.png)](https://npmjs.org/package/jquery.transit "View this project on npm")
