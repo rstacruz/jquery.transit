@@ -550,7 +550,7 @@
     var delay = 0;
     var queue = true;
 
-    var theseProperties = jQuery.extend(true, {}, properties);
+    var theseProperties = $.extend(true, {}, properties);
 
     // Account for `.transition(properties, callback)`.
     if (typeof duration === 'function') {
