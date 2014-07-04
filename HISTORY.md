@@ -1,3 +1,7 @@
+## v0.9.12 - unreleased
+
+ * Fix browserify builds by using the correct jQuery. (@dminkovsky, #201)
+
 ## v0.9.11 - June 23, 2014
 
  * Add support for `scaleX` and `scaleY`. (@YousefED, #192)
