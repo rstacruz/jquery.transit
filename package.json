@@ -1,6 +1,6 @@
 {
   "name": "jquery.transit",
-  "version": "0.9.11",
+  "version": "0.9.12",
   "description": "Smooth CSS3 transitions and transformations for jQuery.",
   "main": "jquery.transit.js",
   "directories": {

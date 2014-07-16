@@ -1,6 +1,7 @@
-## v0.9.12 - unreleased
+## v0.9.12 - July 17, 2014
 
  * Fix browserify builds by using the correct jQuery. (@dminkovsky, #201)
+ * Fix properties resetting after a transition. (#204, #205)
 
 ## v0.9.11 - June 23, 2014
 

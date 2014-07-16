@@ -11,6 +11,7 @@ Making a new release:
     bump *.json *.js     # update version number
     npm publish          # release to npm
     git release v1.0.0   # release to github/bower
+    cd site && make      # update the site
 
 Managing the site
 -----------------
