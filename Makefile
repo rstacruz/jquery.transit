@@ -9,7 +9,7 @@ VERSION := $(shell cat ${SOURCE} | grep version: | sed "s/.*\"\(.*\)\".*/\1/")
 
 STATUS := @echo "\n\033[32m->\033[0m"
 
-all: annotate minify
+all: update annotate minify
 
 # Annotations
 # -----------
@@ -27,8 +27,7 @@ source/index.html: ${SOURCE}
 # JS minification
 # ---------------
 
-minify: \
-	${MINIFIED}
+minify: ${MINIFIED}
 
 ${MINIFIED}: ${SOURCE}
 	${STATUS} Minifying...
@@ -66,10 +65,13 @@ clean:
 # If the site is cloned as a subdirectory of the main repo, we can just
 # assume the main file is there, and fish it out with `make update`
 
-update:
-	${STATUS} Updating from main repo...
-	cp ../jquery.transit.js ${SOURCE}
+update: ${SOURCE} ./test
 
+${SOURCE}: ../jquery.transit.js
+	${STATUS} Updating from main repo...
+	cp $@ $<
+
+./test: ../test
 	${STATUS} Updating tests...
 	rm -rf test/
 	cp -R ../test/ ./test/
