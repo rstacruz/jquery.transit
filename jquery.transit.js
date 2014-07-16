@@ -22,7 +22,7 @@
 }(this, function($) {
 
   $.transit = {
-    version: "0.9.11",
+    version: "0.9.12",
 
     // Map of $.css() keys to values for 'transitionProperty'.
     // See https://developer.mozilla.org/en/CSS/CSS_transitions#Properties_that_can_be_animated
@@ -550,7 +550,7 @@
     var delay = 0;
     var queue = true;
 
-    var theseProperties = jQuery.extend(true, {}, properties);
+    var theseProperties = $.extend(true, {}, properties);
 
     // Account for `.transition(properties, callback)`.
     if (typeof duration === 'function') {
@@ -659,7 +659,7 @@
         if (i > 0) {
           this.style[support.transition] = transitionValue;
         }
-        $(this).css(properties);
+        $(this).css(theseProperties);
       });
     };
 

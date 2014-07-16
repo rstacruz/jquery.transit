@@ -54,7 +54,7 @@
 }(<span class="hljs-keyword">this</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($)</span> {</span>
 
   $.transit = {
-    version: <span class="hljs-string">"0.9.11"</span>,</pre></div></div>
+    version: <span class="hljs-string">"0.9.12"</span>,</pre></div></div>
             
         </li>
         
@@ -1074,7 +1074,7 @@ $(<span class="hljs-string">"..."</span>).transition({
     <span class="hljs-keyword">var</span> delay = <span class="hljs-number">0</span>;
     <span class="hljs-keyword">var</span> queue = <span class="hljs-literal">true</span>;
 
-    <span class="hljs-keyword">var</span> theseProperties = jQuery.extend(<span class="hljs-literal">true</span>, {}, properties);</pre></div></div>
+    <span class="hljs-keyword">var</span> theseProperties = $.extend(<span class="hljs-literal">true</span>, {}, properties);</pre></div></div>
             
         </li>
         
@@ -1341,7 +1341,7 @@ If this becomes 0, don’t bother setting the transition property.</p>
         <span class="hljs-keyword">if</span> (i &gt; <span class="hljs-number">0</span>) {
           <span class="hljs-keyword">this</span>.style[support.transition] = transitionValue;
         }
-        $(<span class="hljs-keyword">this</span>).css(properties);
+        $(<span class="hljs-keyword">this</span>).css(theseProperties);
       });
     };</pre></div></div>
             
