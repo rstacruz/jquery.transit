@@ -616,6 +616,12 @@
     // If there's nothing to do...
     if (i === 0) {
       var fn = function(next) {
+        //to correct a bug with the GALAXY S3 native browser
+        //if never you apply a transtion with duration 0ms after an transition with a duration != 0ms
+        //with only '$(this).css(theseProperties);' the browser does a transition on GALAXY S3 native browser (webkit custom by Samsung)
+        //Adding this.style[support.transition] = transitionValue; makes the browser doing the transition with duration 0ms as expected, and no bug has been detected over other browsers 
+        //test on WP8, ios7-safari, android-2.3, android-chrome, android-firefox, computer-chrome, computer-firefox
+        this.style[support.transition] = transitionValue;
         self.css(theseProperties);
         if (callback) { callback.apply(self); }
         if (next) { next(); }
@@ -656,9 +662,12 @@
 
       // Apply transitions.
       self.each(function() {
-        if (i > 0) {
-          this.style[support.transition] = transitionValue;
-        }
+        //Remove the i > 0 conditions, to correct a bug with the GALAXY S3 native browser - 
+        //if never you apply a transtion with duration 0ms after an transition with a duration != 0ms
+        //with only '$(this).css(theseProperties);' the browser does a transition on GALAXY S3 native browser (webkit custom by Samsung)
+        //Adding this.style[support.transition] = transitionValue; makes the browser doing the transition with duration 0ms as expected, and no bug has been detected over other browsers 
+        //test on WP8, ios7-safari, android-2.3, android-chrome, android-firefox, computer-chrome, computer-firefox
+        this.style[support.transition] = transitionValue;
         $(this).css(theseProperties);
       });
     };
