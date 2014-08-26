@@ -114,7 +114,7 @@ different browsers.
 Alternatives
 ------------
 
-__[Velocity.js](https://velocityjs.org)__ (recommended!)
+__[Velocity.js](http://julian.com/research/velocity/)__ (recommended!)
 
  * Pros: optimized for situations with hundreds of simultaneous transitions. Lots of extra features.
 
