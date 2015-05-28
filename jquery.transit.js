@@ -503,17 +503,29 @@
     var props = getProperties(properties);
 
     // Account for aliases (`in` => `ease-in`).
-    if ($.cssEase[easing]) { easing = $.cssEase[easing]; }
+    //if ($.cssEase[easing]) { easing = $.cssEase[easing]; }
 
     // Build the duration/easing/delay attributes for it.
-    var attribs = '' + toMS(duration) + ' ' + easing;
-    if (parseInt(delay, 10) > 0) { attribs += ' ' + toMS(delay); }
+    //var attribs = '' + toMS(duration) + ' ' + easing;
+    //if (parseInt(delay, 10) > 0) { attribs += ' ' + toMS(delay); }
 
     // For more properties, add them this way:
     // "margin 200ms ease, padding 200ms ease, ..."
-    var transitions = [];
+	
+	var is_duration_array = typeof duration === 'object' ? true : false;
+	var is_easing_array = typeof easing === 'object' ? true : false;
+	var is_delay_array = typeof delay === 'object' ? true : false;
+	
+    var transitions = [], attr_duration = '', attr_easing = '', attr_delay = '';
     $.each(props, function(i, name) {
-      transitions.push(name + ' ' + attribs);
+		if(duration) attr_duration = toMS(is_duration_array ? duration[i] : duration);
+		if(easing){
+			attr_easing = is_easing_array ? easing[i] : easing;
+			if($.cssEase[attr_easing]) attr_easing = $.cssEase[attr_easing];
+		}
+		if(delay) attr_delay = toMS(is_delay_array ? delay[i] : delay);
+		
+      	transitions.push(name + ' ' + attr_duration + ' ' + attr_easing + ' ' + attr_delay);
     });
 
     return transitions.join(', ');
@@ -603,7 +615,7 @@
     if (typeof duration === 'undefined') { duration = $.fx.speeds._default; }
     if (typeof easing === 'undefined')   { easing = $.cssEase._default; }
 
-    duration = toMS(duration);
+    //duration = toMS(duration);
 
     // Build the `transition` property.
     var transitionValue = getTransition(theseProperties, duration, easing, delay);
