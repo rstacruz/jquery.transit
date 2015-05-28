@@ -549,6 +549,7 @@
     var self  = this;
     var delay = 0;
     var queue = true;
+    var windowTimeout;
 
     var theseProperties = $.extend(true, {}, properties);
 
@@ -651,7 +652,7 @@
         self.bind(transitionEnd, cb);
       } else {
         // Fallback to timers if the 'transitionend' event isn't supported.
-        window.setTimeout(cb, i);
+        windowTimeout = window.setTimeout(cb, i);
       }
 
       // Apply transitions.
@@ -672,6 +673,17 @@
 
     // Use jQuery's fx queue.
     callOrQueue(self, queue, deferredRun);
+
+    // Somethink like jQuery animation stop.
+    self.stop = function () {
+      if($.transit.useTransitionEnd) {
+        self.unbind(transitionEnd);
+      } else {
+        clearTimeout(windowTimeout);
+      }
+      self.removeAttr("style");
+      return self;
+    };
 
     // Chainability.
     return this;
