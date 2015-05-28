@@ -666,7 +666,7 @@
     // Defer running. This allows the browser to paint any pending CSS it hasn't
     // painted yet before doing the transitions.
     var deferredRun = function(next) {
-        this.offsetWidth; // force a repaint
+        this.offsetWidth = this.offsetWidth; // force a repaint
         run(next);
     };
 
