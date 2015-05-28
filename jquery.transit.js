@@ -40,6 +40,9 @@
     // Will simply transition "instantly" if false
     enabled: true,
 
+	 // Use 3d transform
+	 use3dTransform: true,
+
     // Set this to false if you don't want to use the transition end property.
     useTransitionEnd: false
   };
@@ -166,7 +169,7 @@
       // translate is affectede, but not risking it.  Detection code from
       // http://davidwalsh.name/detecting-google-chrome-javascript
       if (support.transform === 'WebkitTransform' && !isChrome) {
-        elem.style[support.transform] = value.toString(true);
+        elem.style[support.transform] = value.toString($.transit.use3dTransform);
       } else {
         elem.style[support.transform] = value.toString();
       }
@@ -434,8 +437,9 @@
 
       for (var i in this) {
         if (this.hasOwnProperty(i)) {
-          // Don't use 3D transformations if the browser can't support it.
-          if ((!support.transform3d) && (
+          // Don't use 3D transformations if the browser can't support it
+	       // or if the use3dTransform option is false.
+          if ((!support.transform3d || !$.transit.use3dTransform) && (
             (i === 'rotateX') ||
             (i === 'rotateY') ||
             (i === 'perspective') ||
