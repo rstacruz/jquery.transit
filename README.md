@@ -93,11 +93,13 @@ $("#box").transition({ opacity: 0.1, scale: 0.3 }, function() {..});            
 $("#box").transition({ opacity: 0.1, scale: 0.3 }, 500, 'in', function() {..});  // everything
 ```
 
-You can also pass *duration* and *easing* and *complete* as values in `options`, just like in `$.fn.animate()`.
+You can also pass *duration* and *easing* and *complete* as values in a second parameter, just like in `$.fn.animate()`.
 
 ``` javascript
 $("#box").transition({
-  opacity: 0.1, scale: 0.3,
+  opacity: 0.1, 
+  scale: 0.3,
+}, {
   duration: 500,
   easing: 'in',
   complete: function() { /* ... */ }

@@ -139,9 +139,13 @@
     });
 
     test('as "complete"', function($box) {
-      $box.transition({
-        rotate: 45,
-        complete: function() { $box.html('OK'); }
+      $box.transition(
+        {
+          rotate: 45
+        },
+        { 
+          complete: function() { $box.html('OK'); 
+        }
       });
     });
 
