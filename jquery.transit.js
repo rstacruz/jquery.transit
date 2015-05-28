@@ -631,8 +631,14 @@
     var run = function(nextCall) {
       var bound = false;
 
-      // Prepare the callback.
-      var cb = function() {
+      // Prepare the callback. If using transitionEnd, event will be the event object.
+      // When using the setTimeout method, event will be undefined.
+      var cb = function(event) {
+        
+        if (event && (event.currentTarget !== event.target)) {
+          return;
+        }
+        
         if (bound) { self.unbind(transitionEnd, cb); }
 
         if (i > 0) {
