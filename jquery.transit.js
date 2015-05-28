@@ -235,6 +235,7 @@
   registerCssHook('scaleX');
   registerCssHook('scaleY');
   registerCssHook('translate');
+  registerCssHook('translate3d');
   registerCssHook('rotate');
   registerCssHook('rotateX');
   registerCssHook('rotateY');
@@ -244,6 +245,7 @@
   registerCssHook('skewY');
   registerCssHook('x', true);
   registerCssHook('y', true);
+  registerCssHook('z', true);
 
   // ## Transform class
   // This is the main class of a transformation property that powers
@@ -357,33 +359,43 @@
         this.perspective = unit(dist, 'px');
       },
 
-      // ### x / y
+      // ### x / y / z
       // Translations. Notice how this keeps the other value.
       //
-      //     .css({ x: 4 })       //=> "translate(4px, 0)"
-      //     .css({ y: 10 })      //=> "translate(4px, 10px)"
+      //     .css({ x: 4 })       //=> "translate(4px, 0, 0)"
+      //     .css({ y: 10 })      //=> "translate(4px, 10px, 0)"
       //
       x: function(x) {
-        this.set('translate', x, null);
+        this.set('translate', x, null, null);
       },
 
       y: function(y) {
-        this.set('translate', null, y);
+        this.set('translate', null, y, null);
+      },
+
+      z: function(z) {
+        this.set('translate3d', null, null, z);
       },
 
       // ### translate
       // Notice how this keeps the other value.
       //
-      //     .css({ translate: '2, 5' })    //=> "translate(2px, 5px)"
+      //     .css({ translate: '2, 5, 3' })    //=> "translate(2px, 5px, 3px)"
       //
       translate: function(x, y) {
+        this.set('translate3d', x, y, 0);
+      },
+
+      translate3d: function(x, y, z) {
         if (this._translateX === undefined) { this._translateX = 0; }
         if (this._translateY === undefined) { this._translateY = 0; }
+        if (this._translateZ === undefined) { this._translateZ = 0; }
 
         if (x !== null && x !== undefined) { this._translateX = unit(x, 'px'); }
         if (y !== null && y !== undefined) { this._translateY = unit(y, 'px'); }
+        if (z !== null && z !== undefined) { this._translateZ = unit(z, 'px'); }
 
-        this.translate = this._translateX + "," + this._translateY;
+        this.translate3d = this._translateX + "," + this._translateY + "," + this._translateZ;
       }
     },
 
@@ -394,6 +406,10 @@
 
       y: function() {
         return this._translateY || 0;
+      },
+
+      z: function() {
+        return this._translateZ || 0;
       },
 
       scale: function() {
@@ -445,7 +461,7 @@
             if (use3d && (i === 'scale')) {
               re.push(i + "3d(" + this[i] + ",1)");
             } else if (use3d && (i === 'translate')) {
-              re.push(i + "3d(" + this[i] + ",0)");
+              re.push(i + "3d(" + this[i] + ")");
             } else {
               re.push(i + "(" + this[i] + ")");
             }
