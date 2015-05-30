@@ -80,6 +80,10 @@
   support.filter          = getVendorPropertyName('Filter');
   support.transform3d     = checkTransform3dSupport();
 
+  // Check for browser's animation support.
+  support.animation          = getVendorPropertyName('animation');
+  support.animationPlayState = getVendorPropertyName('animationPlayState');
+
   var eventNames = {
     'transition':       'transitionend',
     'MozTransition':    'transitionend',
@@ -90,6 +94,17 @@
 
   // Detect the 'transitionend' event needed.
   var transitionEnd = support.transitionEnd = eventNames[support.transition] || null;
+
+  var animationEndEvents = {
+    'animation':        'animationend',
+    'MozAnimation':     'animationend',
+    'oAnimation':       'oanimationend',
+    'WebkitAnimation':  'webkitAnimationEnd',
+    'msAnimation':      'MSAnimationEnd'
+  }
+
+  // Detect the 'animationend' event needed.
+  var animationEnd = support.animationEnd = animationEndEvents[support.animation] || null;
 
   // Populate jQuery's `$.support` with the vendor prefixes we know.
   // As per [jQuery's cssHooks documentation](http://api.jquery.com/jQuery.cssHooks/),
@@ -225,6 +240,34 @@
       },
       set: function(elem, value) {
         elem.style[support.transition] = value;
+      }
+    };
+
+    // ## 'animation' CSS hook
+    // Allows you to use the `animation` property in CSS.
+    //
+    //     $("#hello").css({ animation: 'bounce-in 1s ease-in' });
+    //
+    $.cssHooks.animation = {
+      get: function(elem) {
+        return elem.style[support.animation];
+      },
+      set: function(elem, value) {
+        elem.style[support.animation] = value;
+      }
+    };
+
+    // ## 'animationPlayState CSS hook
+    // Allows you to use the `animationPlayState` property in CSS.
+    //
+    //     $("#hello").css({ animationPlayState: 'paused' });
+    //
+    $.cssHooks.animationPlayState = {
+      get: function(elem) {
+        return elem.style[support.animationPlayState];
+      },
+      set: function(elem, value) {
+        elem.style[support.animationPlayState] = value;
       }
     };
   }
@@ -676,6 +719,122 @@
     // Chainability.
     return this;
   };
+
+  // ## $.fn.playKeyframe
+  // Play a CSS3 keyframe-based animation. Only the name property is mandatory, everything else
+  // is optional and will default to reasonable values.
+  //
+  //     $("...").playKeyframe({ name: 'bounce-in' });
+  //
+  //     // Specific duration
+  //     $("...").playKeyframe({ name: 'bounce-in', duration: 1000 });
+  //
+  //     // With all settings
+  //     $("...").playKeyframe({ name: 'bounce-in', duration: 1000,
+  //                             delay: 2000, repeat: 2, easing: 'ease-in' });
+  //
+  //     // With callback
+  //     $("...").playKeyframe({ name: 'bounce-in' }, function() { ... });
+  //
+  //     // Alternate syntax
+  //     $("...").playKeyframe({
+  //       name: 'bounce-in'
+  //       duration: 1000,
+  //       delay: 2000,
+  //       repeat: 2,
+  //       easing: 'ease-in',
+  //       complete: function() { /* ... */ }
+  //      });
+  //
+  $.fn.playKeyframe = function(properties, callback) {
+
+    var self  = this;
+
+    // Set some default properties.
+    properties = $.extend({
+      duration: $.fx.speeds._default,
+      easing: $.cssEase._default,
+      delay: 0,
+      repeat: 1, // May be an int or 'infinite'
+      direction: 'normal',
+      fillMode: 'none'
+    }, properties || {});
+
+    if (!properties.name) throw("Name required")
+
+    // Alternate syntax.
+    if (typeof properties.complete !== 'undefined') {
+      callback = properties.complete;
+      delete properties.complete;
+    }
+
+    properties.duration = toMS(properties.duration);
+    properties.delay = toMS(properties.delay);
+
+    // Build the CSS line
+    var animationCSS = [properties.name, properties.duration, properties.easing, properties.delay,
+                        properties.repeat, properties.direction, properties.fillMode].join(' ');
+
+    // Prepare the callback
+    var cb = function() {
+      if (typeof callback === 'function') { callback.apply(self); }
+      self.data('keyframe', false);
+      self.css({animationPlayState: '', animation: ''});
+    };
+
+    // We'll assume animationEnd is available since it should be on all browsers
+    // which support keyframe animations.
+    self.one(support.animationEnd, cb);
+
+    self.css({animationPlayState: 'running'});
+    self.data('keyframe', properties.name);
+    self.css({animation: animationCSS})
+
+    // Chainability.
+    return this;
+  }
+
+  // ### pauseKeyframe()
+  // Pauses a currently running keyframe animation.
+  //
+  // Example:
+  //
+  //     $("#foo").pauseKeyframe();
+  //
+  $.fn.pauseKeyframe = function() {
+    this.css({animationPlayState: 'paused'});
+
+    // Chainability.
+    return this;
+  }
+
+  // ### resumeKeyframe()
+  // Resumes a currently paused keyframe animation.
+  //
+  // Example:
+  //
+  //     $("#foo").resumeKeyframe();
+  //
+  $.fn.resumeKeyframe = function() {
+    this.css({animationPlayState: 'running'});
+
+    // Chainability.
+    return this;
+  }
+
+  // ### resetKeyframe()
+  // Stops and removes any keyframe animations from the specified element. This will also
+  // clear any callbacks presently waiting for the animation to end.
+  //
+  // Example:
+  //
+  //     $("#foo").resetKeyframe();
+  //
+  $.fn.resetKeyframe = function() {
+    this.css({animationPlayState: 'running', animation: 'none'});
+    this.data('keyframe', false);
+    this.unbind(support.animationEnd);
+  }
 
   function registerCssHook(prop, isPixels) {
     // For certain properties, the 'px' should not be implied.
