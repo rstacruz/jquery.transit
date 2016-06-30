@@ -74,6 +74,7 @@
 
   // Check for the browser's transitions support.
   support.transition      = getVendorPropertyName('transition');
+  support.transitionProp  = getVendorPropertyName('transitionProperty');
   support.transitionDelay = getVendorPropertyName('transitionDelay');
   support.transform       = getVendorPropertyName('transform');
   support.transformOrigin = getVendorPropertyName('transformOrigin');
@@ -651,7 +652,11 @@
         self.bind(transitionEnd, cb);
       } else {
         // Fallback to timers if the 'transitionend' event isn't supported.
-        window.setTimeout(cb, i);
+        var timer = window.setTimeout(cb, i);
+        
+        // Downsider:
+        // Store the timer callback, so it can be stopped later
+        self.data('timerCallback', timer);
       }
 
       // Apply transitions.
@@ -666,7 +671,7 @@
     // Defer running. This allows the browser to paint any pending CSS it hasn't
     // painted yet before doing the transitions.
     var deferredRun = function(next) {
-        this.offsetWidth = this.offsetWidth; // force a repaint
+        this.offsetWidth; // force a repaint
         run(next);
     };
 
@@ -674,6 +679,56 @@
     callOrQueue(self, queue, deferredRun);
 
     // Chainability.
+    return this;
+  };
+
+  $.fn.stopTransition = $.fn.stopTransit = function(doCallback) {
+    this.each(function() {
+      // Keep a reference to the JQuery element
+      var self = $(this);
+      
+      // Get the string used by CSS to transition the element
+      var transitPropertyString = this.style[support.transitionProp].replace(/\s+/g, '');
+      
+      if (transitPropertyString && transitPropertyString.length != 0) {
+        // Capture the style mid-animation
+        var capturedStyle = window.getComputedStyle(this);
+      
+        // Iterate over the transiting properties and freeze them
+        var properties = transitPropertyString.split(',');
+        for (var i=0;i<properties.length;i++) {
+          var prop = properties[i];
+          
+          this.style[prop] = capturedStyle[prop];
+        };
+      }
+      
+      // Clear the transitions
+      this.style[support.transitionProp] = '';
+      this.style[support.transition] = 'none';
+      
+      // Call the transit end callback, if there is one
+      if (doCallback === true) {
+        var callback = elm.data('transitCallback');
+        
+        if (callback)
+          callback();
+      }
+      
+      // Clear the transit end callback
+      self.data('transitCallback', null);
+      
+      // Kill the callback the jquery.transit uses to
+      // lock values in on transition end
+      if ($.transit.useTransitionEnd)
+        self.unbind(transitionEnd);
+      else
+        window.clearTimeout(self.data('timerCallback'));
+
+      // Clear the JQuery queue
+      self.clearQueue();
+    });
+    
     return this;
   };
 
