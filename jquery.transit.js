@@ -78,6 +78,9 @@
   support.transform       = getVendorPropertyName('transform');
   support.transformOrigin = getVendorPropertyName('transformOrigin');
   support.filter          = getVendorPropertyName('Filter');
+  if (!support.filter) { // Firefox requires a lower-case f
+    support.filter            = getVendorPropertyName('filter');
+  }
   support.transform3d     = checkTransform3dSupport();
 
   var eventNames = {
