@@ -235,6 +235,7 @@
   registerCssHook('scaleX');
   registerCssHook('scaleY');
   registerCssHook('translate');
+  registerCssHook('translateZ');
   registerCssHook('rotate');
   registerCssHook('rotateX');
   registerCssHook('rotateY');
@@ -384,6 +385,11 @@
         if (y !== null && y !== undefined) { this._translateY = unit(y, 'px'); }
 
         this.translate = this._translateX + "," + this._translateY;
+      },
+
+      // ### translateZ
+      translateZ: function(z) {
+        this.translateZ = unit(z, 'px');
       }
     },
 
@@ -394,6 +400,10 @@
 
       y: function() {
         return this._translateY || 0;
+      },
+
+      translateZ: function() {
+        return this.translateZ || 0;
       },
 
       scale: function() {
@@ -438,6 +448,7 @@
           if ((!support.transform3d) && (
             (i === 'rotateX') ||
             (i === 'rotateY') ||
+            (i === 'translateZ') ||
             (i === 'perspective') ||
             (i === 'transformOrigin'))) { continue; }
 
@@ -602,6 +613,9 @@
     // Set defaults. (`400` duration, `ease` easing)
     if (typeof duration === 'undefined') { duration = $.fx.speeds._default; }
     if (typeof easing === 'undefined')   { easing = $.cssEase._default; }
+
+    // Disable animation
+    if ($.fx.off) { duration = 0; }
 
     duration = toMS(duration);
 
