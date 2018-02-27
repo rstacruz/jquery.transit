@@ -240,6 +240,7 @@
   registerCssHook('rotateY');
   registerCssHook('rotate3d');
   registerCssHook('perspective');
+  registerCssHook('skew');
   registerCssHook('skewX');
   registerCssHook('skewY');
   registerCssHook('x', true);
@@ -341,6 +342,11 @@
       scale: function(x, y) {
         if (y === undefined) { y = x; }
         this.scale = x + "," + y;
+      },
+
+      // ### skew
+      skew: function(x, y) {
+        this.skew = unit(x, 'deg') + "," + unit(y, 'deg');
       },
 
       // ### skewX + skewY
