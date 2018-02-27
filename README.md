@@ -39,6 +39,7 @@ $("#box").css({ translate: [60,30] });      // Move right and down
 $("#box").css({ rotate: '30deg' });         // Rotate clockwise
 $("#box").css({ scale: 2 });                // Scale up 2x (200%)
 $("#box").css({ scale: [2, 1.5] });         // Scale horiz and vertical
+$("#box").css({ skew: '45deg, 45deg' });    // Skew in both directions at the same time
 $("#box").css({ skewX: '30deg' });          // Skew horizontally
 $("#box").css({ skewY: '30deg' });          // Skew vertical
 $("#box").css({ perspective: 100, rotateX: 30 }); // Webkit 3d rotation
