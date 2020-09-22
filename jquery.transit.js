@@ -352,7 +352,7 @@
         this.skewY = unit(y, 'deg');
       },
 
-      // ### perspectvie
+      // ### perspective
       perspective: function(dist) {
         this.perspective = unit(dist, 'px');
       },
